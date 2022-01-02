@@ -5,6 +5,7 @@ import './App.css';
 import BranchCompany from './components/branchCompany/BranchCompany';
 import User from './components/user/User';
 import Cars from './components/cars/Cars';
+import Employee from './components/employee/Employee'
 import CashReceipts from './components/cashReceipts/CashReceipts';
 import Reservation from './components/reservation/Reservation';
 import Customer from './components/customer/Customer';
@@ -20,11 +21,14 @@ function App() {
       </div>
       <Switch>
         <Route path="/branchCompany" component={BranchCompany} /> {/*// головна компанія*/}
+        <Route path="/employee" component={Employee} />
         <Route path="/cars" component={Cars} />
-        <Route path="/cashReceipts" component={CashReceipts} />
-        <Route path="/customer" component={Customer} />
-        <Route path="/reservation" component={Reservation} />
         <Route path="/user" component={User} />
+        <Route path="/cashReceipts" component={CashReceipts} />
+        <Route path="/reservation" component={Reservation} />
+        {/* <Route path="/customer" component={Customer} /> */}
+
+
       </Switch>
 
     </Router>

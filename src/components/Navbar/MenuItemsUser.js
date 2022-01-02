@@ -7,7 +7,7 @@ export const MenuItemsUser = [
     },
     {
         title: "Pracownik",
-        Link: "User",
+        Link: "Employee",
         cName: "nav-links"
     },
     {
@@ -17,8 +17,7 @@ export const MenuItemsUser = [
     },
     {
         title: "Klient",
-        Link:"#",
-        // Link: "Customer",
+        Link: "User",
         cName: "nav-links"
     },
     {

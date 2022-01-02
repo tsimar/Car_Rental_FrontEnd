@@ -1,29 +1,31 @@
 import React, { Component, setState, Fragment } from 'react';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
-import "./User.css";
-import ReadOnlyRow from '../ReadOnlyRow';
-import EditableRow from '../EditableRow';
+import "../user/User.css";
+import ReadOnlyRowEm from './ReadOnlyRowEm';
+import EditableRowEm from './EditableRowEm';
 
 
 
-const api = axios.create({ baseURL: 'http://localhost:8080/users' })
+const api = axios.create({ baseURL: 'http://localhost:8080/employees' })
 
 
-export default class User extends Component {
+export default class Employee extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
+      employees: [],
       addFormData: [{
-        userName: '',
-        userPassword: '',
+        name: '',
+        lastName: '',
+        position: '',
       }],
       editFormData: [{
         editId: '',
-        userName: '',
-        userPassword: '',
+        name: '',
+        lastName: '',
+        position: '',
       }],
       editContactId: null,
 
@@ -35,7 +37,7 @@ export default class User extends Component {
   }
   getUsers = async () => {
     let data = await api.get('/').then(({ data }) => data);
-    this.setState({ users: data });
+    this.setState({ employees: data });
     console.log(data)
   }
 
@@ -54,17 +56,18 @@ export default class User extends Component {
 
   handleAddFormSubmit = (event) => {
     event.preventDefault();
-    const newUser = {
+    const newEmployee = {
       id: nanoid(),
-      userName: this.state.addFormData.userName,
-      userPassword: this.state.addFormData.userPassword,
+      name: this.state.addFormData.name,
+     lastName: this.state.addFormData.lastName,
     }
-    const newUsers = [...this.state.users, newUser]
+    const newEmployees = [...this.state.employees, newEmployee]
 
     const editedContact = {
       editId: this.state.editContactId,
-      userName: this.state.editFormData.userName,
-      userPassword: this.state.editFormData.userPassword,
+      name: this.state.editFormData.name,
+      lastName: this.state.editFormData.lastName,
+      position:this.state.editFormData.position,
 
     };
     api.post('/', this.state.addFormData)
@@ -80,7 +83,7 @@ export default class User extends Component {
     });
 
     this.setState({
-      users: newUsers
+      employeees: newEmployees
     })
 
 
@@ -91,8 +94,9 @@ export default class User extends Component {
 
     const editedContact = {
       id: this.state.editContactId,
-      userName: this.state.editFormData.userName,
-      userPassword: this.state.editFormData.userPassword,
+      name: this.state.editFormData.name,
+      lastName: this.state.editFormData.lastName,
+      position:this.state.editFormData.position
 
     };
     // const editUser = [...this.state.editFormData, editedContact];
@@ -145,15 +149,16 @@ export default class User extends Component {
     this.setState({ editFormData: newFormData })
   };
 
-  handleEditClick = (event, user) => {
+  handleEditClick = (event, empl) => {
     event.preventDefault();
     this.setState({
-      editContactId: user.id
+      editContactId: empl.id
     })
     const formValues = {
-      editId: user.id,
-      userName: user.userName,
-      userPassword: user.userPassword,
+      editId: empl.id,
+      name: empl.name,
+      lastName: empl.lastName,
+      position:empl.position
     };
     this.setState({
       editFormData: formValues
@@ -164,16 +169,16 @@ export default class User extends Component {
     this.setState({ editContactId: null });
   };
 
-  handleDeleteClick = (userId) => {
-    const newContacts = [...this.state.users];
+  handleDeleteClick = (empId) => {
+    const newContacts = [...this.state.employees];
 
-    const index = this.state.users.findIndex((contact) => (
-      contact.id === userId));
+    const index = this.state.employees.findIndex((contact) => (
+      contact.id === empId));
 
     newContacts.splice(index, 1);
 
-    this.setState({ users: newContacts });
-    api.delete(`/${userId}`)
+    this.setState({ employees: newContacts });
+    api.delete(`/${empId}`)
     // this.getUsers(data);
   };
 
@@ -184,17 +189,17 @@ export default class User extends Component {
 
 
   renderIncomingData = () => {
-    return (this.state.users.map((item, id) => {
+    return (this.state.employees.map((item, id) => {
       return (
         <Fragment>
           {this.state.editContactId === item.id ? (
-            <EditableRow
+            <EditableRowEm
               editFormData={this.state.editFormData}
               handleEditFormChange={this.handleEditFormChange}
               handleCancelClick={this.handleCancelClick}
             />
           ) : (
-            <ReadOnlyRow item={item} handleEditClick={this.handleEditClick}
+            <ReadOnlyRowEm item={item} handleEditClick={this.handleEditClick}
               handleDeleteClick={this.handleDeleteClick}
             />)}
         </Fragment>
@@ -213,8 +218,8 @@ export default class User extends Component {
               <thead>
                 <tr>
                   <th width={"50"}>ID:</th>
-                  <th width={"200"}>Imię:</th>
-                  <th width={"250"}>Hasło:</th>
+                  <th width={"200"}>Name:</th>
+                  <th width={"250"}>Last name:</th>
                   <th width={"200"}>Rola:</th>
                   <th>Actions</th>
                 </tr>
@@ -226,20 +231,27 @@ export default class User extends Component {
             </table>
           </form>
         </div>
-        <h2 className={"user-main-tab"}>Add a new users</h2>
+        <h2 className={"user-main-tab"}>Add a new employee</h2>
         <form onSubmit={this.handleAddFormSubmit} className={"user-label"}>
           <input
             type='text'
-            name='userName'
-            placeholder='login or email'
+            name='name'
+            placeholder='name'
             required="required"
             onChange={this.handleAddFormChange} />
 
           <input
             type='text'
-            name='userPassword'
+            name='lastName'
             required="required"
-            placeholder='Enter a password ...'
+            placeholder='last name ...'
+            onChange={this.handleAddFormChange}
+          />
+           <input
+            type='text'
+            name='position'
+            required="required"
+            placeholder='position ...'
             onChange={this.handleAddFormChange}
           />
           <button type="submit">add</button>
