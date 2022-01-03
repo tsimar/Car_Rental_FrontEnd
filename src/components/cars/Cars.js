@@ -30,6 +30,7 @@ export default class BranchCompany extends Component {
         model: '',
         carType: '',
         productionDate: '',
+        color: '',
         carMileage: '',
         statusRental: '',
         carStatus: '',
@@ -199,10 +200,14 @@ export default class BranchCompany extends Component {
               <thead>
                 <tr>
                   <th width={"50"}>ID:</th>
-                  <th width={"200"}>Logo:</th>
-                  <th width={"250"}>Nam's department:</th>
-                  <th width={"200"}>city:</th>
-                  <th width={"200"}>address:</th>
+                  <th width={"200"}>carBrand:</th>
+                  <th width={"50"}>model:</th>
+                  <th width={"200"}>carType:</th>
+                  <th width={"200"}>productionDate:</th>
+                  <th width={"50"}>color:</th>
+                  <th width={"250"}>carMileage:</th>
+                  <th width={"200"}>statusRental:</th>
+                  <th width={"200"}>carStatus:</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -241,7 +246,33 @@ export default class BranchCompany extends Component {
             placeholder='data  ...'
             onChange={this.handleAddFormChange}
           />
-
+          <input
+            type='text'
+            name='color'
+            placeholder='car of brand'
+            required="required"
+            onChange={this.handleAddFormChange} />
+          <input
+            type='text'
+            name='carMileage'
+            required="required"
+            placeholder='carMileage ...'
+            onChange={this.handleAddFormChange}
+          />
+          <input
+            type='text'
+            name='statusRental'
+            required="required"
+            placeholder='statusRental  ...'
+            onChange={this.handleAddFormChange}
+          />
+          <input
+            type='text'
+            name='carStatus'
+            required="required"
+            placeholder='carStatus  ...'
+            onChange={this.handleAddFormChange}
+          />
           <button type="submit">add</button>
           {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
         </form>

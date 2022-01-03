@@ -1,12 +1,13 @@
 import React from 'react'
-import "../user/User.css";
+// import "../user/User.css";
 
 const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick }) => {
+//  let trId= this.editFormData.input
   return (
 
     <tr border={"2"} className={"user-tab"} >
       <td></td>
-      <td>
+      <td >
         <input
           type='text'
           name='logo'
@@ -17,27 +18,29 @@ const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick })
         >
         </input>
       </td>
-      <td>
+      <td >
         <input
           type='text'
           name='nameRental'
-          required="required"
           placeholder='name department ...'
+          required="required"
           value={editFormData.nameRental}
           onChange={handleEditFormChange}
-        > </input>
+        > 
+        </input>
       </td>
-      <td>
-        <input
+      <td >
+      <input
           type='text'
           name='city'
           required="required"
           placeholder='city  ...'
           value={editFormData.city}
           onChange={handleEditFormChange}
-        > </input>
+        > 
+         </input> 
       </td>
-      <td>
+      <td >
         <input
           type='text'
           name='address'
@@ -45,11 +48,11 @@ const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick })
           placeholder='address  ...'
           value={editFormData.address}
           onChange={handleEditFormChange}
-        >
+        > 
         </input>
       </td>
 
-      <td></td>
+      {/* <td></td> */}
       <td>
         <button type="submit">Save</button>
         <button type="button" onClick={handleCancelClick}>Cancel</button>

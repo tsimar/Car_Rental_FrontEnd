@@ -1,6 +1,9 @@
+body {
+    margin: 0;
+    padding: 0;
+}
 
-
-.main-brandC{
+.main-brandC {
     color: white;
     font-size: 24px;
     text-align: center;
@@ -9,4 +12,42 @@
 
 Navbar {
     display: none;
+}
+.conteiner-flex
+{
+   
+    overflow: auto;
+    height: 20%;
+
+}
+.user-main-tab{
+     overflow-y: scroll;
+}
+.add {
+    /* margin-right: 20px; */
+    display: flex;
+    color: aqua;
+    font-size: 1em;
+    float: right;
+    width: 25%;
+    flex-direction: column;
+ 
+}
+
+.text_add {
+    display: block;
+    color: aqua;
+    clear: right;
+    position: relative;
+    text-align: center;
+    font-size: 1.2em;
+    display: flex;
+    justify-items: center;
+    flex-direction: column;
+
+} 
+.table_add{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }

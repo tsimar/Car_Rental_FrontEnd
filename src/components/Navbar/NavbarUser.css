@@ -9,8 +9,9 @@
 }
 
 .link {
-    color: white;
+    color: #ffffff;
     text-decoration: none;
+   text-shadow: 1.5px 1.5px 0px rgba(102, 102, 109, 0.884); 
 }
 
 
@@ -21,6 +22,7 @@
     margin-top: auto;
     cursor: pointer;
     text-decoration: none;
+    
 }
 
 .fa-react {
@@ -43,7 +45,8 @@
 .nav-links {
     color: white;
     text-decoration: none;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem; 
+    text-shadow: 1.5px 1.5px 0px rgba(102, 109, 109, 0.884);
 }
 
 .nav-links:hover {
@@ -62,6 +65,7 @@
 
 .menu-icon {
     display: none;
+   
 }
 
 @media screen and (max-width: 960px) {

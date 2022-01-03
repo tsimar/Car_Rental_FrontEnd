@@ -43,34 +43,35 @@ export default class BranchCompany extends Component {
   }
 
 
-  handleAddFormChange = (e) => {
-    e.preventDefault();
-    const fieldName = e.target.getAttribute('name');
-    const fieldValue = e.target.value;
+  handleAddFormChange = (event) => {
+    event.preventDefault();
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
     const newFormData = { ...this.state.addFormData };
     newFormData[fieldName] = fieldValue;
-    this.setState({ addFormData: newFormData});
-    
+    this.setState({ addFormData: newFormData });
+
   }
 
-  handleAddFormSubmit = (e) => {
-    e.preventDefault();
+
+  handleAddFormSubmit = (event) => {
+    event.preventDefault();
     const newDepart = {
-      id: nanoid(),
+      // id: nanoid(), kod id unicod
       logo: this.state.addFormData.logo,
-      nameRental: this.state.addFormData.city, 
+      nameRental: this.state.addFormData.city,
       city: this.state.addFormData.city,
       address: this.state.addFormData.address
     }
     const newDeparts = [...this.state.headCompany, newDepart]
 
-    const editedContact = {
-      id: this.state.editContactId,
-      logo: this.state.editFormData.logo,
-      nameRental: this.state.editFormData.nameRental,
-      city: this.state.editFormData.city,
-      address: this.state.editFormData.address
-    };
+    // const editedContact = {
+    //   id: this.state.editContactId,
+    //   logo: this.state.editFormData.logo,
+    //   nameRental: this.state.editFormData.nameRental,
+    //   city: this.state.editFormData.city,
+    //   address: this.state.editFormData.address
+    // };
 
     api.post('/', this.state.addFormData)
       .then(response => {
@@ -83,33 +84,56 @@ export default class BranchCompany extends Component {
 
 
 
-    this.setState({ 
-      [e.target.name]: e.target.value,
+    this.setState({
+      [event.target.name]: event.target.value,
     });
 
     this.setState({
       headCompany: newDeparts,
-      
-      
+
+
     })
 
-    
+
   }
 
   handleEditFormSubmit = (event) => {
     event.preventDefault();
-    const editDepart = [...this.state.headCompany];
-    this.setState({ headCompany: editDepart })
-  
+
+    const editedContact = {
+      id: this.state.editContactId,
+      logo: this.state.editFormData.logo,
+      nameRental: this.state.editFormData.nameRental,
+      city: this.state.editFormData.city,
+      address: this.state.editFormData.address,
+
+    };
+
+    api.put(`/`, editedContact)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      })
+    const { name, value } = event.target
+    this.setState({
+      [name]: value,
+
+    });
+
     this.setState({ editContactId: null });
-    api.put('/', this.state.editFormData)
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    })
   }
+
+
+
+
+
+
+
+
+
+
 
   handleEditFormChange = (event) => {
     event.preventDefault();
@@ -123,16 +147,15 @@ export default class BranchCompany extends Component {
     this.setState({ editFormData: newFormData })
   };
 
-  handleEditClick = (event, company) => {
+  handleEditClick = (event, user) => {
     event.preventDefault();
     this.setState({
-      editContactId: company.id
+      editContactId: user.id
     })
     const formValues = {
-      logoFoto: company.logoFoto,
-      nameRental: company.nameRental,
-      city: company.city,
-      address: company.address,
+      editId: user.id,
+      logo: user.logo,
+      nameRental: user.nameRental,
     };
     this.setState({
       editFormData: formValues
@@ -146,8 +169,8 @@ export default class BranchCompany extends Component {
   handleDeleteClick = (departId) => {
     const newContacts = [...this.state.headCompany];
 
-    const index = this.state.headCompany.findIndex((contact) => (
-      contact.id === departId));
+    const index = this.state.headCompany
+      .findIndex((contact) => (contact.id === departId));
 
     newContacts.splice(index, 1);
 
@@ -157,37 +180,43 @@ export default class BranchCompany extends Component {
   };
 
   renderIncomingData = () => {
-    return (this.state.headCompany.map((item, id) => {
+    return (this.state.headCompany.map((item, id, key) => {
       return (
         <Fragment>
-          {this.state.editContactId === item.id ? (
+          {(this.state.editContactId === item.id) ? (
             <EditableRowD
+
               editFormData={this.state.editFormData}
               handleEditFormChange={this.handleEditFormChange}
               handleCancelClick={this.handleCancelClick}
+
             />
-          ) : (
-            <ReadOnlyRowD item={item} handleEditClick={this.handleEditClick}
-              handleDeleteClick={this.handleDeleteClick}
-            />)}
+          ) :
+            (
+              <ReadOnlyRowD item={item}
+                handleEditClick={this.handleEditClick}
+                handleDeleteClick={this.handleDeleteClick}
+              />)
+          }
         </Fragment>
       )
     })
     );
   }
- 
+
 
   render() {
+    let textid = this.props.input
     return (
       <div>
-        <div>
+        <div >
           <form onSubmit={this.handleEditFormSubmit}>
             <table className={"user-main-tab"}>
               <thead>
                 <tr>
                   <th width={"50"}>ID:</th>
                   <th width={"200"}>Logo:</th>
-                  <th width={"250"}>Nam's department:</th>
+                  <th width={"250"}>Name's department:</th>
                   <th width={"200"}>city:</th>
                   <th width={"200"}>address:</th>
                   <th>Actions</th>
@@ -195,57 +224,59 @@ export default class BranchCompany extends Component {
               </thead>
               <tbody>
                 {this.renderIncomingData()}
+
               </tbody>
             </table>
           </form>
         </div>
-        <h2 className={"user-main-tab"}>Add a new DEPARTMENT</h2>
-        <form onSubmit={this.handleAddFormSubmit} className={"user-label"}>
-          <input
-            type='text'
-            name='logoFoto'
-            placeholder='logo department'
-            required="required"
-            onChange={this.handleAddFormChange} />
-          <input
-            type='text'
-            name='nameRental'
-            required="required"
-            placeholder='name department ...'
-            onChange={this.handleAddFormChange}
-          />
-          <input
-            type='text'
-            name='city'
-            required="required"
-            placeholder='city  ...'
-            onChange={this.handleAddFormChange}
-          />
-          <input
-            type='text'
-            name='address'
-            required="required"
-            placeholder='address  ...'
-            onChange={this.handleAddFormChange}
-          />
 
-          <button type="submit">add</button>
-          {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
-        </form>
+        <div className='add'>
+          <h2 className={"text_add"}>Add a new DEPARTMENT</h2>
+          <form onSubmit={this.handleAddFormSubmit} className={"table_add"}>
+            <div >
+              <input
+                type='text'
+                name='logo'
+                placeholder='logo department'
+                required="required"
+                onChange={this.handleAddFormChange} />
+            </div>
+            <div >
+              <input
+                type='text'
+                name='nameRental'
+                required="required"
+                placeholder='name department ...'
+                onChange={this.handleAddFormChange}
+              />
+            </div>
+            <div >
+              <input
+                type='text'
+                name='city'
+                required="required"
+                placeholder='city  ...'
+                onChange={this.handleAddFormChange}
+              />
+            </div>
+            <div>
+              <input
+                type='text'
+                name='address'
+                required="required"
+                placeholder='address  ...'
+                onChange={this.handleAddFormChange}
+              /> </div>
+
+
+            <button type="submit">add</button>
+
+            {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
+          </form>
+        </div>
         {/* <button className={'user-label'} type="submit" onClick={this.Customer()}>gtregd</button> */}
-      </div>
+      </div >
     )
   }
 
 }
-
-
-// function BranchCompany() {
-//   return (
-//     <div className="main-brandC">
-//       Strona w przygotowaniu, przepraszamy...
-//     </div >  
-//   );
-// }
-
-// export default BranchCompany;

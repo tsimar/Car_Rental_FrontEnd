@@ -41,10 +41,13 @@ export default class User extends Component {
 
 
 
-  handleAddFormChange = (e) => {
-    e.preventDefault();
-    const fieldName = e.target.getAttribute('name');
-    const fieldValue = e.target.value;
+
+
+
+  handleAddFormChange = (event) => {
+    event.preventDefault();
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
     const newFormData = { ...this.state.addFormData };
     newFormData[fieldName] = fieldValue;
     this.setState({ addFormData: newFormData });
@@ -61,12 +64,6 @@ export default class User extends Component {
     }
     const newUsers = [...this.state.users, newUser]
 
-    const editedContact = {
-      editId: this.state.editContactId,
-      userName: this.state.editFormData.userName,
-      userPassword: this.state.editFormData.userPassword,
-
-    };
     api.post('/', this.state.addFormData)
       .then(response => {
         console.log(response);
@@ -95,8 +92,6 @@ export default class User extends Component {
       userPassword: this.state.editFormData.userPassword,
 
     };
-    // const editUser = [...this.state.editFormData, editedContact];
-
     
     api.put(`/`, editedContact)
       .then(response => {
@@ -111,19 +106,10 @@ export default class User extends Component {
 
     });
 
-    
-
-    // this.setState({
-    //   users: editedContact
-    // })
     this.setState({ editContactId: null });
   }
 
 
-//   shouldComponentUpdate(nextProps, nextState) {
-//     // вернуть true если компонент нуждается в обновлении
-//     // вернуть false в противном случае
-// }
 
 
 
@@ -187,7 +173,7 @@ export default class User extends Component {
     return (this.state.users.map((item, id) => {
       return (
         <Fragment>
-          {this.state.editContactId === item.id ? (
+          {(this.state.editContactId === item.id) ? (
             <EditableRow
               editFormData={this.state.editFormData}
               handleEditFormChange={this.handleEditFormChange}
