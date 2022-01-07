@@ -1,13 +1,18 @@
-import React, { Component, setState, Fragment } from 'react';
+import React, { ReactComponentElement, Component, setState, Fragment } from 'react';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
 import "./BranchCompany.css";
 import ReadOnlyRowD from './ReadOnlyRowD';
 import EditableRowD from './EditableRowD';
+import Cars from '../cars/Cars';
+import CarsHug from '../cars/CarsHug';
+
 
 
 
 const api = axios.create({ baseURL: 'http://localhost:8080/branchCompany' })
+const apiCars = axios.create({ baseURL: 'http://localhost:8080/Cars' })
+// const P = () => React.createElement('div', {className:"add"}, "I am tared");
 
 export default class BranchCompany extends Component {
 
@@ -15,6 +20,7 @@ export default class BranchCompany extends Component {
     super(props);
     this.state = {
       headCompany: [],
+      cars: [],
       addFormData: [{
         logo: '',
         nameRental: '',
@@ -33,13 +39,24 @@ export default class BranchCompany extends Component {
   }
 
   componentDidMount = () => {
-    this.getHeadCompany();
+    this.getHeadCompany().then(this.getHeadCompanyCar());
   }
 
   getHeadCompany = async () => {
     let data = await api.get('/').then(({ data }) => data);
     this.setState({ headCompany: data });
     console.log(data)
+
+
+
+  }
+  getHeadCompanyCar = async () => {
+
+
+    let dataCars = await apiCars.get('/').then(({ dataCars }) => dataCars);
+    this.setState({ cars: dataCars });
+    console.log(dataCars)
+
   }
 
 
@@ -94,8 +111,9 @@ export default class BranchCompany extends Component {
 
     })
 
-
+    this.componentDidMount();
   }
+
 
   handleEditFormSubmit = (event) => {
     event.preventDefault();
@@ -179,36 +197,69 @@ export default class BranchCompany extends Component {
     // this.getUsers(data);
   };
 
+
+
+  handleAddCars = (event, item) => {
+    return (<CarsHug />)
+    // event.preventDefault();
+    // React.render(<CarsHug />);
+    // ReactBootstrap.response(CarsHug);
+    // React.createElement("<div>", [React.createElement(CarsHug)]);
+    // ReactDOM.createElement(div,CarsHug);
+    // <CarsHug  id={event} name={item}/>
+
+
+  }
   renderIncomingData = () => {
-    return (this.state.headCompany.map((item, id, key) => {
+    return (this.state.headCompany.map((item, id) => {
+
       return (
-        <Fragment>
+        <Fragment >
           {(this.state.editContactId === item.id) ? (
             <EditableRowD
 
               editFormData={this.state.editFormData}
               handleEditFormChange={this.handleEditFormChange}
               handleCancelClick={this.handleCancelClick}
+              chancheHandler={this.chancheHandler}
 
             />
+
           ) :
             (
               <ReadOnlyRowD item={item}
                 handleEditClick={this.handleEditClick}
                 handleDeleteClick={this.handleDeleteClick}
-              />)
+                chancheHandler={this.chancheHandler}
+                handleAddCars={this.handleAddCars}
+              />
+            )
           }
+          {/*  */}
         </Fragment>
+
       )
     })
     );
   }
 
+  handleCarsFormSubmit = () => {
+    return (this.state.cars.map((item, key = item.id) => {
+      return (
+        <CarsHug
+          cars={this.state.cars}
+        />
+      )
+    }))
+
+  }
 
   render() {
+
     let textid = this.props.input
     return (
       <div>
+        {/* ReactDOM.render(pppp, document.getElementById("root")) */}
         <div >
           <form onSubmit={this.handleEditFormSubmit}>
             <table className={"user-main-tab"}>
@@ -222,13 +273,45 @@ export default class BranchCompany extends Component {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody >
                 {this.renderIncomingData()}
 
               </tbody>
             </table>
           </form>
         </div>
+
+        <div>
+
+          <CarsHug cars={this.state.cars}/>
+
+
+
+        </div>
+        {/* <div className='add'>
+          <form onSubmit={this.handleEditFormSubmit}>
+            <table border="2" className="">
+              <thead>
+                <tr>
+                  <th width={"50"}>ID:</th>
+                  <th width={"50"}>carBrand:</th>
+                  <th width={"50"}>model:</th>
+                  <th width={"50"}>carType:</th>
+                  <th width={"50"}>productionDate:</th>
+                  <th width={"50"}>color:</th>
+                  <th width={"50"}>carMileage:</th>
+                  <th width={"50"}>statusRental:</th>
+                  <th width={"50"}>carStatus:</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.handleCarsFormSubmit()}
+              </tbody>
+            </table>
+
+          </form>
+        </div> */}
 
         <div className='add'>
           <h2 className={"text_add"}>Add a new DEPARTMENT</h2>
@@ -274,6 +357,12 @@ export default class BranchCompany extends Component {
             {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
           </form>
         </div>
+        <div>
+          <div id="table-cars-app">
+          </div>
+        </div>
+        {/*  */}
+
         {/* <button className={'user-label'} type="submit" onClick={this.Customer()}>gtregd</button> */}
       </div >
     )

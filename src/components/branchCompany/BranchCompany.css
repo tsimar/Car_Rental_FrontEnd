@@ -26,12 +26,13 @@ Navbar {
 .add {
     /* margin-right: 20px; */
     display: flex;
-    color: aqua;
-    font-size: 1em;
+    color: rgb(245, 10, 10);
+    font-size: 5em;
     float: right;
     width: 25%;
+    height: 100%;
     flex-direction: column;
- 
+ z-index: 1;
 }
 
 .text_add {
@@ -50,4 +51,11 @@ Navbar {
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+form{
+    display:block;
+    width: 65%;
+    height: 65%;
+    overflow-y: auto;
+    
 }

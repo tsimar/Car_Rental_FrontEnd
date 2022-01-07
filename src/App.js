@@ -4,10 +4,13 @@ import NavbarUser from "./components/Navbar/NavbarUser";
 import './App.css';
 import BranchCompany from './components/branchCompany/BranchCompany';
 import User from './components/user/User';
-import Cars from './components/cars/Cars';
+// import Cars from './components/cars/Cars';
+// import CarsHug from './components/cars/CarsHug';
 import Employee from './components/employee/Employee'
 import CashReceipts from './components/cashReceipts/CashReceipts';
 import Reservation from './components/reservation/Reservation';
+import test from './components/cars/test';
+// import CarsHug from './components/cars/CarsHug';
 // import Customer from './components/customer/Customer';
 
 
@@ -22,17 +25,18 @@ function App() {
       <Switch>
         <Route path="/branchCompany" component={BranchCompany} /> {/*// головна компанія*/}
         <Route path="/employee" component={Employee} />
-        <Route path="/cars" component={Cars} />
+        {/* <Route path="/cars" component={Cars} /> */}
+        {/* <Route path="/carshug" component={CarsHug} /> */}
         <Route path="/user" component={User} />
-       
+
         <Route path="/reservation" component={Reservation} />
-      
+
 
 
       </Switch>
 
     </Router>
-
+  
   );
 }
 

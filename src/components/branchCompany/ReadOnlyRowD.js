@@ -1,11 +1,11 @@
 import React from 'react'
 import "../user/User.css";
 
-const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick }) => {
+const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick,handleAddCars }) => {
   return (
 
-    <tr border={"2"} className={"user-tab"} key={item.id}>
-
+    <tr border={"2"} className={"user-tab"} key={item.id} >
+ 
       <td width={"47"}>{item.id}</td>
       <td width={"196"}>{item.logo}</td>
       <td width={"250"}>{item.nameRental}</td>
@@ -19,6 +19,10 @@ const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick }) => {
         <button type="button"
           onClick={() => handleDeleteClick(item.id)}>
           Delete
+        </button>
+        <button type="button"
+          onClick={() => handleAddCars(item.id,item.nameRental)}>
+          Cars
         </button>
       </td>
     </tr>

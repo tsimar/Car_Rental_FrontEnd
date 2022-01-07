@@ -95,7 +95,7 @@ const EditableRowCar = ({ editFormData, handleEditFormChange, handleCancelClick 
       </td>
 
 
-      <td></td>
+     
       <td>
         <button type="submit">Save</button>
         <button type="button" onClick={handleCancelClick}>Cancel</button>

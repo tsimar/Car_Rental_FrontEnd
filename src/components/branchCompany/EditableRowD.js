@@ -1,11 +1,14 @@
 import React from 'react'
+import CarsHug from '../cars/CarsHug'
 // import "../user/User.css";
 
-const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick }) => {
+const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick,chancheHandler }) => {
 //  let trId= this.editFormData.input
   return (
+<div>
 
-    <tr border={"2"} className={"user-tab"} >
+
+    <tr border={"2"} className={"user-tab"}  >
       <td></td>
       <td >
         <input
@@ -58,7 +61,8 @@ const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick })
         <button type="button" onClick={handleCancelClick}>Cancel</button>
       </td>
     </tr>
-
+    {/* <CarsHug  /> */}
+</div>
   )
 }
 export default EditableRowD

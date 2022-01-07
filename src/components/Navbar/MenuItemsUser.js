@@ -12,7 +12,7 @@ export const MenuItemsUser = [
     },
     {
         title: "Flota",
-        Link: "Cars",
+        Link: "CarsHug",
         cName: "nav-links"
     },
     {

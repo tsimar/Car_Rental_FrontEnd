@@ -9,7 +9,7 @@ import EditableRowCar from './EditableRowCar';
 
 const api = axios.create({ baseURL: 'http://localhost:8080/cars' })
 
-export default class BranchCompany extends Component {
+export default class Cars extends Component {
 
   constructor(props) {
     super(props);
@@ -283,13 +283,3 @@ export default class BranchCompany extends Component {
 
 }
 
-
-// function BranchCompany() {
-//   return (
-//     <div className="main-brandC">
-//       Strona w przygotowaniu, przepraszamy...
-//     </div >  
-//   );
-// }
-
-// export default BranchCompany;
