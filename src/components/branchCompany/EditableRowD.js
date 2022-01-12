@@ -5,7 +5,7 @@ import CarsHug from '../cars/CarsHug'
 const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick,chancheHandler }) => {
 //  let trId= this.editFormData.input
   return (
-<div>
+
 
 
     <tr border={"2"} className={"user-tab"}  >
@@ -61,8 +61,8 @@ const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick,ch
         <button type="button" onClick={handleCancelClick}>Cancel</button>
       </td>
     </tr>
-    {/* <CarsHug  /> */}
-</div>
+    
+
   )
 }
 export default EditableRowD

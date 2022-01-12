@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import NavbarUser from "./components/Navbar/NavbarUser";
-import './App.css';
-import BranchCompany from './components/branchCompany/BranchCompany';
+// import './App.css';
+import BranchCompHook from './components/branchCompany/BranchCompHook';
 import User from './components/user/User';
 // import Cars from './components/cars/Cars';
 // import CarsHug from './components/cars/CarsHug';
@@ -17,26 +17,28 @@ import test from './components/cars/test';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    // <Router>
+    //   <div className="App">
 
-        <NavbarUser />
-      </div>
-      <Switch>
-        <Route path="/branchCompany" component={BranchCompany} /> {/*// головна компанія*/}
-        <Route path="/employee" component={Employee} />
-        {/* <Route path="/cars" component={Cars} /> */}
-        {/* <Route path="/carshug" component={CarsHug} /> */}
-        <Route path="/user" component={User} />
+    //     <NavbarUser />
+    //   </div>
+    //   <Switch>
+    //     <Route path="/branchCompHook" component={BranchCompHook} /> {/*// головна компанія*/}
+    //     {/* <Route path="/employee" component={Employee} /> */}
+    //     {/* <Route path="/cars" component={Cars} /> */}
+    //     {/* <Route path="/carshug" component={CarsHug} /> */}
+    //     {/* <Route path="/user" component={User} />
 
-        <Route path="/reservation" component={Reservation} />
+    //     <Route path="/reservation" component={Reservation} /> */}
 
 
 
-      </Switch>
+    //   </Switch>
 
-    </Router>
-  
+    // </Router>
+  <div>
+    <BranchCompHook/>
+  </div>
   );
 }
 

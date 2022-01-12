@@ -6,34 +6,45 @@ import CarsHugPost from "./CarsHugPost";
 import CarsHugPage from "./CarsHugPage"
 // import { render } from "react-dom";
 // import Cars from "./Cars";
+// axios.defaults.headers.common['Authorization'] = "http://localhost:8080/cars";
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+const api = axios.create({
+    baseURL: 'http://localhost:8080/cars', timeout: 1000,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-*': '*'
+    }
+});
 
-const api = axios.create({ baseURL: 'http://localhost:8080/cars' })
 
 
-const CarsHug = (cars) => {
+const CarsHug = (posts,loading) => {
     console.log("REEEEEEEEEE");
-    const [post, setPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [post, setPosts] = useState([]);
+    // const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(10);
 
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            setLoading(true);
-            const res = await axios.get('http://localhost:8080/cars');
-            setPosts(res.data);
-            setLoading(false);
-        }
+    // useEffect(() => {
+    //     const fetchPosts = async () => {
+    //         setLoading(true);
+    //         const res = await api.get(`/`);
+    //         // res.headers("Access-Control-Allow-Origin");
+    //         setPosts(res.data);
+    //         setLoading(false);
+    //     }
 
-        fetchPosts();
-        // setPosts(cars.data);
+    //     fetchPosts();
+    //     // setPosts(cars.data);
 
-    }, []);
+    // }, []);
+    if (!posts) return null;
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = post.slice(indexOfFirstPost, indexOfLastPost);
+    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -42,16 +53,19 @@ const CarsHug = (cars) => {
     return (
         <div>
             <h1 className="text-primary mb-3">
-                Flota 
+                Flota
             </h1>
-           <CarsHugPost  post={currentPosts} /*loading={loading}*/ />
+
+            {!loading && posts.length > 0 && <CarsHugPost post={posts} />}
+
+
             <CarsHugPage postsPerPage={postsPerPage}
-                totalPosts={post.length}
+                totalPosts={posts.length}
                 paginate={paginate}
             />
-            
-            
-            </div>
+
+
+        </div>
     );
 
 };

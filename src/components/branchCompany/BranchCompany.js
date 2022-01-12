@@ -11,7 +11,7 @@ import CarsHug from '../cars/CarsHug';
 
 
 const api = axios.create({ baseURL: 'http://localhost:8080/branchCompany' })
-const apiCars = axios.create({ baseURL: 'http://localhost:8080/Cars' })
+const apiCars = axios.create({ 'Access-Control-Allow-Origin': 'http://localhost:8080/cars' })
 // const P = () => React.createElement('div', {className:"add"}, "I am tared");
 
 export default class BranchCompany extends Component {
@@ -44,19 +44,21 @@ export default class BranchCompany extends Component {
 
   getHeadCompany = async () => {
     let data = await api.get('/').then(({ data }) => data);
+    
     this.setState({ headCompany: data });
     console.log(data)
 
-
+   
 
   }
   getHeadCompanyCar = async () => {
 
 
     let dataCars = await apiCars.get('/').then(({ dataCars }) => dataCars);
+    // dataCars.setHeader("Access-Control-Allow-Origin", "*");
     this.setState({ cars: dataCars });
     console.log(dataCars)
-
+    // response.addHeader("Access-Control-Allow-Origin", "*");
   }
 
 
