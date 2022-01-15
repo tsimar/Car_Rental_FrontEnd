@@ -19,34 +19,52 @@ const api = axios.create({
 
 
 
-const CarsHug = (posts,loading) => {
-    console.log("REEEEEEEEEE");
-    // const [post, setPosts] = useState([]);
-    // const [loading, setLoading] = useState(false);
+const CarsHug = ( postsCar,id) => {
+    console.log("Cars");
+    const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(10);
 
+    // const fetchDATA = async () => {
 
+
+    //     const playerPic = `http://localhost:8080/cars/${id}`
+
+
+
+    //     const getComp = axios.get(playerPic);
+    //     const getCars = axios.get(playerPic);
+
+    //     axios.all([getCars, getComp]).then(
+    //         axios.spread((...allData) => {
+    //             setLoading(true);
+    //             const getCarsAll = allData[0]
+    //             const allDataComp = allData[1]
+    //             console.log('getCarsAll' + getCarsAll)
+    //             setPosts(allDataComp);
+    //             setLoading(false);
+    //         })
+
+    //     )
+    // }
     // useEffect(() => {
-    //     const fetchPosts = async () => {
-    //         setLoading(true);
-    //         const res = await api.get(`/`);
-    //         // res.headers("Access-Control-Allow-Origin");
-    //         setPosts(res.data);
-    //         setLoading(false);
-    //     }
+    //     fetchDATA();
+    // }, []);
+
 
     //     fetchPosts();
     //     // setPosts(cars.data);
 
     // }, []);
+    setPosts(postsCar);
     if (!posts) return null;
     // Get current posts
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+    // const indexOfLastPost = currentPage * postsPerPage;
+    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
-    const paginate = pageNumber => setCurrentPage(pageNumber);
+    // const paginate = pageNumber => setCurrentPage(pageNumber);
 
 
 
@@ -56,13 +74,13 @@ const CarsHug = (posts,loading) => {
                 Flota
             </h1>
 
-            {!loading && posts.length > 0 && <CarsHugPost post={posts} />}
+            {/* {!loading && posts.length > 0 && <CarsHugPost post={posts} />}
 
 
             <CarsHugPage postsPerPage={postsPerPage}
                 totalPosts={posts.length}
                 paginate={paginate}
-            />
+            /> */}
 
 
         </div>

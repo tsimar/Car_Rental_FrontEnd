@@ -1,11 +1,12 @@
 import React from 'react'
-import "../user/User.css";
+import CarsHug from '../cars/CarsHug';
+// import "../user/User.css";
 
-const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick,handleAddCars }) => {
+const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick, handleVisibleCarsClick }) => {
   return (
 
-    <tr border={"2"} className={"user-tab"} key={item.id} >
- 
+    <tr border={"2"} className={"user-tab"} key={item.id} onClick={(event) => handleVisibleCarsClick(event,item.id)} >
+
       <td width={"47"}>{item.id}</td>
       <td width={"196"}>{item.logo}</td>
       <td width={"250"}>{item.nameRental}</td>
@@ -20,10 +21,7 @@ const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick,handleAddCars }
           onClick={() => handleDeleteClick(item.id)}>
           Delete
         </button>
-        <button type="button"
-          onClick={() => handleAddCars(item.id,item.nameRental)}>
-          Cars
-        </button>
+       
       </td>
     </tr>
 

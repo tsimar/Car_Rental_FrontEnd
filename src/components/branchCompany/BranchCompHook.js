@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef, Fragment, ChatAPI } from "react";
+import React, { useState, useEffect, useRef, Fragment, ChatAPI, useCallback } from "react";
 import axios from "axios";
 import { nanoid } from 'nanoid';
 // import './Cars.css';
 // import { render } from "react-dom";
-import BranchCompanyPost from "./BranchCompanyPost";
+// import BranchCompanyPost from "./BranchCompanyPost";
 import BranchCompanyPage from "./BranchCompanyPage"
 import ReadOnlyRowD from './ReadOnlyRowD';
 import EditableRowD from './EditableRowD';
-import CarsHug from "../cars/CarsHug";
+import ReadOnlyRowCar from '../cars/ReadOnlyRowCar';
+import EditableRowCar from '../cars/EditableRowCar';
+
 
 // import { render } from "react-dom";
 // import Cars from "./Cars";
@@ -20,6 +22,7 @@ const api = axios.create({ baseURL: 'http://localhost:8080/branchCompany' })
 const BranchCompHook = () => {
     console.log("REEEEEEEEEE_Branch");
     const [posts, setPosts] = useState([]);
+    const [postsCar, setPostsCar] = useState([]);
     const [addFormData, setAddFormData] = useState({
         logo: '',
         nameRental: '',
@@ -36,12 +39,12 @@ const BranchCompHook = () => {
 
     const [editPostsId, setEditPostsId] = useState(null);
 
-
-
+    let addConpanyId= null;
+    const [loadingCar, setLoadingCar] = useState(false);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(10);
-   
+
 
     const [error, setError] = useState();
 
@@ -54,31 +57,31 @@ const BranchCompHook = () => {
     const [unitPrice, setUnitPrice] = useState(null);
 
 
-    // const fetchDATA = async () => {
+    const fetchDATA = async () => {
 
 
-    //     const playerPic = 'http://localhost:8080/cars'
+        const playerPic = `http://localhost:8080/cars/${addConpanyId}`
 
+console.log('conpId',playerPic);
 
+        const getComp = axios.get(playerPic);
+        const getCars = axios.get(playerPic);
 
-    //     const getComp = axios.get(playerPic);
-    //     const getCars = axios.get(playerPic);
+        axios.all([getCars, getComp]).then(
+            axios.spread((...allData) => {
+                setLoadingCar(true);
+                const getCarsAll = allData[0]
+                const allDataComp = allData[1]
+                console.log('getCarsAll' + getCarsAll)
+                setPostsCar(getCarsAll.data);
+                setLoadingCar(false);
+            })
 
-    //     axios.all([getCars, getComp]).then(
-    //         axios.spread((...allData) => {
-    //             setLoading(true);
-    //             const getCarsAll = allData[0]
-    //             const allDataComp = allData[1]
-    //             console.log('getCarsAll' + getCarsAll)
-    //             console.log(allDataComp)
-    //             setLoading(false);
-    //         })
-
-    //     )
-    // }
-    // useEffect(() => {
-    //     fetchDATA();
-    // }, []);
+        )
+    }
+    useEffect(() => {
+        // fetchDATA();
+    }, []);
 
     const fetchPosts = async () => {
         setLoading(true);
@@ -89,18 +92,8 @@ const BranchCompHook = () => {
     }
 
     useEffect(() => {
-       
+
         fetchPosts();
-
-        // function handleStatusChange(status) {
-        //     setPosts(status.posts);
-        // }
-        // ChatAPI.subscribeToFriendStatus(posts.friend.id, handleStatusChange);
-        // // Określ sposób sprzątania po tym efekcie:
-        // return function cleanup() {
-        //     ChatAPI.unsubscribeFromFriendStatus(posts.friend.id, handleStatusChange);
-        // };
-
     }, []);
 
 
@@ -109,10 +102,9 @@ const BranchCompHook = () => {
 
     const handleEditFormSubmit = event => {
         event.preventDefault();
-// console.log('index - ',index);
         const editedContact = {
-            id:editPostsId,
-            logo:editFormData.logo,
+            id: editPostsId,
+            logo: editFormData.logo,
             nameRental: editFormData.nameRental,
             city: editFormData.city,
             address: editFormData.address,
@@ -126,29 +118,23 @@ const BranchCompHook = () => {
             .catch(error => {
                 console.log(error);
             })
-    //    let editPosts=[...posts];
-    //    editPosts[index]=event.target.value;
-    //      setPosts(editPosts);
-    // const fieldName = event.target.getAttribute("name");
-    // const fieldValue = event.target.value;
+        const newFormData = { ...posts };
 
-    const newFormData = { ...posts };
-  
-// for (let i=0;i<posts.length;i++){
-    posts.map((item)=>{
-         if (item.id===editPostsId){
+        posts.map((item) => {
+            if (item.id === editPostsId) {
 
-            item.logo=editedContact.logo;
-            item.nameRental=editedContact.nameRental;
-            item.city=editedContact.city;
-            item.address=editedContact.address;
+                item.logo = editedContact.logo;
+                item.nameRental = editedContact.nameRental;
+                item.city = editedContact.city;
+                item.address = editedContact.address;
 
+            }
+        })
+               setEditPostsId(null);
     }
-    })
-   
-// }
-       setEditPostsId( null);
-    }
+
+
+
 
     const handleEditFormChange = (event) => {
         event.preventDefault();
@@ -159,7 +145,7 @@ const BranchCompHook = () => {
         const newFormData = { ...editFormData };
         newFormData[fieldName] = fieldValue;
 
-        setEditFormData(  newFormData );
+        setEditFormData(newFormData);
     };
 
     const handleEditClick = (event, user) => {
@@ -168,10 +154,10 @@ const BranchCompHook = () => {
         const formValues = {
             logo: user.logo,
             nameRental: user.nameRental,
-            city:user.city,
-            address:user.address,
+            city: user.city,
+            address: user.address,
         };
-       setEditFormData(formValues)
+        setEditFormData(formValues)
 
     }
 
@@ -215,14 +201,99 @@ const BranchCompHook = () => {
                 console.log(error);
             })
 
-      
+        // fetchMyData();
+    }
+
+
+
+    const handleVisibleCarsClick = (event, id) => {
+        event.preventDefault();
+
+       addConpanyId=id;
+       
+       fetchDATA();
+       addConpanyId=null;
     }
 
 
 
 
-    const renderIncomingData = () => {
-        return (posts.map(item => {
+    const tableCars = () => {
+        if (loadingCar) {
+            return <h2>Loading...</h2>
+        }
+        return (
+          <form onSubmit={handleVisibleCarsClick}>
+            <table className={"user-main-tab"}>
+              <thead>
+                <tr>
+                  <th width={"50"}>ID:</th>
+                  <th width={"200"}>Producent:</th>
+                  <th width={"100"}>Model:</th>
+                  <th width={"100"}>Type:</th>
+                  <th width={"50"}>Yers:</th>
+                  <th width={"50"}>Color:</th>
+                  <th width={"100"}>Mileages:</th>
+                  <th width={"100"}>Status rental:</th>
+                  <th width={"100"}>Status car:</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>{handleAddCars()}</tbody>
+            </table>
+          </form>
+        );
+    }
+
+
+    const handleAddCars = () => {
+
+
+        console.log('cars', postsCar);
+        
+            return (postsCar.map(item => {
+
+            return (
+                <Fragment key={item.id} >
+                    {(editPostsId === item.id) ? (
+                        <EditableRowCar
+
+                            editFormData={editFormData}
+                            handleEditFormChange={handleEditFormChange}
+                            handleCancelClick={handleCancelClick}
+                            handleAddCars={handleAddCars}
+                        />
+
+                    ) :
+                        (
+                            <ReadOnlyRowCar item={item}
+                                handleEditClick={handleEditClick}
+                                handleDeleteClick={handleDeleteClick}
+                                handleAddCars={handleAddCars}
+                            />
+                        )
+                    }
+                    {/*  */}
+                </Fragment>
+
+            )
+        })
+        );
+
+        
+        // fetchMyData();
+
+       
+
+    }
+
+    const renderIncomingData = (data) => {
+        // if (loading) {
+        //     return <h2>Loading...</h2>
+        // }
+
+
+        return (data.map(item => {
 
             return (
                 <Fragment key={item.id} >
@@ -232,8 +303,7 @@ const BranchCompHook = () => {
                             editFormData={editFormData}
                             handleEditFormChange={handleEditFormChange}
                             handleCancelClick={handleCancelClick}
-                        // chancheHandler={this.chancheHandler}
-
+                            handleVisibleCarsClick={handleVisibleCarsClick}
                         />
 
                     ) :
@@ -241,8 +311,7 @@ const BranchCompHook = () => {
                             <ReadOnlyRowD item={item}
                                 handleEditClick={handleEditClick}
                                 handleDeleteClick={handleDeleteClick}
-                            // chancheHandler={chancheHandler}
-                            // handleAddCars={handleAddCars}
+                                handleVisibleCarsClick={handleVisibleCarsClick}
                             />
                         )
                     }
@@ -260,34 +329,10 @@ const BranchCompHook = () => {
 
         newContacts.splice(index, 1);
 
-        setPosts( newContacts);
+        setPosts(newContacts);
         api.delete(`/${departId}`)
         // this.getUsers(data);
     };
-
-
-
-    //   const newDeparts = [...posts, newDepart]
-
-    // setPosts(newDepart);
-
-
-    //   setPosts(newDepart.data);
-
-
-
-
-    // this.setState({
-    //   [event.target.name]: event.target.value,
-    // });
-
-    // this.setState({
-    //   headCompany: newDeparts,
-
-
-    // })
-
-    // this.componentDidMount();
 
 
 
@@ -301,11 +346,12 @@ const BranchCompHook = () => {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
+
         <React.Fragment>
             <h1 className="text-primary mb-3">
                 Flota
 
-                </h1>
+            </h1>
 
             <div >
                 <form onSubmit={handleEditFormSubmit}>
@@ -321,20 +367,24 @@ const BranchCompHook = () => {
                             </tr>
                         </thead>
                         <tbody >
-                            {renderIncomingData()}
+                            {renderIncomingData(currentPosts)}
 
                         </tbody>
                     </table>
                 </form>
             </div>
-
-
-
-          
             <BranchCompanyPage postsPerPage={postsPerPage}
                 totalPosts={posts.length}
                 paginate={paginate}
-            /> 
+            />
+            <div >
+                {tableCars()}
+
+
+            </div>
+
+
+
 
             {/* {renderIncomingData()} */}
             <div className='add'>
@@ -355,7 +405,7 @@ const BranchCompHook = () => {
                             // required="required"
 
                             placeholder='name department ...'
-                           
+
                             onChange={handleAddFormChange}
 
                         />
@@ -367,7 +417,7 @@ const BranchCompHook = () => {
                             // required="required"
 
                             placeholder='city  ...'
-                          
+
                             onChange={handleAddFormChange}
 
                         />
@@ -380,7 +430,7 @@ const BranchCompHook = () => {
                             // required="required"
 
                             placeholder='address  ...'
-                          
+
                             onChange={handleAddFormChange}
 
                         /> </div>
