@@ -1,6 +1,6 @@
 import React from 'react'
-import CarsHug from '../cars/CarsHug';
-// import "../user/User.css";
+// import CarsHug from '../cars/CarsHug';
+import "../user/User.css";
 
 const ReadOnlyRowD = ({ item, handleEditClick, handleDeleteClick, handleVisibleCarsClick }) => {
   return (

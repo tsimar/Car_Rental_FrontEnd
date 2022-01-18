@@ -1,7 +1,7 @@
 import React from 'react'
 import "../user/User.css";
 
-const EditableRowCar = ({ editFormData, handleEditFormChange, handleCancelClick }) => {
+const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancelCarClick }) => {
   return (
 
     <tr border={"2"} className={"user-tab"} >
@@ -98,7 +98,7 @@ const EditableRowCar = ({ editFormData, handleEditFormChange, handleCancelClick 
      
       <td>
         <button type="submit">Save</button>
-        <button type="button" onClick={handleCancelClick}>Cancel</button>
+        <button type="button" onClick={handleCancelCarClick}>Cancel</button>
       </td>
     </tr>
 

@@ -1,7 +1,10 @@
 import React from 'react'
 import "../user/User.css"
 
-const ReadOnlyRowCar = ({ item, handleEditClick, handleDeleteClick }) => {
+const ReadOnlyRowCar = ({ item, handleEditCarClick, handleDeleteCarClick,loading }) => {
+if (loading) {
+      return <h2>Loading...</h2>;
+    }
   return (
 
     <tr border={"2"} className={"user-tab"} key={item.id}>
@@ -17,11 +20,11 @@ const ReadOnlyRowCar = ({ item, handleEditClick, handleDeleteClick }) => {
       <td width={"200"}>{item.carStatus}</td>
       <td>
         <button type="button"
-          onClick={(event) => handleEditClick(event, item)}>
+          onClick={(event) => handleEditCarClick(event, item)}>
           Edit
         </button>
         <button type="button" 
-        onClick={()=>handleDeleteClick(item.id)}> 
+        onClick={()=>handleDeleteCarClick(item.id)}> 
         Delete
         </button>
       </td>
