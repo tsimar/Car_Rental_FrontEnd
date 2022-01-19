@@ -1,14 +1,17 @@
-import React from 'react'
-import "../user/User.css"
+import React from "react";
+import "../user/User.css";
 
-const ReadOnlyRowCar = ({ item, handleEditCarClick, handleDeleteCarClick,loading }) => {
-if (loading) {
-      return <h2>Loading...</h2>;
-    }
+const ReadOnlyRowCar = ({
+  item,
+  handleEditCarClick,
+  handleDeleteCarClick,
+  loading,
+}) => {
+  // if (loading) {
+  //   return <h2>Loading...</h2>;
+  // }
   return (
-
     <tr border={"2"} className={"user-tab"} key={item.id}>
-
       <td width={"47"}>{item.id}</td>
       <td width={"196"}>{item.carBrand}</td>
       <td width={"250"}>{item.model}</td>
@@ -18,18 +21,19 @@ if (loading) {
       <td width={"196"}>{item.carMileage}</td>
       <td width={"250"}>{item.statusRental}</td>
       <td width={"200"}>{item.carStatus}</td>
+      <td width={"50"}>{item.carRentalDepartID}</td>
       <td>
-        <button type="button"
-          onClick={(event) => handleEditCarClick(event, item)}>
+        <button
+          type="button"
+          onClick={(event) => handleEditCarClick(event, item)}
+        >
           Edit
         </button>
-        <button type="button" 
-        onClick={()=>handleDeleteCarClick(item.id)}> 
-        Delete
+        <button type="button" onClick={() => handleDeleteCarClick(item.id)}>
+          Delete
         </button>
       </td>
     </tr>
-
-  )
-}
-export default ReadOnlyRowCar
+  );
+};
+export default ReadOnlyRowCar;

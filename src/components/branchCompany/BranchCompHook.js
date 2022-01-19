@@ -54,6 +54,7 @@ const BranchCompHook = () => {
   const [addFormDataCar, setAddFormDataCar] = useState({
     carBrand: "",
     model: "",
+    carType: "",
     productionDate: "",
     color: "",
     carMileage: "",
@@ -61,6 +62,19 @@ const BranchCompHook = () => {
     carStatus: "",
     carRentalDepartID: "",
   });
+
+  const [editFormDataCar, setEditFormDataCar] = useState({
+    carBrand: "",
+    model: "",
+    carType: "",
+    productionDate: "",
+    color: "",
+    carMileage: "",
+    statusRental: "",
+    carStatus: "",
+    carRentalDepartID: "",
+  });
+
 
   const [editPostsCarId, setEditPostsCarId] = useState(null);
   const [loadingCar, setLoadingCar] = useState(false);
@@ -227,9 +241,7 @@ const BranchCompHook = () => {
 
   // WORK FROM CAR
 
-  const handleCancelCarClick = () => {
-    setEditPostsCarId(null);
-  };
+
 
   const handleAddFormCarChange = (event) => {
     event.preventDefault();
@@ -274,7 +286,92 @@ const BranchCompHook = () => {
     setAddFormDataCar("");
     tableCars();
   };
+const handleEditFormCarSubmit = (event) => {
+  event.preventDefault();
+  const editedContact = {
+    id: editPostsCarId,
+    carBrand: editFormDataCar.carBrand,
+    model: editFormDataCar.model,
+    carType: editFormDataCar.carType,
+    productionDate: editFormDataCar.productionDate,
+    color: editFormDataCar.color,
+    carMileage: editFormDataCar.carMileage,
+    statusRental: editFormDataCar.statusRental,
+    carStatus: editFormDataCar.carStatus,
+    carRentalDepartID: editFormDataCar.carRentalDepartID,
+  };
 
+  apiCar
+    .put(`/`, editedContact)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  const newFormData = { ...postsCar };
+
+  postsCar.map((item) => {
+    if (item.id === editPostsCarId) {
+      item.carBrand= editFormDataCar.carBrand;
+    item.model= editFormDataCar.model;
+    item.carType= editFormDataCar.carType;
+   item. productionDate= editFormDataCar.productionDate;
+    item.color= editFormDataCar.color;
+    item.carMileage= editFormDataCar.carMileage;
+   item.statusRental= editFormDataCar.statusRental;
+    item.carStatus= editFormDataCar.carStatus;
+    item.carRentalDepartID= editFormDataCar.carRentalDepartID;
+    }
+  });
+  setEditPostsCarId(null);
+};
+
+const handleEditFormCarChange = (event) => {
+  event.preventDefault();
+
+  const fieldName = event.target.getAttribute("name");
+  const fieldValue = event.target.value;
+
+  const newFormData = { ...editFormDataCar };
+  newFormData[fieldName] = fieldValue;
+
+  setEditFormDataCar(newFormData);
+  console.log('edit change')
+};
+
+const handleEditCarClick = (event, car) => {
+  event.preventDefault();
+  console.log('click edit')
+  setEditPostsCarId(car.id);
+  const formValues = {
+    carBrand: car.carBrand,
+    model: car.model,
+    carType: car.carType,
+    productionDate: car.productionDate,
+    color: car.color,
+    carMileage: car.carMileage,
+    statusRental: car.statusRental,
+    carStatus: car.carStatus,
+    carRentalDepartID: car.carRentalDepartID,
+  };
+  setEditFormDataCar(formValues);
+};
+
+const handleCancelCarClick = () => {
+  setEditPostsCarId(null);
+};
+const handleDeleteCarClick = (departId) => {
+  const newContacts = [...postsCar];
+
+  const index = postsCar.findIndex((contact) => contact.id === departId);
+
+  newContacts.splice(index, 1);
+
+  setPostsCar(newContacts);
+  apiCar.delete(`/${departId}`);
+  // this.getUsers(data);
+};
   const handleVisibleCarsClick = (event, id) => {
     event.preventDefault();
 
@@ -284,13 +381,45 @@ const BranchCompHook = () => {
     fetchDATA();
   };
 
+  const handleAddCars = () => {
+    console.log("cars", postsCar);
+
+    return postsCar.map((item) => {
+      return (
+        <Fragment key={item.id}>
+          {editPostsCarId === item.id ? (
+            <EditableRowCar
+              editFormDataCar={editFormDataCar}
+              handleEditFormCarChange={handleEditFormCarChange}
+              handleCancelCarClick={handleCancelCarClick}
+              handleAddCars={handleAddCars}
+            />
+          ) : (
+            <ReadOnlyRowCar
+              loading={loadingCar}
+              item={item}
+              handleEditCarClick={handleEditCarClick}
+              handleDeleteCarClick={handleDeleteCarClick}
+              handleAddCars={handleAddCars}
+            />
+          )}
+          {/*  */}
+        </Fragment>
+      );
+    });
+
+    // fetchMyData();
+
+    return;
+  };
+
   const tableCars = () => {
     // if (loadingCar) {
     //   return <h2>Loading...</h2>;
     // }
     return (
       <React.Fragment>
-        <form onSubmit={handleVisibleCarsClick}>
+        <form onSubmit={(handleVisibleCarsClick, handleEditFormCarSubmit)}>
           <table className={"user-main-tab"}>
             <thead>
               <tr>
@@ -303,6 +432,7 @@ const BranchCompHook = () => {
                 <th width={"100"}>Mileages:</th>
                 <th width={"100"}>Status rental:</th>
                 <th width={"200"}>Status car:</th>
+                <th width={"50"}>ID company:</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -312,87 +442,47 @@ const BranchCompHook = () => {
         <section className="add">
           <form onSubmit={handleAddFormCarSubmit} className={"table_add"}>
             <h2 className={"text_add"}>Add a new Cars {addCompanyId}</h2>
-           
-              <input
-                type="text"
-                name="carBrand"
-                // ref={textInput}
-                placeholder="Production"
-                // required="required"
-                // ref={ref=>test=ref}
-                onChange={handleAddFormCarChange}
-              />
-            
-              <input
-                type="text"
-                name="model"
-                // required="required"
+            <input
+              type="text"
+              name="carBrand"
+              // ref={textInput}
+              placeholder="Production"
+              // required="required"
+              // ref={ref=>test=ref}
+              onChange={handleAddFormCarChange}
+            />
+            <input
+              type="text"
+              name="model"
+              // required="required"
 
-                placeholder="model ..."
-                onChange={handleAddFormCarChange}
-              />
-          
-              <input
-                type="text"
-                name="productionDate"
-                // required="required"
+              placeholder="model ..."
+              onChange={handleAddFormCarChange}
+            />
+            <input
+              type="text"
+              name="productionDate"
+              // required="required"
 
-                placeholder="Yers  ..."
-                onChange={handleAddFormCarChange}
-              />
-          
-            
-              <label htmlFor={test}>address </label>
-              <input
-                type="text"
-                name="color"
-                // required="required"
-                value={addFormDataCar.color}
-                // ref={test}
-                placeholder="color  ..."
-                onChange={handleAddFormCarChange}
-              />{" "}
-            
-
-            <button type="submit" onEnable={false}>add</button>
-
+              placeholder="Yers  ..."
+              onChange={handleAddFormCarChange}
+            />
+            <label htmlFor={test}>address </label>
+            <input
+              type="text"
+              name="color"
+              // required="required"
+              value={addFormDataCar.color}
+              // ref={test}
+              placeholder="color  ..."
+              onChange={handleAddFormCarChange}
+            />{" "}
+            <button type="submit">add</button>
             {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
           </form>
         </section>
       </React.Fragment>
     );
-  };
-
-  const handleAddCars = () => {
-    console.log("cars", postsCar);
-
-    return postsCar.map((item) => {
-      return (
-        <Fragment key={item.id}>
-          {editPostsCarId === item.id ? (
-            <EditableRowCar
-              editFormData={editFormData}
-              handleEditFormChange={handleEditFormChange}
-              handleCancelClick={handleCancelClick}
-              handleAddCars={handleAddCars}
-            />
-          ) : (
-            <ReadOnlyRowCar
-              loading={loading}
-              item={item}
-              handleEditClick={handleEditClick}
-              handleDeleteClick={handleDeleteClick}
-              handleAddCars={handleAddCars}
-            />
-          )}
-          {/*  */}
-        </Fragment>
-      );
-    });
-
-    // fetchMyData();
-
-    return;
   };
 
   const renderIncomingData = (data) => {

@@ -1,10 +1,13 @@
-import React from 'react'
+import React from "react";
 import "../user/User.css";
 
-const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancelCarClick }) => {
+const EditableRowCar = ({
+  editFormDataCar,
+  handleEditFormCarChange,
+  handleCancelCarClick,
+}) => {
   return (
-
-    <tr border={"2"} className={"user-tab"} >
+    <tr border={"2"} className={"user-tab"}>
       <td></td>
       <td>
         <input
@@ -12,10 +15,9 @@ const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancel
           required="required"
           placeholder="car Brand"
           name="carBrand"
-          value={editFormData.carBrand}
-          onChange={handleEditFormChange}
-        >
-        </input>
+          value={editFormDataCar.carBrand}
+          onChange={handleEditFormCarChange}
+        ></input>
       </td>
       <td>
         <input
@@ -23,10 +25,9 @@ const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancel
           required="required"
           placeholder="model"
           name="model"
-          value={editFormData.model}
-          onChange={handleEditFormChange}
-        >
-        </input>
+          value={editFormDataCar.model}
+          onChange={handleEditFormCarChange}
+        ></input>
       </td>
       <td>
         <input
@@ -34,31 +35,29 @@ const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancel
           required="required"
           placeholder="car Type"
           name="carType"
-          value={editFormData.carType}
-          onChange={handleEditFormChange}
-        >
-        </input>
+          value={editFormDataCar.carType}
+          onChange={handleEditFormCarChange}
+        ></input>
       </td>
       <td>
         <input
-          type="text"
+          type="date"
           required="required"
           placeholder="production Date"
           name="productionDate"
-          value={editFormData.productionDate}
-          onChange={handleEditFormChange}
-        >
-        </input>
-      </td> <td>
+          value={editFormDataCar.productionDate}
+          onChange={handleEditFormCarChange}
+        ></input>
+      </td>{" "}
+      <td>
         <input
           type="text"
           required="required"
           placeholder="color"
           name="color"
-          value={editFormData.color}
-          onChange={handleEditFormChange}
-        >
-        </input>
+          value={editFormDataCar.color}
+          onChange={handleEditFormCarChange}
+        ></input>
       </td>
       <td>
         <input
@@ -66,21 +65,19 @@ const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancel
           required="required"
           placeholder="car Mileage"
           name="carMileage"
-          value={editFormData.carMileage}
-          onChange={handleEditFormChange}
-        >
-        </input>
-      </td> 
+          value={editFormDataCar.carMileage}
+          onChange={handleEditFormCarChange}
+        ></input>
+      </td>
       <td>
         <input
           type="text"
           required="required"
           placeholder="status Rental"
           name="statusRental"
-          value={editFormData.statusRental}
-          onChange={handleEditFormChange}
-        >
-        </input>
+          value={editFormDataCar.statusRental}
+          onChange={handleEditFormCarChange}
+        ></input>
       </td>
       <td>
         <input
@@ -88,20 +85,17 @@ const EditableRowCar = ({ editFormDataCar, handleEditCarFormChange, handleCancel
           required="required"
           placeholder="car Status"
           name="carStatus"
-          value={editFormData.carStatus}
-          onChange={handleEditFormChange}
-        >
-        </input>
+          value={editFormDataCar.carStatus}
+          onChange={handleEditFormCarChange}
+        ></input>
       </td>
-
-
-     
       <td>
         <button type="submit">Save</button>
-        <button type="button" onClick={handleCancelCarClick}>Cancel</button>
+        <button type="button" onClick={handleCancelCarClick}>
+          Cancel
+        </button>
       </td>
     </tr>
-
-  )
-}
-export default EditableRowCar
+  );
+};
+export default EditableRowCar;
