@@ -2,7 +2,7 @@
 export const MenuItemsUser = [
     {
         title: "Oddział",
-        Link: "BranchCompany",
+        Link: "BranchCompHook",
         cName: "nav-links"
     },
     {

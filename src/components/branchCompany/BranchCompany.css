@@ -1,4 +1,4 @@
-body {
+/* body {
     margin: 0;
     padding: 0;
 }
@@ -24,7 +24,7 @@ Navbar {
      overflow-y: scroll;
 }
 .add {
-    /* margin-right: 20px; */
+   margin-right: 20px;
     display: flex;
     color: rgb(245, 10, 10);
     font-size: 1em;
@@ -129,4 +129,14 @@ form{
     to {
       transform: rotate(360deg);
     }
-  }
+  }  */
+  .main-brandC{
+    color: white;
+    font-size: 24px;
+    text-align: center;
+
+}
+
+Navbar {
+    display: none;
+}

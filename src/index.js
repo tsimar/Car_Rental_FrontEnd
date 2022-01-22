@@ -7,6 +7,6 @@ import BranchCompHook from './components/branchCompany/BranchCompHook';
 // import test from './components/cars/test';
 
 
-ReactDOM.render(<BranchCompHook />, document.getElementById('root')
+ReactDOM.render(<App />, document.getElementById('root')
 );
 

@@ -11,7 +11,7 @@
 .link {
     color: #ffffff;
     text-decoration: none;
-   text-shadow: 1.5px 1.5px 0px rgba(102, 102, 109, 0.884); 
+   /* text-shadow: 1.5px 1.5px 0px rgba(102, 102, 109, 0.884);  */
 }
 
 
@@ -46,7 +46,7 @@
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem; 
-    text-shadow: 1.5px 1.5px 0px rgba(102, 109, 109, 0.884);
+    /* text-shadow: 1.5px 1.5px 0px rgba(102, 109, 109, 0.884); */
 }
 
 .nav-links:hover {
@@ -175,8 +175,8 @@
     Button {
         display: none;
     }
-    body{
+    /* body{
         background-size: auto;
-    }
+    } */
 
 }

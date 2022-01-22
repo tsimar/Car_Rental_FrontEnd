@@ -460,7 +460,7 @@ const handleDeleteCarClick = (departId) => {
               onChange={handleAddFormCarChange}
             />
             <input
-              type="text"
+              type="date"
               name="productionDate"
               // required="required"
 
