@@ -10,6 +10,8 @@ body {
  background-image: url('./jpeg/background.jpg');
   background-repeat: no-repeat;
   background-color: black;
+  background-attachment: fixed;
+  
 }
 
 

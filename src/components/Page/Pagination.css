@@ -1,0 +1,12 @@
+.pagination{
+    list-style-type: none;
+ width: 500px;
+  padding-left: 10px;
+}
+
+li{
+  color: aquamarine;
+  display: inline;
+  margin: 0 5px;
+  cursor: pointer;
+}
