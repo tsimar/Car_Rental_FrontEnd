@@ -115,7 +115,7 @@ const BranchCompHook = () => {
       })
     );
   };
-  
+
   // CONST FROM Employee
 
   const [currentPageEmpl, setCurrentPageEmpl] = useState(1);
@@ -136,8 +136,6 @@ const BranchCompHook = () => {
 
   const [editPostsEmplId, setEditPostsEmplId] = useState(null);
   const [loadingEmpl, setLoadingEmpl] = useState(false);
-
- 
 
   const fetchDATAEmpl = async () => {
     // const playerPic1 = `http://localhost:8080/employees/${addCompanyId}`;
@@ -281,9 +279,7 @@ const BranchCompHook = () => {
   const handleAddFormCarSubmit = (event) => {
     event.preventDefault();
 
-   
     const newCar = {
-     
       carBrand: addFormDataCar.carBrand,
       model: addFormDataCar.model,
       productionDate: addFormDataCar.productionDate,
@@ -432,10 +428,6 @@ const BranchCompHook = () => {
         </Fragment>
       );
     });
-
-    // fetchMyData();
-
-    return;
   };
   // Get current posts
   const indexOfLastPostCar = currentPageCar * PageSize;
@@ -777,7 +769,6 @@ const BranchCompHook = () => {
               handleVisibleCarsClick={handleVisibleCarsClick}
             />
           )}
-          
         </Fragment>
       );
     });
@@ -812,14 +803,15 @@ const BranchCompHook = () => {
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const currentPostsFunction = () => {
-   
     return;
-     <CurrentPageSize
+    <CurrentPageSize
       currentPage={currentPage}
       PageSize={PageSize}
       posts={posts}
     />;
   };
+
+  
   return (
     <div className="body-comp">
       <section className="section-comp">
@@ -839,11 +831,7 @@ const BranchCompHook = () => {
                     <th>Actions</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {renderIncomingData(
-                   currentPosts
-                  )}
-                </tbody>
+                <tbody>{renderIncomingData(currentPosts)}</tbody>
               </table>
             </form>
           </div>

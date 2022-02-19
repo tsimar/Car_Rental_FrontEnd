@@ -16,13 +16,13 @@ export const MenuItemsUser = [
         cName: "nav-links"
     },
     {
-        title: "Klient",
-        Link: "Customer",
+        title: "Return",
+        Link: "ReturnCar",
         cName: "nav-links"
     },
     {
-        title: "Rezerwacja",
-        Link: "Reservation",
+        title: "Rental",
+        Link: "RentalCar",
         cName: "nav-links"
     },
     {
