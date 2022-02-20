@@ -499,7 +499,7 @@ const BranchCompHook = () => {
               placeholder="Yers  ..."
               onChange={handleAddFormCarChange}
             />
-            <label htmlFor={test}>address </label>
+          
             <input
               type="text"
               name="color"
@@ -891,11 +891,13 @@ const BranchCompHook = () => {
           </form>
         </div>
       </section>
-
-      <div>{tableEmpl()}</div>
+<section className="section-empl">
+  {tableEmpl()}
+</section>
+      
 
       <section className="car-tabl">
-        <div>{tableCars()}</div>
+       {tableCars()}
       </section>
     </div>
   );

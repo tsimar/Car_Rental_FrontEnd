@@ -1,20 +1,19 @@
-.App{
+.App {
   box-sizing: border-box;
   margin: 0px;
   padding: 0px;
-
+ 
 }
 
-body {
-  background-size: cover;
- background-image: url('./jpeg/background.jpg');
-  background-repeat: no-repeat;
-  background-color: black;
+.bac-color {
+  background-size: 100%;
+  background-image:linear-gradient(to right,black 50%,white 50% ) , url("./jpeg/background.jpg");
+  background-color: transparent;
+  background-color: antiquewhite;
+   
   background-attachment: fixed;
-  
+  background-repeat: no-repeat;
+  background-blend-mode: saturation; 
+
 }
-
-
-
-
 

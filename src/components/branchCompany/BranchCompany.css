@@ -150,21 +150,21 @@ Navbar {
 column-gap: 0.4em;
  flex-direction:row;
   flex-wrap: wrap;   
-  /* display: grid; */
-  /* grid-template-columns:1fr, 1fr;
-  grid-template-rows: 1fr; */
-  /* grid-auto-rows: minmax(100px, auto); */
-  /* grid-gap: 1em; */
+justify-content: space-between;
 }
 .section-comp:not(.position-page h1) {
-  border: 10px solid rgb(99, 211, 7);
+  /* border: 10px solid rgb(99, 211, 7); */
 /* display: grid;
  flex-flow:  column wrap; */
  display: flex;
 flex-flow: row; 
 }
+.section-empl{
+ 
+  margin-right:20px;
+}
 .h1-tabl-page{
-  border: 5px solid red;
+  /* border: 5px solid red; */
 width: 500px;
   flex: 1 ;
 }

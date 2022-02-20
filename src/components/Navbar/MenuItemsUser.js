@@ -5,16 +5,16 @@ export const MenuItemsUser = [
         Link: "BranchCompHook",
         cName: "nav-links"
     },
-    {
-        title: "Pracownik",
-        Link: "employee",
-        cName: "nav-links"
-    },
-    {
-        title: "Flota",
-        Link: "CarsHug",
-        cName: "nav-links"
-    },
+    // {
+    //     title: "Pracownik",
+    //     Link: "employee",
+    //     cName: "nav-links"
+    // },
+    // {
+    //     title: "Flota",
+    //     Link: "CarsHug",
+    //     cName: "nav-links"
+    // },
     {
         title: "Return",
         Link: "ReturnCar",

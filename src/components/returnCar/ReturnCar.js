@@ -4,18 +4,18 @@ import Pagination from "../Page/Pagination";
 
 const api = axios.create({ baseURL: "http://localhost:8080/branchCompany" });
 const apiUser = axios.create({ baseURL: "http://localhost:8080/users" });
-// const apiReturn = axios.create({ baseURL: "http://localhost:8080/rentals" });
+const apiReturn = axios.create({ baseURL: "http://localhost:8080/return" });
 
 let addCompanyId = null;
-
+let addUserId = null;
 const ReturnCar = () => {
   const [posts, setPosts] = useState([]);
   const [postsUser, setPostsUser] = useState([]);
-  
- 
+
   const [postsReturn, setPostsReturn] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-     const [currentPageUser, setCurrentPageUser] = useState(1);
+  const [currentPageUser, setCurrentPageUser] = useState(1);
+  const [currentPageReturn, setCurrentPageReturn] = useState(1);
   const [PageSize] = useState(5);
   const [loading, setLoading] = useState(false);
   const [loadingUser, setLoadingUser] = useState(false);
@@ -34,35 +34,43 @@ const ReturnCar = () => {
   }, []);
 
   const fetchDataUser = async () => {
-    const getRental = apiUser.get(`/${addCompanyId}`);
+    const getUser = apiUser.get(`/${addCompanyId}`);
 
-    axios.all([getRental]).then(
+    axios.all([getUser]).then(
       axios.spread((...allData) => {
         setLoadingUser(true);
-        const getRentalAll = allData[0];
+        const getUserAll = allData[0];
         // const allDataComp = allData[1]
-        console.log("getUsersAll" + getRentalAll);
-        setPostsUser(getRentalAll.data);
+        console.log("getUserAll" + getUserAll);
+        setPostsUser(getUserAll.data);
         setLoadingUser(false);
       })
     );
   };
   const fetchDataReturn = async () => {
-    const getUsers = apiUser.get(`/${addCompanyId}`);
+    const getReturn = apiReturn.get(`/${addCompanyId}/${addUserId}`);
 
-    axios.all([getUsers]).then(
+    axios.all([getReturn]).then(
       axios.spread((...allData) => {
-        setLoadingUser(true);
-        const getUsersAll = allData[0];
+        setLoadingReturn(true);
+        const getReturnAll = allData[0];
         // const allDataComp = allData[1]
-        console.log("getUsersAll" + getUsersAll);
-        setPostsUser(getUsersAll.data);
-        setLoadingUser(false);
+        console.log("getReturnAll" + getReturnAll);
+        setPostsReturn(getReturnAll.data);
+        setLoadingReturn(false);
       })
     );
   };
-
-  // Get current posts
+  // Get current postsReturn
+  const indexOfLastPostReturn = currentPageReturn * PageSize;
+  const indexOfFirstPostReturn = indexOfLastPostReturn - PageSize;
+  const currentPostsReturn = postsReturn.slice(
+    indexOfFirstPostReturn,
+    indexOfLastPostReturn
+  );
+  // Change page
+  const paginateReturn = (pageNumber) => setCurrentPageReturn(pageNumber);
+  // Get current postsUser
   const indexOfLastPostUser = currentPageUser * PageSize;
   const indexOfFirstPostUser = indexOfLastPostUser - PageSize;
   const currentPostsUser = postsUser.slice(
@@ -71,46 +79,94 @@ const ReturnCar = () => {
   );
   // Change page
   const paginateUser = (pageNumber) => setCurrentPageUser(pageNumber);
+  // Get current posts
+  let indexOfLastPost = currentPage * PageSize;
+  if (posts.length <= indexOfLastPost - PageSize) {
+    indexOfLastPost = (currentPage - 1) * PageSize;
+  }
+  const indexOfFirstPost = indexOfLastPost - PageSize;
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
-let indexOfLastPost = currentPage * PageSize;
-if (posts.length <= indexOfLastPost - PageSize) {
-  indexOfLastPost = (currentPage - 1) * PageSize;
-}
-const indexOfFirstPost = indexOfLastPost - PageSize;
-const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-
-
-  const handleGetUser = (data) => {
-    console.log("cars", postsUser);
+  const handleGetReturn = (data) => {
+    console.log("return", postsReturn);
 
     return data.map((item) => {
       return (
         <tr border={"2"} className={"user-tab"} key={item.id}>
           <td width={"47"}>{item.id}</td>
-          <td width={"196"}>{item.userName}</td>
-          <td width={"250"}>{item.userPassword}</td>
-          <td width={"200"}>{item.customer}</td>
+          <td width={"196"}>{item.returnDate}</td>
+          <td width={"250"}>{item.commentsReturn}</td>
+          <td width={"250"}>{item.commentsCustomer}</td>
+          <td width={"250"}>{item.supplement}</td>
+          <td width={"250"}>{item.userId}</td>
+          <td width={"250"}>{item.companyId}</td>
         </tr>
       );
     });
   };
-  const tableUser = () => {
-
+  const tableReturn = () => {
+    if (loadingReturn) {
+      return <h2>Loading lists return...</h2>;
+    }
     return (
       <React.Fragment>
+        <h1 className="text-primary ">Return</h1>
         <form>
           <table className={"user-main-tab"}>
             <thead>
               <tr>
                 <th width={"50"}>ID:</th>
-                <th width={"100"}>Company:</th>
-                <th width={"100"}>city:</th>
-                <th width={"100"}>idEmployee:</th>
-                <th width={"50"}>nameEmployee :</th>
-                <th>Actions</th>
+                <th width={"100"}>return date:</th>
+                <th width={"100"}>comment return:</th>
+                <th width={"100"}>comment customer:</th>
+                <th width={"100"}>supplement:</th>
+                <th width={"100"}>id user:</th>
+                <th width={"100"}>id company:</th>
+              </tr>
+            </thead>
+            <tbody>{handleGetReturn(currentPostsReturn)}</tbody>
+          </table>
+        </form>
+        <Pagination
+          postsPerPage={PageSize}
+          totalPosts={postsReturn.length}
+          paginate={paginateReturn}
+        />
+      </React.Fragment>
+    );
+  };
+
+  const handleGetUser = (data) => {
+    console.log("users", postsUser);
+
+    return data.map((item) => {
+      return (
+        <tr
+          border={"2"}
+          className={"user-tab"}
+          key={item.id}
+          onClick={(event) => handleVisibleByUserClick(event, item.id)}
+        >
+          <td width={"47"}>{item.id}</td>
+          <td width={"196"}>{item.userName}</td>
+        </tr>
+      );
+    });
+  };
+  const tableUser = () => {
+    if (loadingUser) {
+      return <h2>Loading users...</h2>;
+    }
+    return (
+      <React.Fragment>
+        <h1 className="text-primary ">USER</h1>
+        <form>
+          <table className={"user-main-tab"}>
+            <thead>
+              <tr>
+                <th width={"50"}>ID:</th>
+                <th width={"100"}>Name:</th>
               </tr>
             </thead>
             <tbody>{handleGetUser(currentPostsUser)}</tbody>
@@ -125,18 +181,23 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
     );
   };
 
+  const handleVisibleByUserClick = (event, id) => {
+    event.preventDefault();
 
+    addUserId = id;
+    // test.current.value = id;
+    // company = "addCompanyId";
 
+    fetchDataReturn();
+  };
 
-
-  const handleVisibleCompClick = (event, id) => {
+  const handleVisibleByCompanyClick = (event, id) => {
     event.preventDefault();
 
     addCompanyId = id;
     // test.current.value = id;
     // company = "addCompanyId";
     fetchDataUser();
-    fetchDataReturn();
   };
 
   const renderIncomingData = (data) => {
@@ -148,7 +209,7 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
           border={"2"}
           className={"user-tab"}
           key={item.id}
-          onClick={(event) => handleVisibleCompClick(event, item.id)}
+          onClick={(event) => handleVisibleByCompanyClick(event, item.id)}
         >
           <td width={"auto"}>{item.id}</td>
           <td width={"auto"}>{item.logo}</td>
@@ -174,7 +235,7 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
                   <th width={"auto"}>Logo:</th>
                   <th width={"auto"}>department:</th>
                   <th width={"auto"}>city:</th>
-                  <th>Actions</th>
+                 
                 </tr>
               </thead>
               <tbody>{renderIncomingData(currentPosts)}</tbody>
@@ -189,6 +250,14 @@ const paginate = (pageNumber) => setCurrentPage(pageNumber);
           />
         </div>
       </div>
+      {/* <div>{tableEmpl()}</div> */}
+
+      <section className="car-tabl">
+        <div>{tableUser()}</div>
+      </section>
+      <section className="car-tabl">
+        <div>{tableReturn()}</div>
+      </section>
     </div>
   );
 };
