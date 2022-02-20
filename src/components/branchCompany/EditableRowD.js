@@ -1,8 +1,8 @@
 import React from 'react'
-import CarsHug from '../cars/CarsHug'
+// import CarsHug from '../cars/CarsHug'
 // import "../user/User.css";
 
-const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick,chancheHandler }) => {
+const EditableRowD = ({ editFormData, handleEditFormChange, handleCancelClick }) => {
 //  let trId= this.editFormData.input
   return (
 

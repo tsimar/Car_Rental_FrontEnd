@@ -1,4 +1,4 @@
-.main-cars {
+/* .main-cars {
     color: white;
     font-size: 24px;
     text-align: center;
@@ -48,4 +48,12 @@ tr:nth-child(2n)>td {
     background-color: rgba(230, 152, 152, 0.678);
     border-radius: 4px;
     margin-left: 20px;
-} */
+} */ 
+
+
+.main-cars{
+    color: white;
+    font-size: 24px;
+    text-align: center;
+
+}

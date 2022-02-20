@@ -1,25 +1,23 @@
 import React from "react";
+import "./User.css";
 
-import "../user/User.css";
-
-const ReadOnlyRowD = ({
+const ReadOnlyRow = ({
   item,
   handleEditClick,
   handleDeleteClick,
-  handleVisibleCarsClick,
+  handleVisibleCompClick,
 }) => {
   return (
     <tr
       border={"2"}
       className={"user-tab"}
       key={item.id}
-      onClick={(event) => handleVisibleCarsClick(event, item.id)}
+      onClick={(event) => handleVisibleCompClick(event, item.id)}
     >
-      <td width={"auto"}>{item.id}</td>
-      <td width={"auto"}>{item.logo}</td>
-      <td width={"auto"}>{item.nameRental}</td>
-      <td width={"auto"}>{item.city}</td>
-      <td width={"auto"}>{item.address}</td>
+      <td width={"47"}>{item.id}</td>
+      <td width={"196"}>{item.userName}</td>
+      <td width={"250"}>{item.userPassword}</td>
+      <td width={"200"}>{item.customer}</td>
       <td>
         <button type="button" onClick={(event) => handleEditClick(event, item)}>
           Edit
@@ -31,4 +29,4 @@ const ReadOnlyRowD = ({
     </tr>
   );
 };
-export default ReadOnlyRowD;
+export default ReadOnlyRow;

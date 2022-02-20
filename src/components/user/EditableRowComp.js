@@ -1,10 +1,13 @@
 import React from 'react'
-import "./user/User.css";
+import "./User.css";
 
-const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) => {
+const EditableRow = ({
+  editFormData,
+  handleEditCompFormChange,
+  handleCancelCompClick,
+}) => {
   return (
-
-    <tr border={"2"} className={"user-tab"} >
+    <tr border={"2"} className={"user-tab"}>
       <td></td>
       <td>
         <input
@@ -13,11 +16,8 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
           placeholder="Enter a name"
           name="userName"
           value={editFormData.userName}
-          onChange={handleEditFormChange}
-
-        >
-
-        </input>
+          onChange={handleEditCompFormChange}
+        ></input>
       </td>
       <td>
         <input
@@ -26,19 +26,18 @@ const EditableRow = ({ editFormData, handleEditFormChange, handleCancelClick }) 
           placeholder="Enter a password"
           name="userPassword"
           value={editFormData.userPassword}
-          onChange={handleEditFormChange}
-        >
-
-        </input>
+          onChange={handleEditCompFormChange}
+        ></input>
       </td>
 
       <td></td>
       <td>
         <button type="submit">Save</button>
-        <button type="button" onClick={handleCancelClick}>Cancel</button>
+        <button type="button" onClick={handleCancelCompClick}>
+          Cancel
+        </button>
       </td>
     </tr>
-
-  )
-}
+  );
+};
 export default EditableRow

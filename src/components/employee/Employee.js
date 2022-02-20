@@ -1,9 +1,9 @@
 import React, { Component, setState, Fragment } from 'react';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
-import "../user/User.css";
-import ReadOnlyRowEm from './ReadOnlyRowEm';
-import EditableRowEm from './EditableRowEm';
+// import "../user/User.css";
+import ReadOnlyRowEm from './ReadOnlyRowEmpl';
+import EditableRowEm from './EditableRowEmpl';
 
 
 
