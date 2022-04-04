@@ -30,11 +30,12 @@ Navbar {
 .add {
   margin-right: 20px;
   display: flex;
-  color: rgb(245, 10, 10);
+  color: #91d9eb;
   font-size: 1em;
   float: right;
   width: 25%;
   height: 100%;
+
   flex-direction: column;
 }
 /*
@@ -146,30 +147,29 @@ Navbar {
 .body-comp {
   /* border: 10px solid black; */
 
- display: flex;
-column-gap: 0.4em;
- flex-direction:row;
-  flex-wrap: wrap;   
-justify-content: space-between;
+  display: flex;
+  column-gap: 0.4em;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 .section-comp:not(.position-page h1) {
   /* border: 10px solid rgb(99, 211, 7); */
-/* display: grid;
+  /* display: grid;
  flex-flow:  column wrap; */
- display: flex;
-flex-flow: row; 
+  display: flex;
+  flex-flow: row;
 }
-.section-empl{
- 
-  margin-right:20px;
+.section-empl {
+  margin-right: 20px;
 }
-.h1-tabl-page{
+.h1-tabl-page {
   /* border: 5px solid red; */
-width: 500px;
-  flex: 1 ;
+  width: 500px;
+  flex: 1;
 }
-.form-table-comp{
-align-self: flex-start;
+.form-table-comp {
+  align-self: flex-start;
 }
 .text-primary {
   /* display: ruby; */
@@ -179,7 +179,7 @@ align-self: flex-start;
 }
 
 .add-comp {
-align-self:flex-start;
+  align-self: flex-start;
   color: aquamarine;
   flex: 5 0 auto;
 }

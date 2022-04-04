@@ -15,21 +15,19 @@ import { nanoid } from "nanoid";
 import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowD";
 import EditableRowD from "./EditableRowD";
-import ReadOnlyRowCar from "../cars/ReadOnlyRowCar";
-import EditableRowCar from "../cars/EditableRowCar";
 import ReadOnlyRowEmpl from "../employee/ReadOnlyRowEmpl";
 import EditableRowEmpl from "../employee/EditableRowEmpl";
 import CurrentPageSize from "./CurrentPageSize";
+import CarsBranchHook from "../typeCars/CarsBranchHook";
 import "./BranchCompany.css";
 
 import { render } from "react-dom";
-// import CarsHug from "../cars/CarsHug";
 
 const api = axios.create({ baseURL: "http://localhost:8080/branchCompany" });
 const apiCar = axios.create({ baseURL: "http://localhost:8080/cars" });
 const apiEmpl = axios.create({ baseURL: "http://localhost:8080/employees" });
 
-let addCompanyId = null;
+var addCompanyId = "n";
 
 const BranchCompHook = () => {
   const [posts, setPosts] = useState([]);
@@ -59,44 +57,7 @@ const BranchCompHook = () => {
   // CONST FROM CAR
 
   let test = useRef("");
-  const [currentPageCar, setCurrentPageCar] = useState(1);
   const [postsCar, setPostsCar] = useState([]);
-  const [addFormDataCar, setAddFormDataCar] = useState({
-    carBrand: "",
-    model: "",
-    carType: "",
-    productionDate: "",
-    color: "",
-    carMileage: "",
-    statusRental: "",
-    carStatus: "",
-    carRentalDepartID: "",
-  });
-
-  const [editFormDataCar, setEditFormDataCar] = useState({
-    carBrand: "",
-    model: "",
-    carType: "",
-    productionDate: "",
-    color: "",
-    carMileage: "",
-    statusRental: "",
-    carStatus: "",
-    carRentalDepartID: "",
-  });
-
-  const [editPostsCarId, setEditPostsCarId] = useState(null);
-  const [loadingCar, setLoadingCar] = useState(false);
-
-  //   const [error, setError] = useState();
-
-  //   const [inEditMode, setInEditMode] = useState({
-  //     status: false,
-  //     rowKey: null,
-  //   });
-
-  //   const [unitPrice, setUnitPrice] = useState(null);
-
   const fetchDATA = async () => {
     const playerPic = `http://localhost:8080/cars/${addCompanyId}`;
 
@@ -106,16 +67,15 @@ const BranchCompHook = () => {
 
     axios.all([getCars]).then(
       axios.spread((...allData) => {
-        setLoadingCar(true);
+        // setLoadingCar(true);
         const getCarsAll = allData[0];
         // const allDataComp = allData[1]
         console.log("getCarsAll" + getCarsAll);
         setPostsCar(getCarsAll.data);
-        setLoadingCar(false);
+        // setLoadingCar(false);
       })
     );
   };
-
   // CONST FROM Employee
 
   const [currentPageEmpl, setCurrentPageEmpl] = useState(1);
@@ -253,6 +213,7 @@ const BranchCompHook = () => {
     api
       .post("/", addFormData)
       .then((response) => {
+        fetchPosts();
         console.log(response);
       })
       .catch((error) => {
@@ -262,260 +223,6 @@ const BranchCompHook = () => {
     // fetchMyData();
   };
 
-  // WORK FROM CAR
-
-  const handleAddFormCarChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...addFormDataCar };
-    newFormData[fieldName] = fieldValue;
-
-    setAddFormDataCar(newFormData);
-  };
-
-  const handleAddFormCarSubmit = (event) => {
-    event.preventDefault();
-
-    const newCar = {
-      carBrand: addFormDataCar.carBrand,
-      model: addFormDataCar.model,
-      productionDate: addFormDataCar.productionDate,
-      color: addFormDataCar.color,
-      carMileage: addFormDataCar.carMileage,
-      statusRental: addFormDataCar.statusRental,
-      carStatus: addFormDataCar.carStatus,
-      carRentalDepartID: addCompanyId,
-    };
-    const newCars = [...postsCar, newCar];
-    console.log("newCar", newCar);
-
-    setAddFormDataCar(newCar);
-    apiCar
-      .post("/", newCar)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
-    setAddFormDataCar("");
-    tableCars();
-  };
-
-  const handleEditFormCarSubmit = (event) => {
-    event.preventDefault();
-    const editedContact = {
-      id: editPostsCarId,
-      carBrand: editFormDataCar.carBrand,
-      model: editFormDataCar.model,
-      carType: editFormDataCar.carType,
-      productionDate: editFormDataCar.productionDate,
-      color: editFormDataCar.color,
-      carMileage: editFormDataCar.carMileage,
-      statusRental: editFormDataCar.statusRental,
-      carStatus: editFormDataCar.carStatus,
-      carRentalDepartID: editFormDataCar.carRentalDepartID,
-    };
-
-    apiCar
-      .put(`/`, editedContact)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    const newFormData = { ...postsCar };
-
-    postsCar.map((item) => {
-      if (item.id === editPostsCarId) {
-        item.carBrand = editFormDataCar.carBrand;
-        item.model = editFormDataCar.model;
-        item.carType = editFormDataCar.carType;
-        item.productionDate = editFormDataCar.productionDate;
-        item.color = editFormDataCar.color;
-        item.carMileage = editFormDataCar.carMileage;
-        item.statusRental = editFormDataCar.statusRental;
-        item.carStatus = editFormDataCar.carStatus;
-        item.carRentalDepartID = editFormDataCar.carRentalDepartID;
-      }
-    });
-    setEditPostsCarId(null);
-  };
-
-  const handleEditFormCarChange = (event) => {
-    event.preventDefault();
-
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-
-    const newFormData = { ...editFormDataCar };
-    newFormData[fieldName] = fieldValue;
-
-    setEditFormDataCar(newFormData);
-    console.log("edit change");
-  };
-
-  const handleEditCarClick = (event, car) => {
-    event.preventDefault();
-    console.log("click edit");
-    setEditPostsCarId(car.id);
-    const formValues = {
-      carBrand: car.carBrand,
-      model: car.model,
-      carType: car.carType,
-      productionDate: car.productionDate,
-      color: car.color,
-      carMileage: car.carMileage,
-      statusRental: car.statusRental,
-      carStatus: car.carStatus,
-      carRentalDepartID: car.carRentalDepartID,
-    };
-    setEditFormDataCar(formValues);
-  };
-
-  const handleCancelCarClick = () => {
-    setEditPostsCarId(null);
-  };
-  const handleDeleteCarClick = (departId) => {
-    const newContacts = [...postsCar];
-
-    const index = postsCar.findIndex((contact) => contact.id === departId);
-
-    newContacts.splice(index, 1);
-
-    setPostsCar(newContacts);
-    apiCar.delete(`/${departId}`);
-    // this.getUsers(data);
-  };
-  const handleVisibleCarsClick = (event, id) => {
-    event.preventDefault();
-
-    addCompanyId = id;
-    // test.current.value = id;
-    // company = "addCompanyId";
-    fetchDATA();
-    fetchDATAEmpl();
-  };
-
-  const handleAddCars = (data) => {
-    console.log("cars", postsCar);
-
-    return data.map((item) => {
-      return (
-        <Fragment key={item.id}>
-          {editPostsCarId === item.id ? (
-            <EditableRowCar
-              editFormDataCar={editFormDataCar}
-              handleEditFormCarChange={handleEditFormCarChange}
-              handleCancelCarClick={handleCancelCarClick}
-              handleAddCars={handleAddCars}
-            />
-          ) : (
-            <ReadOnlyRowCar
-              loading={loadingCar}
-              item={item}
-              handleEditCarClick={handleEditCarClick}
-              handleDeleteCarClick={handleDeleteCarClick}
-              handleAddCars={handleAddCars}
-            />
-          )}
-          {/*  */}
-        </Fragment>
-      );
-    });
-  };
-  // Get current posts
-  const indexOfLastPostCar = currentPageCar * PageSize;
-  const indexOfFirstPostCar = indexOfLastPostCar - PageSize;
-  const currentPostsCar = postsCar.slice(
-    indexOfFirstPostCar,
-    indexOfLastPostCar
-  );
-
-  // Change page
-  const paginateCar = (pageNumber) => setCurrentPageCar(pageNumber);
-
-  const tableCars = () => {
-    // if (loadingCar) {
-    //   return <h2>Loading...</h2>;
-    // }
-    return (
-      <React.Fragment>
-        <form onSubmit={handleEditFormCarSubmit}>
-          <table className={"user-main-tab"}>
-            <thead>
-              <tr>
-                <th width={"50"}>ID:</th>
-                <th width={"150"}>Producent:</th>
-                <th width={"100"}>Model:</th>
-                <th width={"100"}>Type:</th>
-                <th width={"50"}>Yers:</th>
-                <th width={"50"}>Color:</th>
-                <th width={"100"}>Mileages:</th>
-                <th width={"100"}>Status rental:</th>
-                <th width={"100"}>Status car:</th>
-                <th width={"50"}>ID company:</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>{handleAddCars(currentPostsCar)}</tbody>
-          </table>
-        </form>
-        <Pagination
-          postsPerPage={PageSize}
-          totalPosts={postsCar.length}
-          paginate={paginateCar}
-        />
-        <section className="add">
-          <form onSubmit={handleAddFormCarSubmit} className={"table_add"}>
-            <h2 className={"text_add"}>Add a new Cars {addCompanyId}</h2>
-            <input
-              type="text"
-              name="carBrand"
-              // ref={textInput}
-              placeholder="Production"
-              // required="required"
-              // ref={ref=>test=ref}
-              onChange={handleAddFormCarChange}
-            />
-            <input
-              type="text"
-              name="model"
-              // required="required"
-
-              placeholder="model ..."
-              onChange={handleAddFormCarChange}
-            />
-            <input
-              type="date"
-              name="productionDate"
-              // required="required"
-
-              placeholder="Yers  ..."
-              onChange={handleAddFormCarChange}
-            />
-          
-            <input
-              type="text"
-              name="color"
-              // required="required"
-              value={addFormDataCar.color}
-              // ref={test}
-              placeholder="color  ..."
-              onChange={handleAddFormCarChange}
-            />{" "}
-            <button type="submit">add</button>
-            {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
-          </form>
-        </section>
-      </React.Fragment>
-    );
-  };
   // WORK FROM Employee
 
   const handleAddFormEmplChange = (event) => {
@@ -629,19 +336,10 @@ const BranchCompHook = () => {
 
     setPostsEmpl(newEmpls);
     apiEmpl.delete(`/${emplId}`);
-    // this.getUsers(data);
   };
-  // const handleVisibleCarsClick = (event, id) => {
-  //   event.preventDefault();
-
-  //   addCompanyId = id;
-  //   // test.current.value = id;
-  //   // company = "addCompanyId";
-  //   fetchDATA();
-  // };
 
   const handleAddEmpl = (data) => {
-    console.log("empl-684", data);
+    console.log("empl-342", data);
 
     return data.map((item) => {
       return (
@@ -655,7 +353,7 @@ const BranchCompHook = () => {
             />
           ) : (
             <ReadOnlyRowEmpl
-              loading={loadingCar}
+              // loading={loadingCar}
               item={item}
               handleEditEmplClick={handleEditEmplClick}
               handleDeleteEmplClick={handleDeleteEmplClick}
@@ -668,8 +366,6 @@ const BranchCompHook = () => {
     });
 
     // fetchMyData();
-
-    return;
   };
   // Get current posts
   const indexOfLastPostEmpl = currentPageEmpl * PageSize;
@@ -715,10 +411,7 @@ const BranchCompHook = () => {
             <input
               type="text"
               name="name"
-              // ref={textInput}
               placeholder="name ..."
-              // required="required"
-              // ref={ref=>test=ref}
               onChange={handleAddFormEmplChange}
             />
             <input
@@ -745,12 +438,19 @@ const BranchCompHook = () => {
     );
   };
 
-  const renderIncomingData = (data) => {
-    // if (loading) {
-    //   return <h2>Loading...</h2>;
-    // }
-    console.log("data render in coming= ", data);
+  const handleVisibleCarsClick = (event, id) => {
+    event.preventDefault();
 
+    addCompanyId = id;
+    // test.current.value = id;
+    // company = "addCompanyId";
+    fetchDATA();
+    fetchDATAEmpl();
+    <CarsBranchHook addCompanyId={addCompanyId} />;
+  };
+
+  const renderIncomingData = (data) => {
+    console.log("data render in coming 453= ", data);
     return data.map((item) => {
       return (
         <Fragment key={item.id}>
@@ -782,7 +482,6 @@ const BranchCompHook = () => {
 
     setPosts(newContacts);
     api.delete(`/${departId}`);
-    // this.getUsers(data);
   };
 
   // Get current posts
@@ -793,25 +492,19 @@ const BranchCompHook = () => {
   }
   const indexOfFirstPost = indexOfLastPost - PageSize;
 
-  // <CurrentPageSize
-  //   currentPage={currentPage}
-  //   PageSize={PageSize}
-  //   posts={posts}
-  // />;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const currentPostsFunction = () => {
-    return;
-    <CurrentPageSize
-      currentPage={currentPage}
-      PageSize={PageSize}
-      posts={posts}
-    />;
-  };
+  // const currentPostsFunction = () => {
+  //   return;
+  //   <CurrentPageSize
+  //     currentPage={currentPage}
+  //     PageSize={PageSize}
+  //     posts={posts}
+  //   />;
+  // };
 
-  
   return (
     <div className="body-comp">
       <section className="section-comp">
@@ -823,11 +516,11 @@ const BranchCompHook = () => {
               <table className={"comp-main-tab"}>
                 <thead>
                   <tr>
-                    <th width={"auto"}>ID:</th>
-                    <th width={"auto"}>Logo:</th>
-                    <th width={"auto"}>department:</th>
-                    <th width={"auto"}>city:</th>
-                    <th width={"auto"}>address:</th>
+                    <th>ID:</th>
+                    <th>Logo:</th>
+                    <th>department:</th>
+                    <th>city:</th>
+                    <th>address:</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -891,13 +584,9 @@ const BranchCompHook = () => {
           </form>
         </div>
       </section>
-<section className="section-empl">
-  {tableEmpl()}
-</section>
-      
-
-      <section className="car-tabl">
-       {tableCars()}
+      <section className="section-empl">{tableEmpl()}</section>
+      <section>
+        <CarsBranchHook addCompanyId={addCompanyId} postsCar={postsCar} />
       </section>
     </div>
   );
