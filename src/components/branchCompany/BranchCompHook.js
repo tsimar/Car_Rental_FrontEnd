@@ -219,8 +219,6 @@ const BranchCompHook = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    // fetchMyData();
   };
 
   // WORK FROM Employee
@@ -446,7 +444,6 @@ const BranchCompHook = () => {
     // company = "addCompanyId";
     fetchDATA();
     fetchDATAEmpl();
-    <CarsBranchHook addCompanyId={addCompanyId} />;
   };
 
   const renderIncomingData = (data) => {
@@ -586,7 +583,10 @@ const BranchCompHook = () => {
       </section>
       <section className="section-empl">{tableEmpl()}</section>
       <section>
-        <CarsBranchHook addCompanyId={addCompanyId} postsCar={postsCar} />
+        <CarsBranchHook
+          addCompanyId={addCompanyId}
+          getAllByIdBranchComp={postsCar}
+        />
       </section>
     </div>
   );

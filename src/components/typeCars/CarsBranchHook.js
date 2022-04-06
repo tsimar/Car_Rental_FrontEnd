@@ -7,9 +7,9 @@ import "./Cars.css";
 import { Divider } from "@material-ui/core";
 const apiCar = axios.create({ baseURL: "http://localhost:8080/cars" });
 
-const CarsBranchHook = ({ addCompanyId, postsCar }) => {
+const CarsBranchHook = ({ addCompanyId, getAllByIdBranchComp }) => {
   // console.log("hello carsBranchHook", postsCar);
-
+  const [postsCar, setPostsCar] = useState([]);
   const [currentPageCar, setCurrentPageCar] = useState(1);
   const [PageSize] = useState(5);
   const [addFormDataCar, setAddFormDataCar] = useState({
@@ -23,7 +23,7 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
     carStatus: "",
     carRentalDepartID: "",
   });
-
+  // setPostsCar(getAllByIdBranchComp);
   const [editFormDataCar, setEditFormDataCar] = useState({
     carBrand: "",
     model: "",
@@ -63,7 +63,7 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
         const getCarsAll = allData[0];
         // const allDataComp = allData[1]
         console.log("getCarsAll" + getCarsAll);
-        // setPostsCar(getCarsAll.data);
+        setPostsCar(getCarsAll.data);
         // setLoadingCar(false);
       })
     );
@@ -228,12 +228,19 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
     indexOfFirstPostCar,
     indexOfLastPostCar
   );
-  const My = () => {
-    alert("myCar");
-  };
+
   // Change page
   const paginateCar = (pageNumber) => setCurrentPageCar(pageNumber);
-
+  if (getAllByIdBranchComp.length > 0) {
+    // setPostsCar((postsCar) => [...postsCar, getAllByIdBranchComp]);
+    // setPostsCar((postsCar) => ({ ...getAllByIdBranchComp }));
+    // getAllByIdBranchComp.map((item) => {
+    //   setPostsCar(item);
+    // });
+    for (let index = 0; index < getAllByIdBranchComp.length; index++) {
+      console.log("postsCar load= ", getAllByIdBranchComp[index].id);
+    }
+  }
   if (postsCar.length == 0) {
     return <h2>Loading...</h2>;
   }
