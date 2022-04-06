@@ -1,5 +1,5 @@
 import React from "react";
-import "../user/User.css";
+import "./Cars.css";
 
 const EditableRowCar = ({
   editFormDataCar,
@@ -7,7 +7,7 @@ const EditableRowCar = ({
   handleCancelCarClick,
 }) => {
   return (
-    <tr border={"2"} className={"user-tab"}>
+    <tr>
       <td></td>
       <td>
         <input

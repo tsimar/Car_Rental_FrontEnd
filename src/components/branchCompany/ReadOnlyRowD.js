@@ -10,7 +10,6 @@ const ReadOnlyRowD = ({
 }) => {
   return (
     <tr
-      border={"2"}
       className={"user-tab"}
       key={item.id}
       onClick={(event) => handleVisibleCarsClick(event, item.id)}
