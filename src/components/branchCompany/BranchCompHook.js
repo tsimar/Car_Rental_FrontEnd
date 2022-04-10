@@ -583,10 +583,7 @@ const BranchCompHook = () => {
       </section>
       <section className="section-empl">{tableEmpl()}</section>
       <section>
-        <CarsBranchHook
-          addCompanyId={addCompanyId}
-          getAllByIdBranchComp={postsCar}
-        />
+        <CarsBranchHook addCompanyId={addCompanyId} postsCar={postsCar} />
       </section>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import ReadOnlyRowCar from "./ReadOnlyRowCar";
 import EditableRowCar from "./EditableRowCar";
 import Pagination from "../Page/Pagination";
@@ -7,9 +7,9 @@ import "./Cars.css";
 import { Divider } from "@material-ui/core";
 const apiCar = axios.create({ baseURL: "http://localhost:8080/cars" });
 
-const CarsBranchHook = ({ addCompanyId, getAllByIdBranchComp }) => {
+const CarsBranchHook = ({ addCompanyId, postsCar }) => {
   // console.log("hello carsBranchHook", postsCar);
-  const [postsCar, setPostsCar] = useState([]);
+  const [postsCar2, setPostsCar] = useState([]);
   const [currentPageCar, setCurrentPageCar] = useState(1);
   const [PageSize] = useState(5);
   const [addFormDataCar, setAddFormDataCar] = useState({
@@ -47,28 +47,41 @@ const CarsBranchHook = ({ addCompanyId, getAllByIdBranchComp }) => {
   // });
 
   const [unitPrice, setUnitPrice] = useState(null);
-
+  if (addCompanyId === "n") {
+    return <div></div>;
+  }
   // let test = useRef("");
   // const [postsCar, setPostsCar] = useState([]);
-  const fetchDATA = async () => {
-    const playerPic = `http://localhost:8080/cars/${addCompanyId}`;
 
-    console.log("conpId", playerPic);
+  // const fetchDATA = async () => {
+  //   const playerPic = `http://localhost:8080/cars/${addCompanyId}`;
 
-    const getCars = apiCar.get(`/${addCompanyId}`);
+  //   console.log("conpId", playerPic);
 
-    axios.all([getCars]).then(
-      axios.spread((...allData) => {
-        // setLoadingCar(true);
-        const getCarsAll = allData[0];
-        // const allDataComp = allData[1]
-        console.log("getCarsAll" + getCarsAll);
-        setPostsCar(getCarsAll.data);
-        // setLoadingCar(false);
-      })
-    );
-  };
+  //   const getCars = apiCar.get(`/${addCompanyId}`);
 
+  //   axios.all([getCars]).then(
+  //     axios.spread((...allData) => {
+  //       // setLoadingCar(true);
+  //       const getCarsAll = allData[0];
+  //       // const allDataComp = allData[1]
+  //       console.log("getCarsAll" + getCarsAll);
+  //       setPostsCar(getCarsAll.data);
+  //       // setLoadingCar(false);
+  //     })
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   fetchDATA();
+  // }, []);
+  // fetchDATA();
+
+  if (postsCar.length > 0) {
+    for (let index = 0; index < postsCar.length; index++) {
+      postsCar2.push(postsCar[index]);
+    }
+  }
   const handleAddFormCarChange = (event) => {
     event.preventDefault();
 
@@ -101,7 +114,7 @@ const CarsBranchHook = ({ addCompanyId, getAllByIdBranchComp }) => {
     apiCar
       .post("/", newCar)
       .then((response) => {
-        fetchDATA();
+        // fetchDATA();
         console.log(response);
       })
       .catch((error) => {
@@ -221,6 +234,19 @@ const CarsBranchHook = ({ addCompanyId, getAllByIdBranchComp }) => {
       );
     });
   };
+  const paginateCar = (pageNumber) => setCurrentPageCar(pageNumber);
+  // if (getAllByIdBranchComp.length > 0) {
+  //   // setPostsCar((postsCar) => [...postsCar, getAllByIdBranchComp]);
+  //   // setPostsCar((postsCar) => ({ ...getAllByIdBranchComp }));
+  //   // getAllByIdBranchComp.map((item) => {
+  //   //   setPostsCar(item);
+  //   // });
+  //   setPostsCar(...getAllByIdBranchComp);
+  //   console.log("postsCar load= ", postsCar);
+  //   // for (let index = 0; index < getAllByIdBranchComp.length; index++) {
+  //   //   console.log("postsCar load= ", getAllByIdBranchComp[index].id);
+  //   // }
+  // }
   // Get current posts
   const indexOfLastPostCar = currentPageCar * PageSize;
   const indexOfFirstPostCar = indexOfLastPostCar - PageSize;
@@ -230,17 +256,7 @@ const CarsBranchHook = ({ addCompanyId, getAllByIdBranchComp }) => {
   );
 
   // Change page
-  const paginateCar = (pageNumber) => setCurrentPageCar(pageNumber);
-  if (getAllByIdBranchComp.length > 0) {
-    // setPostsCar((postsCar) => [...postsCar, getAllByIdBranchComp]);
-    // setPostsCar((postsCar) => ({ ...getAllByIdBranchComp }));
-    // getAllByIdBranchComp.map((item) => {
-    //   setPostsCar(item);
-    // });
-    for (let index = 0; index < getAllByIdBranchComp.length; index++) {
-      console.log("postsCar load= ", getAllByIdBranchComp[index].id);
-    }
-  }
+
   if (postsCar.length == 0) {
     return <h2>Loading...</h2>;
   }
