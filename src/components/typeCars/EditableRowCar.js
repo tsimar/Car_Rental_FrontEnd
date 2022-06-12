@@ -7,10 +7,11 @@ const EditableRowCar = ({
   handleCancelCarClick,
 }) => {
   return (
-    <tr>
-      <td></td>
-      <td>
+    <tr className="tab--tr">
+      <td className="tab--td"></td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="car Brand"
@@ -19,8 +20,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="model"
@@ -29,8 +31,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="car Type"
@@ -39,8 +42,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="date"
           required="required"
           placeholder="production Date"
@@ -49,8 +53,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>{" "}
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="color"
@@ -59,8 +64,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="car Mileage"
@@ -69,8 +75,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="status Rental"
@@ -79,8 +86,9 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="car Status"
@@ -89,7 +97,7 @@ const EditableRowCar = ({
           onChange={handleEditFormCarChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <button type="submit">Save</button>
         <button type="button" onClick={handleCancelCarClick}>
           Cancel

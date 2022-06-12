@@ -13,24 +13,20 @@ import { nanoid } from "nanoid";
 import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowD";
 import EditableRowD from "./EditableRowD";
-import EmployeeBranchHook from "../employee/EmployeeBranchHook";
-import CarsBranchHook from "../typeCars/CarsBranchHook";
 import "../style/reset.css";
-import "./BranchCompany.css";
+// import "./BranchCompany.css";
 import "../style/table.css";
 import "../style/inputAdd.css";
 
 const api = axios.create({ baseURL: `${url}/branchCompany` });
-const apiCar = axios.create({ baseURL: `${url}/cars` });
-const apiEmpl = axios.create({ baseURL:  `${url}/employees` });
 
 let addCompanyId = "n";
 
-const BranchCompHook = () => {
+const Department = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
-
+  const [compId, setCompId] = useState(0);
   const [editPostsId, setEditPostsId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [addFormData, setAddFormData] = useState({
@@ -47,44 +43,6 @@ const BranchCompHook = () => {
     city: "",
     address: "",
   });
-  // CONST FROM CAR
-
-  const [postsCar, setPostsCar] = useState([]);
-
-  const fetchDATA = async () => {
-    const playerPic = `${url}/cars/${addCompanyId}`;
-    setPostsCar([]);
-    console.log("conpId", playerPic);
-
-    const getCars = apiCar.get(`/${addCompanyId}`);
-
-    axios.all([getCars]).then(
-      axios.spread((...allData) => {
-        // setLoadingCar(true);
-        const getCarsAll = allData[0];
-        // const allDataComp = allData[1]
-        console.log("getCarsAll" + getCarsAll);
-        setPostsCar(getCarsAll.data);
-        // setLoadingCar(false);
-      })
-    );
-  };
-  // CONST FROM Employee
-
-  const [postsEmpl, setPostsEmpl] = useState([]);
-  const fetchDATAEmpl = async () => {
-    const getEmpl = apiEmpl.get(`/${addCompanyId}`);
-    axios.all([getEmpl]).then(
-      axios.spread((...allData) => {
-        // setLoadingEmpl(true);
-        const getEmplAll = allData[0];
-        // const allDataComp = allData[1]
-        console.log("getEmplAll" + getEmplAll.data);
-        setPostsEmpl(getEmplAll.data);
-        // setLoadingEmpl(false);
-      })
-    );
-  };
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -131,13 +89,10 @@ const BranchCompHook = () => {
 
   const handleEditFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
-
     const newFormData = { ...editFormData };
     newFormData[fieldName] = fieldValue;
-
     setEditFormData(newFormData);
   };
 
@@ -159,13 +114,10 @@ const BranchCompHook = () => {
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
-
     const newFormData = { ...addFormData };
     newFormData[fieldName] = fieldValue;
-
     setAddFormData(newFormData);
   };
 
@@ -182,14 +134,11 @@ const BranchCompHook = () => {
       });
     event.target.reset();
   };
-
   const handleVisibleCarsClick = (event, id) => {
     event.preventDefault();
-    addCompanyId = id;
-    fetchDATA();
-    fetchDATAEmpl();
+    setCompId(id);
+    console.log(compId);
   };
-
   const renderIncomingData = (data) => {
     return data.map((item) => {
       return (
@@ -275,6 +224,7 @@ const BranchCompHook = () => {
               </form>
             </div>
           </div>
+
           <div className="container--add">
             <h2 className="container_add--h1">Add a new DEPARTMENT</h2>
             <form
@@ -323,15 +273,9 @@ const BranchCompHook = () => {
             </form>
           </div>
         </section>
-        <section className="section-empl">
-          <EmployeeBranchHook addCompanyId={addCompanyId} />
-        </section>
       </div>
-      <section className="section-car">
-        <CarsBranchHook addCompanyId={addCompanyId} />
-      </section>
     </div>
   );
 };
 
-export default BranchCompHook;
+export default Department;

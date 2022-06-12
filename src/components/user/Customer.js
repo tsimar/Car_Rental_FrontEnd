@@ -7,6 +7,7 @@ import React, {
   useCallback,
   Fragment,
 } from "react";
+import { url } from "../../url";
 import { nanoid } from "nanoid";
 import axios from "axios";
 import "./User.css";
@@ -16,8 +17,7 @@ import ReadOnlyRowComp from "./ReadOnlyRowComp";
 import EditableRowComp from "./EditableRowComp";
 import Pagination from "../Page/Pagination";
 
-const apiUser = axios.create({ baseURL: "http://localhost:8080/users" });
-
+const apiUser = axios.create({ baseURL: `${url}/users` });
 
 const Customer = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -53,20 +53,6 @@ const Customer = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  // const fetchUser = async () => {
-  //   const getComp = apiUser.get('/');
-  //   axios.all([getComp]).then(
-  //     axios.spread((...allData) => {
-  //       setLoadingUserComp(true);
-  //       const getCompAll = allData[0];
-  //       // const allDataComp = allData[1]
-  //       console.log("getCompAll" + getCompAll.data);
-  //       setUserPosts(getCompAll.data);
-  //       setLoadingUserComp(false);
-  //     })
-  //   );
-  // };
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -166,14 +152,8 @@ const Customer = () => {
   };
   const handleVisibleCompClick = (event, id) => {
     event.preventDefault();
-    console.log("visible user",id);
+    console.log("visible user", id);
     userId = id;
-
-    // this.setState.userId = id;
-    // test.current.value = id;
-    // company = "addCompanyId";
-    // fetchDATA();
-    // fetchDATAEmpl();
   };
 
   // Get current posts
@@ -209,103 +189,101 @@ const Customer = () => {
   };
   //User => Company
 
-
-const handleAddCompFormChange = (event) => {
-  event.preventDefault();
-  const fieldName = event.target.getAttribute("name");
-  const fieldValue = event.target.value;
-  const newFormData = { ...addFormData };
-  newFormData[fieldName] = fieldValue;
-  setAddFormData(newFormData);
-};
-
-const handleAddCompFormSubmit = (event) => {
-  event.preventDefault();
-  const newUser = {
-    // id: nanoid(),
-    userName: addFormData.userName,
-    userPassword: addFormData.userPassword,
+  const handleAddCompFormChange = (event) => {
+    event.preventDefault();
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+    setAddFormData(newFormData);
   };
-  const newUsers = [...postsUserComp, newUser];
 
-  apiUser
-    .post("/", newUser)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
+  const handleAddCompFormSubmit = (event) => {
+    event.preventDefault();
+    const newUser = {
+      // id: nanoid(),
+      userName: addFormData.userName,
+      userPassword: addFormData.userPassword,
+    };
+    const newUsers = [...postsUserComp, newUser];
+
+    apiUser
+      .post("/", newUser)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setPostsUserComp(newUsers);
+    setAddFormData("");
+  };
+
+  const handleEditCompFormSubmit = (event) => {
+    event.preventDefault();
+
+    const editedContact = {
+      id: editContactId,
+      userName: editFormData.userName,
+      userPassword: editFormData.userPassword,
+    };
+
+    apiUser
+      .put(`/`, editedContact)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    const newFormData = { ...userPosts };
+    userPosts.map((item) => {
+      if (item.id === editContactId) {
+        item.userName = editFormData.userName;
+        item.userPassword = editFormData.userPassword;
+      }
     });
-  setPostsUserComp(newUsers);
-  setAddFormData("");
-};
-
-const handleEditCompFormSubmit = (event) => {
-  event.preventDefault();
-
-  const editedContact = {
-    id: editContactId,
-    userName: editFormData.userName,
-    userPassword: editFormData.userPassword,
+    setEditContactId(null);
   };
 
-  apiUser
-    .put(`/`, editedContact)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  const newFormData = { ...userPosts };
-  userPosts.map((item) => {
-    if (item.id === editContactId) {
-      item.userName = editFormData.userName;
-      item.userPassword = editFormData.userPassword;
-    }
-  });
-  setEditContactId(null);
-};
+  const handleEditCompFormChange = (event) => {
+    event.preventDefault();
 
-const handleEditCompFormChange = (event) => {
-  event.preventDefault();
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
 
-  const fieldName = event.target.getAttribute("name");
-  const fieldValue = event.target.value;
+    const newFormData = { ...editFormData };
+    newFormData[fieldName] = fieldValue;
 
-  const newFormData = { ...editFormData };
-  newFormData[fieldName] = fieldValue;
-
-  setEditFormData(newFormData);
-};
-
-const handleEditCompClick = (event, user) => {
-  event.preventDefault();
-  setEditContactId(user.id);
-
-  const formValues = {
-    editId: user.id,
-    userName: user.userName,
-    userPassword: user.userPassword,
+    setEditFormData(newFormData);
   };
-  setEditFormData(formValues);
-};
 
-const handleCancelCompClick = () => {
-  setEditCompId(null);
-};
+  const handleEditCompClick = (event, user) => {
+    event.preventDefault();
+    setEditContactId(user.id);
 
-const handleDeleteCompClick = (userId) => {
-  const newContacts = [...postsUserComp];
+    const formValues = {
+      editId: user.id,
+      userName: user.userName,
+      userPassword: user.userPassword,
+    };
+    setEditFormData(formValues);
+  };
 
-  const index = postsUserComp.findIndex((contact) => contact.id === userId);
+  const handleCancelCompClick = () => {
+    setEditCompId(null);
+  };
 
-  newContacts.splice(index, 1);
+  const handleDeleteCompClick = (userId) => {
+    const newContacts = [...postsUserComp];
 
-  setPostsUserComp(newContacts);
-  apiUser.delete(`/${userId}`);
-  // this.getUsers(data);
-};
+    const index = postsUserComp.findIndex((contact) => contact.id === userId);
+
+    newContacts.splice(index, 1);
+
+    setPostsUserComp(newContacts);
+    apiUser.delete(`/${userId}`);
+  };
   // Get current posts
   const indexOfLastPostComp = currentPage * PageSize;
   const indexOfFirstPostComp = indexOfLastPostComp - PageSize;
@@ -317,29 +295,27 @@ const handleDeleteCompClick = (userId) => {
   // Change page
   const paginateComp = (pageNumber) => setCurrentPageComp(pageNumber);
 
- const renderIncomingDataComp = (data) => {
-   return data.map((item) => {
-     return (
-       <Fragment key={item.id}>
-         {editContactId === item.id ? (
-           <EditableRow
-             editFormData={editFormData}
-             handleEditFormChange={handleEditFormChange}
-             handleCancelClick={handleCancelClick}
-             // handleVisibleByCompany={handleVisibleCarsClick}
-           />
-         ) : (
-           <ReadOnlyRow
-             item={item}
-             handleEditClick={handleEditClick}
-             handleDeleteClick={handleDeleteClick}
-            //  handleVisibleByCompany={handleVisibleCarsClick}
-           />
-         )}
-       </Fragment>
-     );
-   });
- };
+  const renderIncomingDataComp = (data) => {
+    return data.map((item) => {
+      return (
+        <Fragment key={item.id}>
+          {editContactId === item.id ? (
+            <EditableRow
+              editFormData={editFormData}
+              handleEditFormChange={handleEditFormChange}
+              handleCancelClick={handleCancelClick}
+            />
+          ) : (
+            <ReadOnlyRow
+              item={item}
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
+            />
+          )}
+        </Fragment>
+      );
+    });
+  };
   const tableComp = () => {
     if (loadingUserComp) {
       return <h2>Loading data from company...</h2>;

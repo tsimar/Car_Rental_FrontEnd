@@ -1,15 +1,18 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect, useRef } from "react";
+import { url } from "../../url";
 import ReadOnlyRowCar from "./ReadOnlyRowCar";
 import EditableRowCar from "./EditableRowCar";
 import Pagination from "../Page/Pagination";
 import axios from "axios";
 import "./Cars.css";
-import { Divider } from "@material-ui/core";
-const apiCar = axios.create({ baseURL: "http://localhost:8080/cars" });
+import BranchCompHook from "../branchCompany/BranchCompHook";
+const apiCar = axios.create({ baseURL:  `${url}/cars` });
 
-const CarsBranchHook = ({ addCompanyId, postsCar }) => {
-  // console.log("hello carsBranchHook", postsCar);
-  const [postsCar2, setPostsCar] = useState([]);
+const CarsBranchHook = ({ addCompanyId, postsCar2 }) => {
+  const [postsCar, setPostsCar] = useState([]);
+  const idCompany = 0;
+  // setPostsCar(postsCar2);
+
   const [currentPageCar, setCurrentPageCar] = useState(1);
   const [PageSize] = useState(5);
   const [addFormDataCar, setAddFormDataCar] = useState({
@@ -23,7 +26,7 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
     carStatus: "",
     carRentalDepartID: "",
   });
-  // setPostsCar(getAllByIdBranchComp);
+
   const [editFormDataCar, setEditFormDataCar] = useState({
     carBrand: "",
     model: "",
@@ -35,53 +38,37 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
     carStatus: "",
     carRentalDepartID: "",
   });
-
+  const carBrand = useRef(null);
   const [editPostsCarId, setEditPostsCarId] = useState(null);
   const [loadingCar, setLoadingCar] = useState(false);
 
-  const [error, setError] = useState();
+  // const [unitPrice, setUnitPrice] = useState(null);
 
-  // const [inEditMode, setInEditMode] = useState({
-  //   status: false,
-  //   rowKey: null,
-  // });
+  const fetchDATA = async () => {
+    const playerPic = `${url}/cars/${addCompanyId}`;
 
-  const [unitPrice, setUnitPrice] = useState(null);
-  if (addCompanyId === "n") {
-    return <div></div>;
-  }
-  // let test = useRef("");
-  // const [postsCar, setPostsCar] = useState([]);
+    console.log("conpId", playerPic);
+    setPostsCar([]);
 
-  // const fetchDATA = async () => {
-  //   const playerPic = `http://localhost:8080/cars/${addCompanyId}`;
+    const getCars = apiCar.get(`/${addCompanyId}`);
 
-  //   console.log("conpId", playerPic);
-
-  //   const getCars = apiCar.get(`/${addCompanyId}`);
-
-  //   axios.all([getCars]).then(
-  //     axios.spread((...allData) => {
-  //       // setLoadingCar(true);
-  //       const getCarsAll = allData[0];
-  //       // const allDataComp = allData[1]
-  //       console.log("getCarsAll" + getCarsAll);
-  //       setPostsCar(getCarsAll.data);
-  //       // setLoadingCar(false);
-  //     })
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   fetchDATA();
-  // }, []);
-  // fetchDATA();
-
-  if (postsCar.length > 0) {
-    for (let index = 0; index < postsCar.length; index++) {
-      postsCar2.push(postsCar[index]);
+    axios.all([getCars]).then(
+      axios.spread((...allData) => {
+        setLoadingCar(true);
+        const getCarsAll = allData[0];
+        console.log("getCarsAll" + getCarsAll);
+        setPostsCar(getCarsAll.data);
+        setLoadingCar(false);
+        // console.log(postsCar);
+      })
+    );
+  };
+  useEffect(() => {
+    if (addCompanyId !== "n") {
+      fetchDATA();
     }
-  }
+  }, [addCompanyId]);
+
   const handleAddFormCarChange = (event) => {
     event.preventDefault();
 
@@ -114,7 +101,7 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
     apiCar
       .post("/", newCar)
       .then((response) => {
-        // fetchDATA();
+        fetchDATA();
         console.log(response);
       })
       .catch((error) => {
@@ -122,7 +109,6 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
       });
 
     setAddFormDataCar("");
-    handleAddCars();
   };
 
   const handleEditFormCarSubmit = (event) => {
@@ -202,12 +188,10 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
   };
   const handleDeleteCarClick = (departId) => {
     const newContacts = [...postsCar];
-
     const index = postsCar.findIndex((contact) => contact.id === departId);
-
     newContacts.splice(index, 1);
-
     apiCar.delete(`/${departId}`);
+    console.log("delete", ...postsCar);
   };
 
   const handleAddCars = (data) => {
@@ -235,62 +219,57 @@ const CarsBranchHook = ({ addCompanyId, postsCar }) => {
     });
   };
   const paginateCar = (pageNumber) => setCurrentPageCar(pageNumber);
-  // if (getAllByIdBranchComp.length > 0) {
-  //   // setPostsCar((postsCar) => [...postsCar, getAllByIdBranchComp]);
-  //   // setPostsCar((postsCar) => ({ ...getAllByIdBranchComp }));
-  //   // getAllByIdBranchComp.map((item) => {
-  //   //   setPostsCar(item);
-  //   // });
-  //   setPostsCar(...getAllByIdBranchComp);
-  //   console.log("postsCar load= ", postsCar);
-  //   // for (let index = 0; index < getAllByIdBranchComp.length; index++) {
-  //   //   console.log("postsCar load= ", getAllByIdBranchComp[index].id);
-  //   // }
-  // }
+
   // Get current posts
   const indexOfLastPostCar = currentPageCar * PageSize;
   const indexOfFirstPostCar = indexOfLastPostCar - PageSize;
+
   const currentPostsCar = postsCar.slice(
     indexOfFirstPostCar,
     indexOfLastPostCar
   );
 
-  // Change page
-
-  if (postsCar.length == 0) {
-    return <h2>Loading...</h2>;
-  }
   return (
     <div>
       <form onSubmit={handleEditFormCarSubmit}>
-        <table className="cars-table">
-          <thead>
-            <tr className="car-tr">
-              <th className="car-th">ID:</th>
-              <th>Producent:</th>
-              <th>Model:</th>
-              <th>Type:</th>
-              <th>Yers:</th>
-              <th>Color:</th>
-              <th>Mileages:</th>
-              <th>Status rental:</th>
-              <th>Status car:</th>
-              <th>ID company:</th>
-              <th>Actions</th>
+        <table className="tab">
+          <thead className="tab--thead">
+            <tr className="tab--tr">
+              <th className="tab__thead--th">ID:</th>
+              <th className="tab__thead--th">Producent:</th>
+              <th className="tab__thead--th">Model:</th>
+              <th className="tab__thead--th">Type:</th>
+              <th className="tab__thead--th">Yers:</th>
+              <th className="tab__thead--th">Color:</th>
+              <th className="tab__thead--th">Mileages:</th>
+              <th className="tab__thead--th">Status rental:</th>
+              <th className="tab__thead--th">Status car:</th>
+              <th className="tab__thead--th">ID company:</th>
+              <th className="tab__thead--th">Actions</th>
             </tr>
           </thead>
-          <tbody>{handleAddCars(postsCar)}</tbody>
+          <tfoot className="tab--tfoot">
+            <tr>
+              <td colspan="11" className="tab__tfoot--td">
+                <div className="container__page--div">
+                  <Pagination
+                    postsPerPage={PageSize}
+                    totalPosts={postsCar.length}
+                    paginate={paginateCar}
+                  />
+                </div>
+              </td>
+            </tr>
+          </tfoot>
+          <tbody>{handleAddCars(currentPostsCar)}</tbody>
         </table>
       </form>
-      <Pagination
-        //   postsPerPage={PageSize}
-        totalPosts={postsCar.length}
-        //   paginate={paginateCar}
-      />
-      <section>
-        <h2>Add a new Cars {addCompanyId}</h2>
-        <form onSubmit={handleAddFormCarSubmit}>
+      <section className="container--add">
+        <h2 className="container_add--h1">Add a new Cars {addCompanyId}</h2>
+        <form className="container_add--form" onSubmit={handleAddFormCarSubmit}>
           <input
+            className="container_add--input"
+            ref={carBrand}
             type="text"
             name="carBrand"
             placeholder="Production"

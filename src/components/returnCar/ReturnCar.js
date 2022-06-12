@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../Page/Pagination";
+import Department from "../Department/Dapartment";
+import { setComplexFieldID } from "@syncfusion/ej2-react-grids";
 
 const api = axios.create({ baseURL: "http://localhost:8080/branchCompany" });
 const apiUser = axios.create({ baseURL: "http://localhost:8080/users" });
 const apiReturn = axios.create({ baseURL: "http://localhost:8080/return" });
-
-let addCompanyId = null;
+let addCompanyId = 0;
 let addUserId = null;
 const ReturnCar = () => {
   const [posts, setPosts] = useState([]);
   const [postsUser, setPostsUser] = useState([]);
-
+  const [compId, setCompId] = useState(0);
   const [postsReturn, setPostsReturn] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentPageUser, setCurrentPageUser] = useState(1);
@@ -32,7 +33,7 @@ const ReturnCar = () => {
   useEffect(() => {
     fetchPosts();
   }, []);
-
+  console.log(addCompanyId);
   const fetchDataUser = async () => {
     const getUser = apiUser.get(`/${addCompanyId}`);
 
@@ -40,7 +41,7 @@ const ReturnCar = () => {
       axios.spread((...allData) => {
         setLoadingUser(true);
         const getUserAll = allData[0];
-        // const allDataComp = allData[1]
+
         console.log("getUserAll" + getUserAll);
         setPostsUser(getUserAll.data);
         setLoadingUser(false);
@@ -87,20 +88,20 @@ const ReturnCar = () => {
   const indexOfFirstPost = indexOfLastPost - PageSize;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  const addId = (id) => setCompId(id);
   const handleGetReturn = (data) => {
     console.log("return", postsReturn);
 
     return data.map((item) => {
       return (
-        <tr border={"2"} className={"user-tab"} key={item.id}>
-          <td width={"47"}>{item.id}</td>
-          <td width={"196"}>{item.returnDate}</td>
-          <td width={"250"}>{item.commentsReturn}</td>
-          <td width={"250"}>{item.commentsCustomer}</td>
-          <td width={"250"}>{item.supplement}</td>
-          <td width={"250"}>{item.userId}</td>
-          <td width={"250"}>{item.companyId}</td>
+        <tr className="tab--tr" key={item.id}>
+          <td className="tab--td">{item.id}</td>
+          <td className="tab--td">{item.returnDate}</td>
+          <td className="tab--td">{item.commentsReturn}</td>
+          <td className="tab--td">{item.commentsCustomer}</td>
+          <td className="tab--td">{item.supplement}</td>
+          <td className="tab--td">{item.userId}</td>
+          <td className="tab--td">{item.companyId}</td>
         </tr>
       );
     });
@@ -113,26 +114,34 @@ const ReturnCar = () => {
       <React.Fragment>
         <h1 className="text-primary ">Return</h1>
         <form>
-          <table className={"user-main-tab"}>
-            <thead>
-              <tr>
-                <th width={"50"}>ID:</th>
-                <th width={"100"}>return date:</th>
-                <th width={"100"}>comment return:</th>
-                <th width={"100"}>comment customer:</th>
-                <th width={"100"}>supplement:</th>
-                <th width={"100"}>id user:</th>
-                <th width={"100"}>id company:</th>
+          <table className="tab">
+            <thead className="tab--thead">
+              <tr className="tab--tr">
+                <th className="tab__thead--th">ID:</th>
+                <th className="tab__thead--th">return date:</th>
+                <th className="tab__thead--th">comment return:</th>
+                <th className="tab__thead--th">comment customer:</th>
+                <th className="tab__thead--th">supplement:</th>
+                <th className="tab__thead--th">id user:</th>
+                <th className="tab__thead--th">id company:</th>
               </tr>
             </thead>
+            <tfoot className="tab--tfoot">
+              <tr>
+                <td colspan="11" className="tab__tfoot--td">
+                  <div className="container__page--div">
+                    <Pagination
+                      postsPerPage={PageSize}
+                      totalPosts={postsReturn.length}
+                      paginate={paginateReturn}
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
             <tbody>{handleGetReturn(currentPostsReturn)}</tbody>
           </table>
         </form>
-        <Pagination
-          postsPerPage={PageSize}
-          totalPosts={postsReturn.length}
-          paginate={paginateReturn}
-        />
       </React.Fragment>
     );
   };
@@ -162,95 +171,73 @@ const ReturnCar = () => {
       <React.Fragment>
         <h1 className="text-primary ">USER</h1>
         <form>
-          <table className={"user-main-tab"}>
-            <thead>
-              <tr>
-                <th width={"50"}>ID:</th>
-                <th width={"100"}>Name:</th>
+          <table className="tab">
+            <thead className="tab--thead">
+              <tr className="tab--tr">
+                <th className="tab__thead--th">ID:</th>
+                <th className="tab__thead--th">Name:</th>
               </tr>
             </thead>
+            <tfoot className="tab--tfoot">
+              <tr>
+                <td colspan="11" className="tab__tfoot--td">
+                  <div className="container__page--div">
+                    <Pagination
+                      postsPerPage={PageSize}
+                      totalPosts={postsUser.length}
+                      paginate={paginateUser}
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
             <tbody>{handleGetUser(currentPostsUser)}</tbody>
           </table>
         </form>
-        <Pagination
-          postsPerPage={PageSize}
-          totalPosts={postsUser.length}
-          paginate={paginateUser}
-        />
       </React.Fragment>
     );
   };
 
   const handleVisibleByUserClick = (event, id) => {
     event.preventDefault();
-
     addUserId = id;
-    // test.current.value = id;
-    // company = "addCompanyId";
-
     fetchDataReturn();
   };
 
-  const handleVisibleByCompanyClick = (event, id) => {
-    event.preventDefault();
+  // const handleVisibleByCompanyClick = (event, id) => {
+  //   event.preventDefault();
 
-    addCompanyId = id;
-    // test.current.value = id;
-    // company = "addCompanyId";
-    fetchDataUser();
-  };
+  //   addCompanyId = id;
+  //   fetchDataUser();
+  // };
 
-  const renderIncomingData = (data) => {
-    console.log("data render in coming= ", data);
+  // const renderIncomingData = (data) => {
+  //   console.log("data render in coming= ", data);
 
-    return data.map((item) => {
-      return (
-        <tr
-          border={"2"}
-          className={"user-tab"}
-          key={item.id}
-          onClick={(event) => handleVisibleByCompanyClick(event, item.id)}
-        >
-          <td width={"auto"}>{item.id}</td>
-          <td width={"auto"}>{item.logo}</td>
-          <td width={"auto"}>{item.nameRental}</td>
-          <td width={"auto"}>{item.city}</td>
-          <td width={"auto"}>{item.address}</td>
-        </tr>
-      );
-    });
-  };
+  //   return data.map((item) => {
+  //     return (
+  //       <tr
+  //         className="tab--tr"
+  //         key={item.id}
+  //         onClick={(event) => handleVisibleByCompanyClick(event, item.id)}
+  //       >
+  //         <td className="tab--td">{item.id}</td>
+  //         <td className="tab--td">{item.logo}</td>
+  //         <td className="tab--td">{item.nameRental}</td>
+  //         <td className="tab--td">{item.city}</td>
+  //         <td className="tab--td">{item.address}</td>
+  //       </tr>
+  //     );
+  //   });
+  // };
 
   return (
     <div>
-      <div className="h1-tabl-page">
-        <h1 className="text-primary ">DEPARTMENT</h1>
-
-        <div className="form-table-comp">
-          <form>
-            <table className={"comp-main-tab"}>
-              <thead>
-                <tr>
-                  <th width={"auto"}>ID:</th>
-                  <th width={"auto"}>Logo:</th>
-                  <th width={"auto"}>department:</th>
-                  <th width={"auto"}>city:</th>
-                 
-                </tr>
-              </thead>
-              <tbody>{renderIncomingData(currentPosts)}</tbody>
-            </table>
-          </form>
+      <section className="depart">
+        <div>
+          <Department />
         </div>
-        <div className="position-page">
-          <Pagination
-            postsPerPage={PageSize}
-            totalPosts={posts.length}
-            paginate={paginate}
-          />
-        </div>
-      </div>
-      {/* <div>{tableEmpl()}</div> */}
+      </section>
 
       <section className="car-tabl">
         <div>{tableUser()}</div>

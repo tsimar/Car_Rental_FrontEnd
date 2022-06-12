@@ -16,17 +16,17 @@ const ReadOnlyRowCar = ({
   //   return <h2>Loading...</h2>;
   // }
   return (
-    <tr className="car-tr" key={item.id}>
-      <td className="car-id">{item.id}</td>
-      <td className="car-td">{item.carBrand}</td>
-      <td className="car-td">{item.model}</td>
-      <td className="car-td">{item.carType}</td>
-      <td className="car-td">{moment(date).format("MM YYYY")}</td>
-      <td className="car-td">{item.color}</td>
-      <td className="car-td">{item.carMileage}</td>
-      <td className="car-td">{item.statusRental}</td>
-      <td className="car-td">{item.carStatus}</td>
-      <td className="car-td">{item.carRentalDepartID}</td>
+    <tr className="tab--tr" key={item.id}>
+      <td className="tab--td">{item.id}</td>
+      <td className="tab--td">{item.carBrand}</td>
+      <td className="tab--td">{item.model}</td>
+      <td className="tab--td">{item.carType}</td>
+      <td className="tab--td">{moment(date).format("MM YYYY")}</td>
+      <td className="tab--td">{item.color}</td>
+      <td className="tab--td">{item.carMileage}</td>
+      <td className="tab--td">{item.statusRental}</td>
+      <td className="tab--td">{item.carStatus}</td>
+      <td className="tab--td">{item.carRentalDepartID}</td>
       <td>
         <button
           type="button"
