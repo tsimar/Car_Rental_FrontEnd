@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../Page/Pagination";
 import Department from "../Department/Dapartment";
+import Customer from "../user/Customer";
 import { setComplexFieldID } from "@syncfusion/ej2-react-grids";
 
 const api = axios.create({ baseURL: "http://localhost:8080/branchCompany" });
@@ -210,37 +211,19 @@ const ReturnCar = () => {
   //   addCompanyId = id;
   //   fetchDataUser();
   // };
-
-  // const renderIncomingData = (data) => {
-  //   console.log("data render in coming= ", data);
-
-  //   return data.map((item) => {
-  //     return (
-  //       <tr
-  //         className="tab--tr"
-  //         key={item.id}
-  //         onClick={(event) => handleVisibleByCompanyClick(event, item.id)}
-  //       >
-  //         <td className="tab--td">{item.id}</td>
-  //         <td className="tab--td">{item.logo}</td>
-  //         <td className="tab--td">{item.nameRental}</td>
-  //         <td className="tab--td">{item.city}</td>
-  //         <td className="tab--td">{item.address}</td>
-  //       </tr>
-  //     );
-  //   });
-  // };
-
+  const [test, setTest] = useState();
   return (
     <div>
       <section className="depart">
         <div>
-          <Department />
+          <Department state={test} parentCallback={setTest} />
         </div>
       </section>
 
       <section className="car-tabl">
-        <div>{tableUser()}</div>
+        <div>
+          <Customer />
+        </div>
       </section>
       <section className="car-tabl">
         <div>{tableReturn()}</div>

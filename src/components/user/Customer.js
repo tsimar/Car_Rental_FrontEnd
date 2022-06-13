@@ -382,16 +382,29 @@ const Customer = () => {
     <div>
       <div>
         <form onSubmit={handleEditFormSubmit}>
-          <table className={"user-main-tab"}>
-            <thead>
-              <tr>
-                <th width={"50"}>ID:</th>
-                <th width={"200"}>Imię:</th>
-                <th width={"250"}>Hasło:</th>
-                <th width={"200"}>Rola:</th>
-                <th>Actions</th>
+          <table className="tab">
+            <thead className="tab--thead">
+              <tr className="tab--tr">
+                <th className="tab__thead--th">ID:</th>
+                <th className="tab__thead--th">Imię:</th>
+                <th className="tab__thead--th">Hasło:</th>
+                <th className="tab__thead--th">Rola:</th>
+                <th className="tab__thead--th">Actions</th>
               </tr>
             </thead>
+            <tfoot className="tab--tfoot">
+              <tr>
+                <td colspan="6" className="tab__tfoot--td">
+                  <div className="container__page--div">
+                    {/* <Pagination
+                      postsPerPage={PageSize}
+                      totalPosts={posts.length}
+                      paginate={paginate}
+                    /> */}
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
             <tbody>{renderIncomingData(currentPosts)}</tbody>
           </table>
         </form>

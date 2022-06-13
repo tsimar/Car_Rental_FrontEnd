@@ -22,7 +22,7 @@ const api = axios.create({ baseURL: `${url}/branchCompany` });
 
 let addCompanyId = "n";
 
-const Department = () => {
+const Department = (parentCallback) => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
@@ -137,7 +137,7 @@ const Department = () => {
   const handleVisibleCarsClick = (event, id) => {
     event.preventDefault();
     setCompId(id);
-    console.log(compId);
+    parentCallback(id);
   };
   const renderIncomingData = (data) => {
     return data.map((item) => {
@@ -223,54 +223,6 @@ const Department = () => {
                 </table>
               </form>
             </div>
-          </div>
-
-          <div className="container--add">
-            <h2 className="container_add--h1">Add a new DEPARTMENT</h2>
-            <form
-              onSubmit={handleAddFormSubmit}
-              className={"container_add--form"}
-            >
-              <div>
-                <input
-                  className="container_add--input"
-                  ref={logoRef}
-                  type="text"
-                  name="logo"
-                  placeholder="logo department"
-                  required="required"
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <div>
-                <input
-                  className="container_add--input"
-                  type="text"
-                  name="nameRental"
-                  placeholder="name department ..."
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <div>
-                <input
-                  className="container_add--input"
-                  type="text"
-                  name="city"
-                  placeholder="city  ..."
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <div>
-                <input
-                  className="container_add--input"
-                  type="text"
-                  name="address"
-                  placeholder="address  ..."
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <button type="submit">add</button>
-            </form>
           </div>
         </section>
       </div>
