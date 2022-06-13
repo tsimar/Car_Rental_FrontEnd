@@ -5,13 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
-  background-image: url("./jpeg/background.jpg")  ; 
   background-size: cover;
-  background-position:inherit;
-  background-repeat:no-repeat;
- background-color: black; 
- 
+  background-position: inherit;
+  background-repeat: no-repeat;
+  background-image: url("./jpeg/background.jpg");
+}
+img {
+  opacity: 0.5;
 }
 
 code {

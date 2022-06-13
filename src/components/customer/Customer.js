@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react'
 import "./Customer.css";
-// import Form from "./Form";
+import { url } from "../../url";
 import axios from 'axios';
 import Badge from '@material-ui/core/Badge';
 
@@ -11,7 +11,7 @@ import { fontWeight } from '@material-ui/system';
 // LicenseInfo.setLicenseKey(
 //   'x0jTPl0USVkVZV0SsMjM1kDNyADM5cjM2ETPZJVSQhVRsIDN0YTM6IVREJ1T0b9586ef25c9853decfa7709eee27a1e',
 // );
-const api = axios.create({ baseURL: 'http://localhost:8080/users' })
+const api = axios.create({ baseURL: `${url}/users` });
 
 // const rows: GridRowsProp = [
 //   { id: 1, col1: 'Hello', col2: 'World' },

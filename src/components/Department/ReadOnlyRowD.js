@@ -1,17 +1,19 @@
 import React from "react";
 
-
 const ReadOnlyRowD = ({
   item,
   handleEditClick,
   handleDeleteClick,
   handleVisibleCarsClick,
+  parentCallback,
 }) => {
   return (
     <tr
       className="tab--tr"
       key={item.id}
-      onClick={(event) => handleVisibleCarsClick(event, item.id)}
+      onClick={(event) => {
+        handleVisibleCarsClick(event, item.id);
+      }}
     >
       <td className="tab--td">{item.id}</td>
       <td className="tab--td">{item.logo}</td>

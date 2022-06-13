@@ -1,5 +1,5 @@
 import React from "react";
-import "../user/User.css";
+import "../style/table.css";
 
 const EditableRowEmpl = ({
   editFormDataEmpl,
@@ -7,10 +7,11 @@ const EditableRowEmpl = ({
   handleCancelEmplClick,
 }) => {
   return (
-    <tr border={"2"} className={"user-tab"}>
-      <td></td>
-      <td>
+    <tr border={"2"} className="tab--tr">
+      <td className="tab--td"></td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="Enter a name"
@@ -19,8 +20,9 @@ const EditableRowEmpl = ({
           onChange={handleEditFormEmplChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="last Name"
@@ -29,8 +31,9 @@ const EditableRowEmpl = ({
           onChange={handleEditFormEmplChange}
         ></input>
       </td>
-      <td>
+      <td className="tab--td">
         <input
+          className="tab--input"
           type="text"
           required="required"
           placeholder="position"
@@ -39,10 +42,9 @@ const EditableRowEmpl = ({
           onChange={handleEditFormEmplChange}
         ></input>
       </td>
-   
 
-      <td></td>
-      <td>
+      <td className="tab--td"></td>
+      <td className="tab--td">
         <button type="submit">Save</button>
         <button type="button" onClick={handleCancelEmplClick}>
           Cancel

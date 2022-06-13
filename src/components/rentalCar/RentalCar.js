@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { url } from "../../url";
 import axios from "axios";
 import Pagination from "../Page/Pagination";
 
-const api = axios.create({ baseURL: "http://localhost:8080/branchCompany" });
-const apiUser = axios.create({ baseURL: "http://localhost:8080/users" });
-const apiRental = axios.create({ baseURL: "http://localhost:8080/rentals" });
+const api = axios.create({ baseURL: `${url}/branchCompany` });
+const apiUser = axios.create({ baseURL: `${url}/users` });
+const apiRental = axios.create({ baseURL: `${url}/rentals` });
 let addCompanyId = null;
 let addUserId = null;
 
@@ -86,7 +87,9 @@ const RentalCar = () => {
   const indexOfFirstPost = indexOfLastPost - PageSize;
   const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  const addId = (id) => {
+    addCompanyId = id;
+  };
   const handleGetRental = (data) => {
     console.log("rental", postsRental);
 
@@ -149,9 +152,9 @@ const RentalCar = () => {
     });
   };
   const tableUser = () => {
-     if (loadingUser) {
-       return <h2>Loading users...</h2>;
-     }
+    if (loadingUser) {
+      return <h2>Loading users...</h2>;
+    }
     return (
       <React.Fragment>
         <h1 className="text-primary ">USER</h1>
@@ -230,7 +233,6 @@ const RentalCar = () => {
                   <th width={"auto"}>Logo:</th>
                   <th width={"auto"}>department:</th>
                   <th width={"auto"}>city:</th>
-                  
                 </tr>
               </thead>
               <tbody>{renderIncomingData(currentPosts)}</tbody>

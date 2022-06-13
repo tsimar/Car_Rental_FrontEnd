@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { url } from "../../url";
+import axios from "axios";
 import "./Reservation.css";
 
-
-const api = axios.create({ baseURL: 'http://localhost:8080/rentals' })
+const api = axios.create({ baseURL: `${url}/rentals` });
 
 class Reservation extends Component {
   constructor(props) {
