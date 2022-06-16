@@ -8,6 +8,7 @@ import ReturnCar from "./components/returnCar/ReturnCar";
 import RentalCar from "./components/rentalCar/RentalCar";
 import Reservation from "./components/reservation/Reservation";
 import "./App.css";
+import Department from "./components/Department/Department";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
         <Route path="/branchCompHook" component={BranchCompHook} />
         <Route path="/Reservation" component={Reservation} />
         <Route path="/Customer" component={Customer} />
-        <Route path="/ReturnCar" component={ReturnCar} />
+        <Route path="/Department" component={Department} />
         <Route path="/RentalCar" component={RentalCar} />
       </Switch>
     </Router>

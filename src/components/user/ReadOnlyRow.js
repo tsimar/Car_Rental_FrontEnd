@@ -10,15 +10,15 @@ const ReadOnlyRow = ({
   return (
     <tr
       border={"2"}
-      className={"user-tab"}
+      className="tab--tr"
       key={item.id}
       onClick={(event) => handleVisibleCompClick(event, item.id)}
     >
-      <td width={"47"}>{item.id}</td>
-      <td width={"196"}>{item.userName}</td>
-      <td width={"250"}>{item.userPassword}</td>
-      <td width={"200"}>{item.customer}</td>
-      <td>
+      <td className="tab--td">{item.id}</td>
+      <td className="tab--td">{item.userName}</td>
+      <td className="tab--td">{item.userPassword}</td>
+      <td className="tab--td">{item.customer}</td>
+      <td className="tab--td">
         <button type="button" onClick={(event) => handleEditClick(event, item)}>
           Edit
         </button>

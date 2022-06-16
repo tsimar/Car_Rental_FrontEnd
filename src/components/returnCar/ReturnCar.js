@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../Page/Pagination";
-import Department from "../Department/Dapartment";
+import Department from "../Department/Department";
 import Customer from "../user/Customer";
 import { setComplexFieldID } from "@syncfusion/ej2-react-grids";
 
 const api = axios.create({ baseURL: "http://localhost:8080/branchCompany" });
 const apiUser = axios.create({ baseURL: "http://localhost:8080/users" });
 const apiReturn = axios.create({ baseURL: "http://localhost:8080/return" });
-let addCompanyId = 0;
-let addUserId = null;
-const ReturnCar = () => {
+// let addCompanyId = 0;
+// let addUserId = null;
+const ReturnCar = ({ addCompanyId, addUserId }) => {
   const [posts, setPosts] = useState([]);
   const [postsUser, setPostsUser] = useState([]);
   const [compId, setCompId] = useState(0);
@@ -156,7 +156,7 @@ const ReturnCar = () => {
           border={"2"}
           className={"user-tab"}
           key={item.id}
-          onClick={(event) => handleVisibleByUserClick(event, item.id)}
+          // onClick={(event) => handleVisibleByUserClick(event, item.id)}
         >
           <td width={"47"}>{item.id}</td>
           <td width={"196"}>{item.userName}</td>
@@ -199,32 +199,20 @@ const ReturnCar = () => {
     );
   };
 
-  const handleVisibleByUserClick = (event, id) => {
-    event.preventDefault();
-    addUserId = id;
-    fetchDataReturn();
-  };
+  // const handleVisibleByUserClick = (event, id) => {
+  //   event.preventDefault();
+  //   addUserId = id;
+  //   fetchDataReturn();
+  // };
 
   // const handleVisibleByCompanyClick = (event, id) => {
   //   event.preventDefault();
-
   //   addCompanyId = id;
   //   fetchDataUser();
   // };
-  const [test, setTest] = useState();
+
   return (
     <div>
-      <section className="depart">
-        <div>
-          <Department state={test} parentCallback={setTest} />
-        </div>
-      </section>
-
-      <section className="car-tabl">
-        <div>
-          <Customer />
-        </div>
-      </section>
       <section className="car-tabl">
         <div>{tableReturn()}</div>
       </section>

@@ -5,7 +5,6 @@ const ReadOnlyRowD = ({
   handleEditClick,
   handleDeleteClick,
   handleVisibleCarsClick,
-  parentCallback,
 }) => {
   return (
     <tr

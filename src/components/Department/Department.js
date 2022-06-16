@@ -13,6 +13,8 @@ import { nanoid } from "nanoid";
 import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowD";
 import EditableRowD from "./EditableRowD";
+import Customer from "../user/Customer";
+// import ReturnCar from "../returnCar/ReturnCar";
 import "../style/reset.css";
 // import "./BranchCompany.css";
 import "../style/table.css";
@@ -20,9 +22,10 @@ import "../style/inputAdd.css";
 
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 
-let addCompanyId = "n";
+let addCompanyId = 0;
+// let addUserId = null;
 
-const Department = (parentCallback) => {
+const Department = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
@@ -134,11 +137,12 @@ const Department = (parentCallback) => {
       });
     event.target.reset();
   };
+
   const handleVisibleCarsClick = (event, id) => {
     event.preventDefault();
     setCompId(id);
-    parentCallback(id);
   };
+
   const renderIncomingData = (data) => {
     return data.map((item) => {
       return (
@@ -171,7 +175,6 @@ const Department = (parentCallback) => {
 
     setPosts(newContacts);
     api.delete(`/${departId}`);
-    addCompanyId = "d";
   };
 
   // Get current posts
@@ -225,7 +228,13 @@ const Department = (parentCallback) => {
             </div>
           </div>
         </section>
+        <section className="section-empl">
+          <Customer addCompanyId={compId} />
+        </section>
       </div>
+      {/* <section className="section-car">
+        <ReturnCar addCompanyId={addCompanyId} addUserId={addUserId} />
+      </section> */}
     </div>
   );
 };
