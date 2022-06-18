@@ -13,18 +13,22 @@ import axios from "axios";
 
 import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
-import ReadOnlyRowComp from "./ReadOnlyRowComp";
-import EditableRowComp from "./EditableRowComp";
-import ReturnCar from "../returnCar/ReturnCar";
+// import ReadOnlyRowComp from "./ReadOnlyRowComp";
+// import EditableRowComp from "./EditableRowComp";
+// import ReturnCar from "../returnCar/ReturnCar";
 import Pagination from "../Page/Pagination";
+import RrTest from "../returnCar/RrTest"
 import "../style/reset.css";
 import "../style/table.css";
 import "../style/inputAdd.css";
 import "./User.css";
 
+const apiReturn = axios.create({ baseURL: `${url}/return` });
 const apiUser = axios.create({ baseURL: `${url}/users` });
-let addUserId = "n";
+let addUserId = 1;
+
 const Customer = (addCompanyId) => {
+
   const [userPosts, setUserPosts] = useState([]);
   const [addFormData, setAddFormData] = useState({
     userName: "",
@@ -45,8 +49,25 @@ const Customer = (addCompanyId) => {
   const [postsUserComp, setPostsUserComp] = useState([]);
   const [currentPageComp, setCurrentPageComp] = useState(1);
   const [editCompId, setEditCompId] = useState(null);
+  const [userId, setUserId] = useState(0);
   const userItem = useRef(null);
   let idCompany = Object.values(addCompanyId)[0];
+  const [postsReturn, setPostsReturn] = useState([]);
+
+  const fetchDataReturn = async () => {
+    const getReturn = await apiReturn.get(`/${addCompanyId}/${addUserId}`);
+
+    // axios.all([getReturn]).then(
+    //   axios.spread((...allData) => {
+    //     // setLoadingReturn(true);
+    //     const getReturnAll = allData[0];
+    //     console.log("getReturnAll" + getReturnAll);
+    setPostsReturn(getReturn.data);
+    console.log(getReturn.data);
+    // setLoadingReturn(false);
+    // })
+    // );
+  };
   const fetchPosts = async () => {
     setLoading(true);
     const res = await apiUser.get(`/${idCompany}`);
@@ -56,8 +77,6 @@ const Customer = (addCompanyId) => {
   };
 
   useEffect(() => {
-    console.log("addCompanyId ===0", Object.values(addCompanyId)[0] === 0);
-    console.log(idCompany);
     if (idCompany !== 0) {
       fetchPosts();
     }
@@ -158,12 +177,11 @@ const Customer = (addCompanyId) => {
 
     setUserPosts(newContacts);
     apiUser.delete(`/${userId}`);
-    // this.getUsers(data);
   };
-  const handleVisibleCompClick = (event, id) => {
+  const handleVisibleUserClick = (event, id) => {
     event.preventDefault();
-    console.log("visible user", id);
-    addUserId = id;
+
+    setUserId(id);
   };
 
   // Get current posts
@@ -193,213 +211,13 @@ const Customer = (addCompanyId) => {
               item={item}
               handleEditClick={handleEditClick}
               handleDeleteClick={handleDeleteClick}
-              handleVisibleCompClick={handleVisibleCompClick}
+              handleVisibleUserClick={handleVisibleUserClick}
             />
           )}
         </Fragment>
       );
     });
   };
-  //User => Company
-
-  // const handleAddCompFormChange = (event) => {
-  //   event.preventDefault();
-  //   const fieldName = event.target.getAttribute("name");
-  //   const fieldValue = event.target.value;
-  //   const newFormData = { ...addFormData };
-  //   newFormData[fieldName] = fieldValue;
-  //   setAddFormData(newFormData);
-  // };
-
-  // const handleAddCompFormSubmit = (event) => {
-  //   event.preventDefault();
-  //   const newUser = {
-  //     // id: nanoid(),
-  //     userName: addFormData.userName,
-  //     userPassword: addFormData.userPassword,
-  //   };
-  //   const newUsers = [...postsUserComp, newUser];
-
-  //   apiUser
-  //     .post("/", newUser)
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   setPostsUserComp(newUsers);
-  //   setAddFormData("");
-  // };
-
-  // const handleEditCompFormSubmit = (event) => {
-  //   event.preventDefault();
-
-  //   const editedContact = {
-  //     id: editContactId,
-  //     userName: editFormData.userName,
-  //     userPassword: editFormData.userPassword,
-  //   };
-
-  //   apiUser
-  //     .put(`/`, editedContact)
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   const newFormData = { ...userPosts };
-  //   userPosts.map((item) => {
-  //     if (item.id === editContactId) {
-  //       item.userName = editFormData.userName;
-  //       item.userPassword = editFormData.userPassword;
-  //     }
-  //   });
-  //   setEditContactId(null);
-  // };
-
-  // const handleEditCompFormChange = (event) => {
-  //   event.preventDefault();
-
-  //   const fieldName = event.target.getAttribute("name");
-  //   const fieldValue = event.target.value;
-
-  //   const newFormData = { ...editFormData };
-  //   newFormData[fieldName] = fieldValue;
-
-  //   setEditFormData(newFormData);
-  // };
-
-  // const handleEditCompClick = (event, user) => {
-  //   event.preventDefault();
-  //   setEditContactId(user.id);
-
-  //   const formValues = {
-  //     editId: user.id,
-  //     userName: user.userName,
-  //     userPassword: user.userPassword,
-  //   };
-  //   setEditFormData(formValues);
-  // };
-
-  // const handleCancelCompClick = () => {
-  //   setEditCompId(null);
-  // };
-
-  // const handleDeleteCompClick = (userId) => {
-  //   const newContacts = [...postsUserComp];
-
-  //   const index = postsUserComp.findIndex((contact) => contact.id === userId);
-
-  //   newContacts.splice(index, 1);
-
-  //   setPostsUserComp(newContacts);
-  //   apiUser.delete(`/${userId}`);
-  // };
-  // // Get current posts
-  // const indexOfLastPostComp = currentPage * PageSize;
-  // const indexOfFirstPostComp = indexOfLastPostComp - PageSize;
-  // const currentPostsCompany = postsUserComp.slice(
-  //   indexOfFirstPostComp,
-  //   indexOfLastPostComp
-  // );
-
-  // // Change page
-  // const paginateComp = (pageNumber) => setCurrentPageComp(pageNumber);
-
-  // const renderIncomingDataComp = (data) => {
-  //   return data.map((item) => {
-  //     return (
-  //       <Fragment key={item.id}>
-  //         {editContactId === item.id ? (
-  //           <EditableRow
-  //             editFormData={editFormData}
-  //             handleEditFormChange={handleEditFormChange}
-  //             handleCancelClick={handleCancelClick}
-  //           />
-  //         ) : (
-  //           <ReadOnlyRow
-  //             item={item}
-  //             handleEditClick={handleEditClick}
-  //             handleDeleteClick={handleDeleteClick}
-  //           />
-  //         )}
-  //       </Fragment>
-  //     );
-  //   });
-  // };
-  // const tableComp = () => {
-  //   if (loadingUserComp) {
-  //     return <h2>Loading data from company...</h2>;
-  //   }
-  //   return (
-  //     <section className="empl-tab">
-  //       <h1 className="text-primary "> Employee</h1>
-  //       <form onSubmit={handleEditCompFormSubmit}>
-  //         <table className="tab">
-  //           <thead className="tab--thead">
-  //             <tr className="tab--tr">
-  //               <th className="tab__thead--th">ID:</th>
-  //               <th className="tab__thead--th">Company:</th>
-  //               <th className="tab__thead--th">city:</th>
-  //               <th className="tab__thead--th">idEmployee:</th>
-  //               <th className="tab__thead--th">nameEmployee :</th>
-  //               <th className="tab__thead--th">Actions</th>
-  //             </tr>
-  //           </thead>
-  //           <tfoot className="tab--tfoot">
-  //             <tr>
-  //               <td colspan="5" className="tab__tfoot--td">
-  //                 <div className="container__page--div">
-  //                   <Pagination
-  //                     postsPerPage={PageSize}
-  //                     totalPosts={postsUserComp.length}
-  //                     paginate={paginateComp}
-  //                   />
-  //                 </div>
-  //               </td>
-  //             </tr>
-  //           </tfoot>
-  //           <tbody>{renderIncomingDataComp(currentPostsCompany)}</tbody>
-  //         </table>
-  //       </form>
-
-  //       <section className="add-empl">
-  //         <form onSubmit={handleAddCompFormSubmit}>
-  //           <h2 className={"text_add"}>Add a new employee {userId}</h2>
-  //           <input
-  //             type="text"
-  //             name="name"
-  //             // ref={textInput}
-  //             placeholder="name ..."
-  //             // required="required"
-  //             // ref={ref=>test=ref}
-  //             onChange={handleAddCompFormChange}
-  //           />
-  //           <input
-  //             type="text"
-  //             name="lastName"
-  //             // required="required"
-
-  //             placeholder="last name ..."
-  //             onChange={handleAddCompFormChange}
-  //           />
-  //           <input
-  //             type="text"
-  //             name="position"
-  //             // required="required"
-
-  //             placeholder="position  ..."
-  //             onChange={handleAddCompFormChange}
-  //           />
-  //           <button type="submit">add</button>
-  //           {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
-  //         </form>
-  //       </section>
-  //     </section>
-  //   );
-  // };
   return (
     <div>
       <div>
@@ -455,12 +273,8 @@ const Customer = (addCompanyId) => {
           {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
         </form>
       </section>
-      {/* <section className="car-tabl">
-        <div>{tableComp()}</div>
-      </section> */}
-      {/* <button className={'user-label'} type="submit" onClick={this.Customer()}>gtregd</button> */}
       <section className="section-car">
-        <ReturnCar addCompanyId={addCompanyId} addUserId={addUserId} />
+        <RrTest addCompanyId={idCompany} addUserId={ userId} />
       </section>
     </div>
   );

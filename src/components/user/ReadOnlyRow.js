@@ -5,18 +5,19 @@ const ReadOnlyRow = ({
   item,
   handleEditClick,
   handleDeleteClick,
-  handleVisibleCompClick,
+  handleVisibleUserClick,
 }) => {
   return (
     <tr
-      border={"2"}
       className="tab--tr"
       key={item.id}
-      onClick={(event) => handleVisibleCompClick(event, item.id)}
+      onClick={(event) => {
+        handleVisibleUserClick(event, item.id);
+      }}
     >
       <td className="tab--td">{item.id}</td>
       <td className="tab--td">{item.userName}</td>
-      <td className="tab--td">{item.userPassword}</td>
+      <td className="tab--td">{item.password}</td>
       <td className="tab--td">{item.customer}</td>
       <td className="tab--td">
         <button type="button" onClick={(event) => handleEditClick(event, item)}>

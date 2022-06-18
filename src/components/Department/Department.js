@@ -14,7 +14,8 @@ import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowD";
 import EditableRowD from "./EditableRowD";
 import Customer from "../user/Customer";
-// import ReturnCar from "../returnCar/ReturnCar";
+import ReturnCar from "../returnCar/ReturnCar";
+import RrTest from "../returnCar/RrTest";
 import "../style/reset.css";
 // import "./BranchCompany.css";
 import "../style/table.css";
@@ -22,8 +23,8 @@ import "../style/inputAdd.css";
 
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 
-let addCompanyId = 0;
-// let addUserId = null;
+// let addCompanyId = 1;
+let addUserId = 1;
 
 const Department = () => {
   const [posts, setPosts] = useState([]);
@@ -152,7 +153,7 @@ const Department = () => {
               editFormData={editFormData}
               handleEditFormChange={handleEditFormChange}
               handleCancelClick={handleCancelClick}
-              handleVisibleCarsClick={handleVisibleCarsClick}
+              // handleVisibleCarsClick={handleVisibleCarsClick}
             />
           ) : (
             <ReadOnlyRowD
@@ -231,10 +232,10 @@ const Department = () => {
         <section className="section-empl">
           <Customer addCompanyId={compId} />
         </section>
+        <section className="section-car">
+          {/* <RrTest addCompanyId={compId} /> */}
+        </section>
       </div>
-      {/* <section className="section-car">
-        <ReturnCar addCompanyId={addCompanyId} addUserId={addUserId} />
-      </section> */}
     </div>
   );
 };

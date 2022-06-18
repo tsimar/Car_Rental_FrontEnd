@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../Page/Pagination";
-
 const apiReturn = axios.create({ baseURL: "http://localhost:8080/return" });
-// let addCompanyId = 0;
-// let addUserId = null;
-const ReturnCar = ({ addCompanyId, addUserId }) => {
-  // const [posts, setPosts] = useState([]);
-  // const [postsUser, setPostsUser] = useState([]);
-  const [compId, setCompId] = useState(0);
+
+const RrTest = ({ addCompanyId, addUserId }) => {
   const [postsReturn, setPostsReturn] = useState([]);
+  const [loadingReturn, setLoadingReturn] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageUser, setCurrentPageUser] = useState(1);
   const [currentPageReturn, setCurrentPageReturn] = useState(1);
   const [PageSize] = useState(5);
-  // const [loading, setLoading] = useState(false);
-  // const [loadingUser, setLoadingUser] = useState(false);
-  const [loadingReturn, setLoadingReturn] = useState(false);
   let idCompany = Object.values(addCompanyId)[0];
-  let idUser = Object.values(addUserId)[0];
-
+  //   let idUser = Object.values(addUserId)[0];
   const fetchDataReturn = async () => {
     const getReturn = await apiReturn.get(`/${addCompanyId}/${addUserId}`);
 
@@ -35,11 +26,11 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
   };
   useEffect(() => {
     // console.log(idCompany !== 0 && idUser > 0);
-    // if (idCompany !== 0 && idUser > 0) {
-    fetchDataReturn();
-    // }
-  }, [addCompanyId]);
-  // Get current postsReturn
+    if (idCompany !== 0) {
+      fetchDataReturn();
+    }
+  }, [addUserId]);
+
   const indexOfLastPostReturn = currentPageReturn * PageSize;
 
   const indexOfFirstPostReturn = indexOfLastPostReturn - PageSize;
@@ -49,7 +40,6 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
   );
   // Change page
   const paginateReturn = (pageNumber) => setCurrentPageReturn(pageNumber);
-
   const handleGetReturn = (data) => {
     console.log("return", postsReturn);
 
@@ -106,7 +96,6 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
       </React.Fragment>
     );
   };
-
   return (
     <div>
       <section className="car-tabl">
@@ -115,4 +104,4 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
     </div>
   );
 };
-export default ReturnCar;
+export default RrTest;
