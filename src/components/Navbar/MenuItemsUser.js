@@ -22,7 +22,7 @@ export const MenuItemsUser = [
   },
   {
     title: "Rental",
-    Link: "RentalCar",
+    Link: "DepartmentRental",
     cName: "nav-links",
   },
   {

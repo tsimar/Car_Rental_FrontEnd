@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Pagination from "../Page/Pagination";
+import { url } from "../../url";
+import "../style/reset.css";
 
-const apiReturn = axios.create({ baseURL: "http://localhost:8080/return" });
-// let addCompanyId = 0;
-// let addUserId = null;
+import "../style/table.css";
+import "../style/inputAdd.css";
+
+const apiReturn = axios.create({ baseURL: `${url}/return` });
+
 const ReturnCar = ({ addCompanyId, addUserId }) => {
-  // const [posts, setPosts] = useState([]);
-  // const [postsUser, setPostsUser] = useState([]);
-  const [compId, setCompId] = useState(0);
   const [postsReturn, setPostsReturn] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentPageUser, setCurrentPageUser] = useState(1);
   const [currentPageReturn, setCurrentPageReturn] = useState(1);
   const [PageSize] = useState(5);
-  // const [loading, setLoading] = useState(false);
-  // const [loadingUser, setLoadingUser] = useState(false);
   const [loadingReturn, setLoadingReturn] = useState(false);
-  let idCompany = Object.values(addCompanyId)[0];
-  let idUser = Object.values(addUserId)[0];
 
   const fetchDataReturn = async () => {
     const getReturn = await apiReturn.get(`/${addCompanyId}/${addUserId}`);
@@ -34,14 +29,17 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
     );
   };
   useEffect(() => {
-    // console.log(idCompany !== 0 && idUser > 0);
-    // if (idCompany !== 0 && idUser > 0) {
-    fetchDataReturn();
-    // }
-  }, [addCompanyId]);
-  // Get current postsReturn
-  const indexOfLastPostReturn = currentPageReturn * PageSize;
+    console.log(typeof addCompanyId);
+    if (addCompanyId > 0 && addUserId > 0) {
+      fetchDataReturn();
+    }
+  }, [addCompanyId, addUserId]);
 
+  // Get current postsReturn
+  let indexOfLastPostReturn = currentPageReturn * PageSize;
+  if (postsReturn.length <= indexOfLastPostReturn - PageSize) {
+    indexOfLastPostReturn = Math.ceil(postsReturn.length / PageSize) * PageSize;
+  }
   const indexOfFirstPostReturn = indexOfLastPostReturn - PageSize;
   const currentPostsReturn = postsReturn.slice(
     indexOfFirstPostReturn,
@@ -51,8 +49,6 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
   const paginateReturn = (pageNumber) => setCurrentPageReturn(pageNumber);
 
   const handleGetReturn = (data) => {
-    console.log("return", postsReturn);
-
     return data.map((item) => {
       return (
         <tr className="tab--tr" key={item.id}>

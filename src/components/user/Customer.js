@@ -8,27 +8,22 @@ import React, {
   Fragment,
 } from "react";
 import { url } from "../../url";
-import { nanoid } from "nanoid";
 import axios from "axios";
 
-import ReadOnlyRow from "./ReadOnlyRow";
-import EditableRow from "./EditableRow";
-// import ReadOnlyRowComp from "./ReadOnlyRowComp";
-// import EditableRowComp from "./EditableRowComp";
-// import ReturnCar from "../returnCar/ReturnCar";
+import ReadOnlyRow from "./ReadOnlyRowUser";
+import EditableRow from "./EditTableRowUser";
+import ReturnCar from "../returnCar/ReturnCar";
+import RentalCar from "../rentalCar/RentalCar";
 import Pagination from "../Page/Pagination";
-import RrTest from "../returnCar/RrTest"
+
 import "../style/reset.css";
 import "../style/table.css";
 import "../style/inputAdd.css";
 import "./User.css";
 
-const apiReturn = axios.create({ baseURL: `${url}/return` });
 const apiUser = axios.create({ baseURL: `${url}/users` });
-let addUserId = 1;
 
-const Customer = (addCompanyId) => {
-
+const Customer = ({ addCompanyId, returnCar }) => {
   const [userPosts, setUserPosts] = useState([]);
   const [addFormData, setAddFormData] = useState({
     userName: "",
@@ -43,41 +38,20 @@ const Customer = (addCompanyId) => {
   const [PageSize] = useState(5);
   const [loading, setLoading] = useState(false);
   const [editContactId, setEditContactId] = useState(null);
-
-  // company
-  const [loadingUserComp, setLoadingUserComp] = useState(1);
-  const [postsUserComp, setPostsUserComp] = useState([]);
-  const [currentPageComp, setCurrentPageComp] = useState(1);
-  const [editCompId, setEditCompId] = useState(null);
   const [userId, setUserId] = useState(0);
-  const userItem = useRef(null);
-  let idCompany = Object.values(addCompanyId)[0];
-  const [postsReturn, setPostsReturn] = useState([]);
+  const logoRef = useRef(null);
 
-  const fetchDataReturn = async () => {
-    const getReturn = await apiReturn.get(`/${addCompanyId}/${addUserId}`);
-
-    // axios.all([getReturn]).then(
-    //   axios.spread((...allData) => {
-    //     // setLoadingReturn(true);
-    //     const getReturnAll = allData[0];
-    //     console.log("getReturnAll" + getReturnAll);
-    setPostsReturn(getReturn.data);
-    console.log(getReturn.data);
-    // setLoadingReturn(false);
-    // })
-    // );
-  };
   const fetchPosts = async () => {
     setLoading(true);
-    const res = await apiUser.get(`/${idCompany}`);
+    const res = await apiUser.get(`/${addCompanyId}`);
     setUserPosts(res.data);
     setLoading(false);
     console.log(res.data);
   };
-
+  let newCompId = Object.values(addCompanyId)[0];
   useEffect(() => {
-    if (idCompany !== 0) {
+    if (Object.values(addCompanyId)[0] !== 0) {
+      setUserId(0);
       fetchPosts();
     }
   }, [addCompanyId]);
@@ -98,7 +72,7 @@ const Customer = (addCompanyId) => {
       userName: addFormData.userName,
       userPassword: addFormData.userPassword,
     };
-    const newUsers = [...userPosts, newUser];
+    // const newUsers = [...userPosts, newUser];
 
     apiUser
       .post("/", newUser)
@@ -109,7 +83,6 @@ const Customer = (addCompanyId) => {
       .catch((error) => {
         console.log(error);
       });
-    // setUserPosts(newUsers);
     setAddFormData("");
   };
 
@@ -218,6 +191,14 @@ const Customer = (addCompanyId) => {
       );
     });
   };
+
+  const tttR = (addCompanyId, userId) => {
+    if (returnCar) {
+      return <ReturnCar addCompanyId={addCompanyId} addUserId={userId} />;
+    } else if (!returnCar) {
+      return <RentalCar addCompanyId={addCompanyId} addUserId={userId} />;
+    }
+  };
   return (
     <div>
       <div>
@@ -270,12 +251,9 @@ const Customer = (addCompanyId) => {
             onChange={handleAddFormChange}
           />
           <button type="submit">add</button>
-          {/* <Input className={'user-label'} type="submit" value='Dodaj'>Dodaj</Input> */}
         </form>
       </section>
-      <section className="section-car">
-        <RrTest addCompanyId={idCompany} addUserId={ userId} />
-      </section>
+      <section className="section-car">{tttR(addCompanyId, userId)}</section>
     </div>
   );
 };

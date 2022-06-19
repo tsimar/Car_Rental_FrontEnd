@@ -4,11 +4,10 @@ import NavbarUser from "./components/Navbar/NavbarUser";
 
 import BranchCompHook from "./components/branchCompany/BranchCompHook";
 import Customer from "./components/user/Customer";
-import ReturnCar from "./components/returnCar/ReturnCar";
-import RentalCar from "./components/rentalCar/RentalCar";
-import Reservation from "./components/reservation/Reservation";
-import "./App.css";
 import Department from "./components/Department/Department";
+import Reservation from "./components/reservation/Reservation";
+import DepartmentRental from "./components/rentalCar/DepartmentRental";
+import "./App.css";
 
 function App() {
   return (
@@ -21,7 +20,7 @@ function App() {
         <Route path="/Reservation" component={Reservation} />
         <Route path="/Customer" component={Customer} />
         <Route path="/Department" component={Department} />
-        <Route path="/RentalCar" component={RentalCar} />
+        <Route path="/DepartmentRental" component={DepartmentRental} />
       </Switch>
     </Router>
   );

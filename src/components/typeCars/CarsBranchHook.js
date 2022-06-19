@@ -8,7 +8,7 @@ import "./Cars.css";
 import BranchCompHook from "../branchCompany/BranchCompHook";
 const apiCar = axios.create({ baseURL:  `${url}/cars` });
 
-const CarsBranchHook = ({ addCompanyId, postsCar2 }) => {
+const CarsBranchHook = ({ addCompanyId }) => {
   const [postsCar, setPostsCar] = useState([]);
   const idCompany = 0;
   // setPostsCar(postsCar2);

@@ -1,7 +1,7 @@
 import React from "react";
 import "./User.css";
 
-const ReadOnlyRow = ({
+const ReadOnlyRowUser = ({
   item,
   handleEditClick,
   handleDeleteClick,
@@ -30,4 +30,4 @@ const ReadOnlyRow = ({
     </tr>
   );
 };
-export default ReadOnlyRow;
+export default ReadOnlyRowUser;

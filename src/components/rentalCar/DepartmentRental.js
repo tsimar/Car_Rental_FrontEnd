@@ -9,10 +9,9 @@ import React, {
 } from "react";
 import { url } from "../../url";
 import axios from "axios";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowD";
-import EditableRowD from "./EditableRowD";
 import Customer from "../user/Customer";
 import "../style/reset.css";
 import "../style/table.css";
@@ -34,7 +33,7 @@ const Department = () => {
     address: "",
   });
   const logoRef = useRef(null);
-  const returnCar = true;
+  const returnCar = false;
   const [editFormData, setEditFormData] = useState({
     logo: "",
     nameRental: "",
@@ -142,21 +141,12 @@ const Department = () => {
     return data.map((item) => {
       return (
         <Fragment key={item.id}>
-          {editPostsId === item.id ? (
-            <EditableRowD
-              editFormData={editFormData}
-              handleEditFormChange={handleEditFormChange}
-              handleCancelClick={handleCancelClick}
-              // handleVisibleCarsClick={handleVisibleCarsClick}
-            />
-          ) : (
-            <ReadOnlyRowD
-              item={item}
-              handleEditClick={handleEditClick}
-              handleDeleteClick={handleDeleteClick}
-              handleVisibleCarsClick={handleVisibleCarsClick}
-            />
-          )}
+          <ReadOnlyRowD
+            item={item}
+            handleEditClick={handleEditClick}
+            handleDeleteClick={handleDeleteClick}
+            handleVisibleCarsClick={handleVisibleCarsClick}
+          />
         </Fragment>
       );
     });
