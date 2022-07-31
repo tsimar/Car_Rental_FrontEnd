@@ -7,8 +7,8 @@ const EditTableRowUser = ({
   handleCancelClick,
 }) => {
   return (
-    <tr border={"2"} className="tab--tr">
-      <td className="tab--td"></td>
+    <tr className="tab--tr">
+      <td></td>
       <td className="tab--td">
         <input
           className="tab--input"

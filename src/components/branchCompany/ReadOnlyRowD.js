@@ -20,7 +20,7 @@ const ReadOnlyRowD = ({
       </td>
       <td className="tab--td"> {item.city}</td>
       <td className="tab--td">{item.address}</td>
-      <td>
+      <td className="tab--td">
         <button type="button" onClick={(event) => handleEditClick(event, item)}>
           Edit
         </button>

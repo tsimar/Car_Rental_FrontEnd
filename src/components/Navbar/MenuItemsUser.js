@@ -2,37 +2,37 @@
 export const MenuItemsUser = [
   {
     title: "Oddział",
-    Link: "BranchCompHook",
+    Link: "Department",
     cName: "nav-links",
   },
-  // {
-  //     title: "Pracownik",
-  //     Link: "employee",
-  //     cName: "nav-links"
-  // },
+  {
+    title: "Pracownik",
+    Link: "Customer",
+    cName: "nav-links",
+  },
   // {
   //     title: "Flota",
   //     Link: "CarsHug",
   //     cName: "nav-links"
   // },
   {
-    title: "Return",
-    Link: "Department",
+    title: "Wozwrat",
+    Link: "Return",
     cName: "nav-links",
   },
   {
-    title: "Rental",
-    Link: "DepartmentRental",
+    title: "Sprzedarz",
+    Link: "Rental",
     cName: "nav-links",
   },
   {
-    title: "Przychody",
+    title: "Przychody finansów",
     Link: "CashReceipts",
     cName: "nav-links",
   },
-  {
-    title: "Logowanie",
-    URL: "#",
-    cName: "nav-links-mobile",
-  },
+  // {
+  //   title: "Logowanie",
+  //   URL: "#",
+  //   cName: "nav-links-mobile",
+  // },
 ];

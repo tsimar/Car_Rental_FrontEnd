@@ -1,20 +1,14 @@
-import React, {
-  Component,
-  setState,
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  Fragment,
-} from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { url } from "../../url";
 import axios from "axios";
 
+import InfoCustomer from "./InfoCustomer";
 import ReadOnlyRow from "./ReadOnlyRowUser";
 import EditableRow from "./EditTableRowUser";
 import ReturnCar from "../returnCar/ReturnCar";
 import RentalCar from "../rentalCar/RentalCar";
 import Pagination from "../Page/Pagination";
+import { useSelector } from "react-redux";
 
 import "../style/reset.css";
 import "../style/table.css";
@@ -23,7 +17,9 @@ import "./User.css";
 
 const apiUser = axios.create({ baseURL: `${url}/users` });
 
-const Customer = ({ addCompanyId, returnCar }) => {
+const Customer = ({ returnCar }) => {
+  const idCompany = useSelector((state) => state.idComp.idComp);
+
   const [userPosts, setUserPosts] = useState([]);
   const [addFormData, setAddFormData] = useState({
     userName: "",
@@ -43,18 +39,21 @@ const Customer = ({ addCompanyId, returnCar }) => {
 
   const fetchPosts = async () => {
     setLoading(true);
-    const res = await apiUser.get(`/${addCompanyId}`);
+    const res = await apiUser.get(`/${idCompany.title}`);
     setUserPosts(res.data);
     setLoading(false);
     console.log(res.data);
   };
-  let newCompId = Object.values(addCompanyId)[0];
+
   useEffect(() => {
-    if (Object.values(addCompanyId)[0] !== 0) {
+    console.log(idCompany.title);
+    console.log(typeof idCompany.title !== "undefined");
+    console.log(idCompany.title !== 0);
+    if (typeof idCompany.title !== "undefined" && idCompany.title !== 0) {
       setUserId(0);
       fetchPosts();
     }
-  }, [addCompanyId]);
+  }, [idCompany.title]);
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -68,17 +67,14 @@ const Customer = ({ addCompanyId, returnCar }) => {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
     const newUser = {
-      // id: nanoid(),
       userName: addFormData.userName,
       userPassword: addFormData.userPassword,
     };
-    // const newUsers = [...userPosts, newUser];
 
     apiUser
       .post("/", newUser)
       .then((response) => {
         fetchPosts();
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -99,17 +95,18 @@ const Customer = ({ addCompanyId, returnCar }) => {
       .put(`/`, editedContact)
       .then((response) => {
         console.log(response);
+        fetchPosts();
       })
       .catch((error) => {
         console.log(error);
       });
-    const newFormData = { ...userPosts };
-    userPosts.map((item) => {
-      if (item.id === editContactId) {
-        item.userName = editFormData.userName;
-        item.userPassword = editFormData.userPassword;
-      }
-    });
+    // const newFormData = { ...userPosts };
+    // userPosts.map((item) => {
+    //   if (item.id === editContactId) {
+    //     item.userName = editFormData.userName;
+    //     item.userPassword = editFormData.userPassword;
+    //   }
+    // });
     setEditContactId(null);
   };
 
@@ -128,7 +125,7 @@ const Customer = ({ addCompanyId, returnCar }) => {
   const handleEditClick = (event, user) => {
     event.preventDefault();
     setEditContactId(user.id);
-
+    console.log(user.id);
     const formValues = {
       editId: user.id,
       userName: user.userName,
@@ -177,7 +174,6 @@ const Customer = ({ addCompanyId, returnCar }) => {
               editFormData={editFormData}
               handleEditFormChange={handleEditFormChange}
               handleCancelClick={handleCancelClick}
-              // handleVisibleByCompany={handleVisibleCarsClick}
             />
           ) : (
             <ReadOnlyRow
@@ -192,15 +188,24 @@ const Customer = ({ addCompanyId, returnCar }) => {
     });
   };
 
-  const tttR = (addCompanyId, userId) => {
-    if (returnCar) {
-      return <ReturnCar addCompanyId={addCompanyId} addUserId={userId} />;
-    } else if (!returnCar) {
-      return <RentalCar addCompanyId={addCompanyId} addUserId={userId} />;
+  const selectReturnOrRentalOrCustomer = (userId) => {
+    switch (returnCar) {
+      case "Return": {
+        return <ReturnCar addUserId={userId} />;
+      }
+      case "Customer": {
+        return <InfoCustomer addUserId={userId} />;
+      }
+      case "Rental": {
+        return <RentalCar addUserId={userId} />;
+      }
+      default:
+        return <RentalCar addUserId={userId} />;
     }
   };
   return (
-    <div>
+    <div className="tabl-comp">
+      <h1 className="text-primary ">Users{idCompany.title}</h1>
       <div>
         <form onSubmit={handleEditFormSubmit}>
           <table className="tab">
@@ -215,7 +220,7 @@ const Customer = ({ addCompanyId, returnCar }) => {
             </thead>
             <tfoot className="tab--tfoot">
               <tr>
-                <td colspan="6" className="tab__tfoot--td">
+                <td colSpan="6" className="tab__tfoot--td">
                   <div className="container__page--div">
                     <Pagination
                       postsPerPage={PageSize}
@@ -253,7 +258,9 @@ const Customer = ({ addCompanyId, returnCar }) => {
           <button type="submit">add</button>
         </form>
       </section>
-      <section className="section-car">{tttR(addCompanyId, userId)}</section>
+      <section className="section-car">
+        {selectReturnOrRentalOrCustomer(userId)}
+      </section>
     </div>
   );
 };

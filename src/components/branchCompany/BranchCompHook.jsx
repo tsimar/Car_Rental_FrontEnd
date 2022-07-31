@@ -22,7 +22,7 @@ import "../style/inputAdd.css";
 
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 const apiCar = axios.create({ baseURL: `${url}/cars` });
-const apiEmpl = axios.create({ baseURL:  `${url}/employees` });
+const apiEmpl = axios.create({ baseURL: `${url}/employees` });
 
 let addCompanyId = "n";
 
@@ -215,11 +215,8 @@ const BranchCompHook = () => {
   };
   const handleDeleteClick = (departId) => {
     const newContacts = [...posts];
-
     const index = posts.findIndex((contact) => contact.id === departId);
-
     newContacts.splice(index, 1);
-
     setPosts(newContacts);
     api.delete(`/${departId}`);
     addCompanyId = "d";
@@ -240,8 +237,8 @@ const BranchCompHook = () => {
 
   return (
     <div className="container">
-      <div className="comp-emp_wrapper">
-        <section className="comp-wrapper">
+      <div className="comp-emp_wrapper_d">
+        <section className="comp-wrapper_d">
           <div className="tabl-comp">
             <h1 className="text-primary ">DEPARTMENT</h1>
             <div className="container-table-comp">
@@ -259,7 +256,7 @@ const BranchCompHook = () => {
                   </thead>
                   <tfoot className="tab--tfoot">
                     <tr>
-                      <td colspan="6" className="tab__tfoot--td">
+                      <td colSpan="6" className="tab__tfoot--td">
                         <div className="container__page--div">
                           <Pagination
                             postsPerPage={PageSize}

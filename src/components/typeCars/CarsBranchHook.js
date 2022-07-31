@@ -250,7 +250,7 @@ const CarsBranchHook = ({ addCompanyId }) => {
           </thead>
           <tfoot className="tab--tfoot">
             <tr>
-              <td colspan="11" className="tab__tfoot--td">
+              <td colSpan="11" className="tab__tfoot--td">
                 <div className="container__page--div">
                   <Pagination
                     postsPerPage={PageSize}

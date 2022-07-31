@@ -6,17 +6,21 @@ import "../style/reset.css";
 
 import "../style/table.css";
 import "../style/inputAdd.css";
+import { useSelector } from "react-redux";
 
 const apiReturn = axios.create({ baseURL: `${url}/return` });
 
-const ReturnCar = ({ addCompanyId, addUserId }) => {
+const ReturnCar = ({ addUserId }) => {
+  const idCompany = useSelector((state) => state.idComp.idComp);
+  console.log("idComany", idCompany.title);
+
   const [postsReturn, setPostsReturn] = useState([]);
   const [currentPageReturn, setCurrentPageReturn] = useState(1);
   const [PageSize] = useState(5);
   const [loadingReturn, setLoadingReturn] = useState(false);
 
   const fetchDataReturn = async () => {
-    const getReturn = await apiReturn.get(`/${addCompanyId}/${addUserId}`);
+    const getReturn = await apiReturn.get(`/${idCompany.title}/${addUserId}`);
 
     axios.all([getReturn]).then(
       axios.spread((...allData) => {
@@ -29,12 +33,11 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
     );
   };
   useEffect(() => {
-    console.log(typeof addCompanyId);
-    if (addCompanyId > 0 && addUserId > 0) {
+    if (idCompany.title > 0 && addUserId > 0) {
       fetchDataReturn();
     }
-  }, [addCompanyId, addUserId]);
-
+  }, [idCompany.title]);
+  //  }, [addCompanyId, addUserId]);
   // Get current postsReturn
   let indexOfLastPostReturn = currentPageReturn * PageSize;
   if (postsReturn.length <= indexOfLastPostReturn - PageSize) {
@@ -85,7 +88,7 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
             </thead>
             <tfoot className="tab--tfoot">
               <tr>
-                <td colspan="11" className="tab__tfoot--td">
+                <td colSpan="11" className="tab__tfoot--td">
                   <div className="container__page--div">
                     <Pagination
                       postsPerPage={PageSize}
@@ -105,6 +108,7 @@ const ReturnCar = ({ addCompanyId, addUserId }) => {
 
   return (
     <div>
+      <h1>{idCompany.title}</h1>
       <section className="car-tabl">
         <div>{tableReturn()}</div>
       </section>

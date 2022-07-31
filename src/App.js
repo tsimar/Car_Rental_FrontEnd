@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavbarUser from "./components/Navbar/NavbarUser";
 
 import BranchCompHook from "./components/branchCompany/BranchCompHook";
-import Customer from "./components/user/Customer";
 import Department from "./components/Department/Department";
 import Reservation from "./components/reservation/Reservation";
-import DepartmentRental from "./components/rentalCar/DepartmentRental";
+import SingUser from "./components/sing/SingUser";
+
 import "./App.css";
 
 function App() {
@@ -16,12 +16,16 @@ function App() {
         <NavbarUser />
       </div>
       <Switch>
-        <Route path="/branchCompHook" component={BranchCompHook} />
+        <Route path="/" exact />
+        <Route path="/Department">
+          <BranchCompHook />
+        </Route>
         <Route path="/Reservation" component={Reservation} />
-        <Route path="/Customer" component={Customer} />
-        <Route path="/Department" component={Department} />
-        <Route path="/DepartmentRental" component={DepartmentRental} />
+        <Route path="/Customer" component={Department} />
+        <Route path="/Return" component={Department} />
+        <Route path="/Rental" component={Department} />
       </Switch>
+      <SingUser />
     </Router>
   );
 }

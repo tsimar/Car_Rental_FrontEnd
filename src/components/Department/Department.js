@@ -3,30 +3,53 @@ import React, {
   useEffect,
   useRef,
   Fragment,
-  useCallback,
-  useDebugValue,
-  useMemo,
+  createContext,
 } from "react";
 import { url } from "../../url";
 import axios from "axios";
-import { nanoid } from "nanoid";
+
+import { useLocation } from "react-router-dom";
 import Pagination from "../Page/Pagination";
-import ReadOnlyRowD from "./ReadOnlyRowD";
+import ReadOnlyRowD from "./ReadOnlyRowDS";
 import EditableRowD from "./EditableRowD";
 import Customer from "../user/Customer";
 import "../style/reset.css";
+import "./Department.css";
 import "../style/table.css";
 import "../style/inputAdd.css";
 
+import { useDispatch } from "react-redux";
+import { newIdComp } from "../../redux/idCompSlice";
+
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 
+// const initialState = {
+//   idCompany: 0,
+//   setIdCompany: () => {},
+// };
+// const GlobalContext = createContext(initialState);
+// function GlobalContextProvider({ newIdCompany }) {
+//   const [idCompany, setIdCompany] = useState(0);
+//   return (
+//     <GlobalContext.Provider value={{ idCompany, setIdCompany }}>
+//       {newIdCompany}
+//     </GlobalContext.Provider>
+//   );
+// }
+
 const Department = () => {
+  const dispatch = useDispatch();
+  const location = useLocation("");
+
+  let tableAfterUser = location.pathname.split("/");
+
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
   const [compId, setCompId] = useState(0);
   const [editPostsId, setEditPostsId] = useState(null);
   const [loading, setLoading] = useState(false);
+
   const [addFormData, setAddFormData] = useState({
     logo: "",
     nameRental: "",
@@ -34,7 +57,7 @@ const Department = () => {
     address: "",
   });
   const logoRef = useRef(null);
-  const returnCar = true;
+  const returnCar = 1;
   const [editFormData, setEditFormData] = useState({
     logo: "",
     nameRental: "",
@@ -133,9 +156,10 @@ const Department = () => {
     event.target.reset();
   };
 
-  const handleVisibleCarsClick = (event, id) => {
+  const handleOnClickComp = (event, id) => {
     event.preventDefault();
-    setCompId(id);
+    console.log("idsss", id);
+    dispatch(newIdComp({ title: id }));
   };
 
   const renderIncomingData = (data) => {
@@ -147,14 +171,13 @@ const Department = () => {
               editFormData={editFormData}
               handleEditFormChange={handleEditFormChange}
               handleCancelClick={handleCancelClick}
-              // handleVisibleCarsClick={handleVisibleCarsClick}
             />
           ) : (
             <ReadOnlyRowD
               item={item}
               handleEditClick={handleEditClick}
               handleDeleteClick={handleDeleteClick}
-              handleVisibleCarsClick={handleVisibleCarsClick}
+              handleOnClickComp={handleOnClickComp}
             />
           )}
         </Fragment>
@@ -186,48 +209,48 @@ const Department = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="container">
-      <div className="comp-emp_wrapper">
-        <section className="comp-wrapper">
-          <div className="tabl-comp">
-            <h1 className="text-primary ">DEPARTMENT</h1>
-            <div className="container-table-comp">
-              <form onSubmit={handleEditFormSubmit}>
-                <table className="tab">
-                  <thead className="tab--thead">
-                    <tr className="tab--tr">
-                      <th className="tab__thead--th">ID:</th>
-                      <th className="tab__thead--th">Logo:</th>
-                      <th className="tab__thead--th">department:</th>
-                      <th className="tab__thead--th">city:</th>
-                      <th className="tab__thead--th">address:</th>
-                      <th className="tab__thead--th">Actions</th>
-                    </tr>
-                  </thead>
-                  <tfoot className="tab--tfoot">
-                    <tr>
-                      <td colspan="6" className="tab__tfoot--td">
-                        <div className="container__page--div">
-                          <Pagination
-                            postsPerPage={PageSize}
-                            totalPosts={posts.length}
-                            paginate={paginate}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  </tfoot>
-                  <tbody>{renderIncomingData(currentPosts)}</tbody>
-                </table>
-              </form>
-            </div>
+    // <GlobalContextProvider>
+    <div className="container_depRet">
+      <section className="comp-wrapper_depRet">
+        <div className="tabl-comp">
+          <h1 className="text-primary ">DEPARTMENT</h1>
+          <div className="container-table-comp">
+            <form onSubmit={handleEditFormSubmit}>
+              <table className="tab">
+                <thead className="tab--thead">
+                  <tr className="tab--tr">
+                    <th className="tab__thead--th">ID:</th>
+                    <th className="tab__thead--th">Logo:</th>
+                    <th className="tab__thead--th">department:</th>
+                    <th className="tab__thead--th">city:</th>
+                    <th className="tab__thead--th">address:</th>
+                    <th className="tab__thead--th">Actions</th>
+                  </tr>
+                </thead>
+                <tfoot className="tab--tfoot">
+                  <tr>
+                    <td colSpan="6" className="tab__tfoot--td">
+                      <div className="container__page--div">
+                        <Pagination
+                          postsPerPage={PageSize}
+                          totalPosts={posts.length}
+                          paginate={paginate}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
+                <tbody>{renderIncomingData(currentPosts)}</tbody>
+              </table>
+            </form>
           </div>
-        </section>
-        <section className="section-empl">
-          <Customer addCompanyId={compId} returnCar={returnCar} />
-        </section>
-      </div>
+        </div>
+      </section>
+      <section className="section-empl_depRet">
+        <Customer returnCar={tableAfterUser[1]} />
+      </section>
     </div>
+    // </GlobalContextProvider>
   );
 };
 

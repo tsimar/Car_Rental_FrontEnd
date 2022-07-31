@@ -214,7 +214,7 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
             </thead>
             <tfoot className="tab--tfoot">
               <tr>
-                <td colspan="6" className="tab__tfoot--td">
+                <td colSpan="6" className="tab__tfoot--td">
                   <div className="container__page--div">
                     <Pagination
                       postsPerPage={PageSize}
