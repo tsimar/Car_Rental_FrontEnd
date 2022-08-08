@@ -9,9 +9,6 @@ export const idCompSlice = createSlice({
   initialState,
   reducers: {
     newIdComp: (state, action) => {
-      // const newId = {
-      //   title: action.payload.title,
-      // };
       state.idComp = action.payload;
     },
   },
