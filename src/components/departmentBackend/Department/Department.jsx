@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  Fragment,
-  createContext,
-} from "react";
+import React, { useState, useEffect, useRef, Fragment } from "react";
 import { url } from "../../../url";
 import axios from "axios";
 
@@ -98,14 +92,14 @@ const Department = () => {
       });
     const newFormData = { ...posts };
 
-    posts.map((item) => {
-      if (item.id === editPostsId) {
-        item.logo = editedContact.logo;
-        item.nameRental = editedContact.nameRental;
-        item.city = editedContact.city;
-        item.address = editedContact.address;
-      }
-    });
+    posts.map((item) =>
+      item.id === editPostsId
+        ? ((item.logo = editedContact.logo),
+          (item.nameRental = editedContact.nameRental),
+          (item.city = editedContact.city),
+          (item.address = editedContact.address))
+        : ""
+    );
     setEditPostsId(null);
   };
 
@@ -134,28 +128,28 @@ const Department = () => {
     setEditPostsId(null);
   };
 
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
-    const newFormData = { ...addFormData };
-    newFormData[fieldName] = fieldValue;
-    setAddFormData(newFormData);
-  };
+  // const handleAddFormChange = (event) => {
+  //   event.preventDefault();
+  //   const fieldName = event.target.name;
+  //   const fieldValue = event.target.value;
+  //   const newFormData = { ...addFormData };
+  //   newFormData[fieldName] = fieldValue;
+  //   setAddFormData(newFormData);
+  // };
 
-  const handleAddFormSubmit = (event) => {
-    event.preventDefault();
-    api
-      .post("/", addFormData)
-      .then((response) => {
-        fetchPosts();
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    event.target.reset();
-  };
+  // const handleAddFormSubmit = (event) => {
+  //   event.preventDefault();
+  //   api
+  //     .post("/", addFormData)
+  //     .then((response) => {
+  //       fetchPosts();
+  //       console.log(response);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  //   event.target.reset();
+  // };
 
   const handleOnClickComp = (event, id) => {
     event.preventDefault();

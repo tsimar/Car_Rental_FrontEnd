@@ -36,7 +36,7 @@ const RentalCar = ({ addCompanyId, addUserId }) => {
     if (addCompanyId > 0 && addUserId > 0) {
       fetchDataRental();
     }
-  }, [addCompanyId, addUserId]);
+  }, [addUserId]);
 
   // Get current postsRental
   let indexOfLastPostRental = currentPageRental * PageSize;

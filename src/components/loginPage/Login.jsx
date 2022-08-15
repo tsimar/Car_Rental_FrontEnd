@@ -1,39 +1,31 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { url } from "../../url";
+// import axios from "axios";
+// import { url } from "../../url";
 import "../../style/login.css";
 
 import { useDispatch } from "react-redux";
-import { loginSlice, newLogin } from "../../redux/loginSlice";
-const api = axios.create({ baseURL: `${url}/branchCompany` });
+import { newLogin } from "../../redux/loginSlice";
+import { newUser } from "../../redux/newUserSlice";
+// const api = axios.create({ baseURL: `${url}/branchCompany` });
 
 const Login = () => {
   const dispatch = useDispatch();
+  const dispNewUser = useDispatch();
 
   const [userLogin, setUserLogin] = useState({
     login: "",
     password: "",
   });
+
   const newUserPage = (e) => {
-    console.log("lsdjfsffffffffffff");
+    e.preventDefault();
+    dispNewUser(newUser({ title: true }));
+    dispatch(newLogin({ title: false }));
   };
+
   const submitLogin = (e) => {
     e.preventDefault();
     dispatch(newLogin({ title: false }));
-    // console.log(e);
-    // const fetchDATAEmpl = async () => {
-    //   const getEmpl = apiEmpl.get(`/login/${userLogin.login}`);
-    //   axios.all([getEmpl]).then(
-    //     axios.spread((...allData) => {
-    //       setLoadingEmpl(true);
-    //       const getEmplAll = allData[0];
-    //       // const allDataComp = allData[1]
-    //       console.log("getEmplAll" + getEmplAll.data);
-    //       setPostsEmpl(getEmplAll.data);
-    //       setLoadingEmpl(false);
-    //     })
-    //   );
-    // };
   };
 
   const handleChange = (e) => {
@@ -44,6 +36,7 @@ const Login = () => {
     newLogin[fieldName] = fieldValue;
     setUserLogin(newLogin);
   };
+
   return (
     <div className="body-login">
       <div>

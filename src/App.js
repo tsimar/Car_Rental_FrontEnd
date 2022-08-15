@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavbarUser from "./components/departmentBackend/Navbar/NavbarUser";
 
@@ -10,14 +10,16 @@ import SingUser from "./components/sing/SingUser";
 import "./App.css";
 import Login from "./components/loginPage/Login";
 import { useSelector } from "react-redux";
+import { NewCustomer } from "./components/loginPage/NewCustomer";
 
 function App() {
   const loginIn = useSelector((state) => state.login.login);
-  const [newLogin, setNewLogin] = useState(false);
+  const newLogin = useSelector((state) => state.newUser.newUser);
+  // console.log(newLogin.title);
   if (loginIn.title) {
     return <Login />;
   } else if (newLogin.title) {
-    // return <NewUser />;
+    return <NewCustomer />;
   }
 
   return (
@@ -34,7 +36,6 @@ function App() {
         <Route path="/Customer" component={Department} />
         <Route path="/Return" component={Department} />
         <Route path="/Rental" component={Department} />
-        {/* <Route path="/LOGOWANIE" component={Login} /> */}
       </Switch>
       <SingUser />
     </Router>

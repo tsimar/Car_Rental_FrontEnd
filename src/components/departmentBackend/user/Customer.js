@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { url } from "../../../url";
 import axios from "axios";
 
@@ -33,9 +33,10 @@ const Customer = ({ returnCar }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
   const [loading, setLoading] = useState(false);
+  console.log(loading);
   const [editContactId, setEditContactId] = useState(null);
   const [userId, setUserId] = useState(0);
-  const logoRef = useRef(null);
+  // const logoRef = useRef(null);
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -50,7 +51,8 @@ const Customer = ({ returnCar }) => {
       setUserId(0);
       fetchPosts();
     }
-  }, [idCompany.title]);
+  }, []);
+  //  }, [idCompany]);
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -98,12 +100,11 @@ const Customer = ({ returnCar }) => {
         console.log(error);
       });
     // const newFormData = { ...userPosts };
-    userPosts.map((item) => {
-      if (item.id === editContactId) {
-        item.userName = editFormData.userName;
-        item.userPassword = editFormData.userPassword;
-      }
-    });
+    userPosts.map((item) =>
+      item.id === editContactId
+        ? (item.userName = editFormData.userName)
+        : (item.userPassword = editFormData.userPassword)
+    );
     setEditContactId(null);
   };
 
