@@ -10,7 +10,7 @@ import SingUser from "./components/sing/SingUser";
 import "./App.css";
 import Login from "./components/loginPage/Login";
 import { useSelector } from "react-redux";
-import { NewCustomer } from "./components/loginPage/NewCustomer";
+import { NewCustomer } from "./components/loginPage/newUser/NewCustomer";
 
 function App() {
   const loginIn = useSelector((state) => state.login.login);

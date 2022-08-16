@@ -2,11 +2,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-import { NewUserDepartment } from "../../server/NewUserDepartment";
-
+import { NewUserDepartment } from "../../../server/NewUserDepartment";
+import imgLogo from "../../../jpeg/favicon.png";
 import { useDispatch } from "react-redux";
-import { newUser } from "../../redux/newUserSlice";
-import { url } from "../../url";
+import { newUser } from "../../../redux/newUserSlice";
+import { url } from "../../../url";
 
 const api = axios.create({ baseURL: `${url}/users` });
 
@@ -22,14 +22,6 @@ export const NewCustomer = () => {
     userPassword: "",
   });
 
-  // const fetchPost = async () => {
-  //   // setLoading(true);
-  //   const res = await api.get("/");
-  //   setNewUser(res.data);
-  //   // setLoading(false);
-  //   console.log(res.data);
-  // };
-
   const handelSave = (e) => {
     e.preventDefault();
     dispatch(newUser({ title: false }));
@@ -37,13 +29,11 @@ export const NewCustomer = () => {
     api
       .post("/", customer)
       .then((response) => {
-        // fetchPost();
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-    e.target.reset();
   };
 
   const handleCancel = () => {
@@ -60,7 +50,7 @@ export const NewCustomer = () => {
   return (
     <div className="body-login">
       <div>
-        <img src="" alt="logo" />
+        <img src={imgLogo} alt="logo" />
         <p>New User Page</p>
       </div>
       <form className="page-login " onSubmit={handelSave}>

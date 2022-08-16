@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-// import axios from "axios";
-// import { url } from "../../url";
+import axios from "axios";
+import { url } from "../../url";
 import "../../style/login.css";
 
 import { useDispatch } from "react-redux";
 import { newLogin } from "../../redux/loginSlice";
 import { newUser } from "../../redux/newUserSlice";
-// const api = axios.create({ baseURL: `${url}/branchCompany` });
+import imgLogo from "../../jpeg/favicon.png";
+const api = axios.create({ baseURL: `${url}/users` });
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -39,8 +40,8 @@ const Login = () => {
 
   return (
     <div className="body-login">
-      <div>
-        <img src="" alt="logo" />
+      <div className="wrrop-img">
+        <img className="logoImg" src={imgLogo} alt="logo" />
         <p>Login Page</p>
       </div>
       <form className="page-login " onSubmit={submitLogin}>
