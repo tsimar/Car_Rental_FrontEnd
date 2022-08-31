@@ -16,10 +16,9 @@ import EditableRowD from "./EditableRowD";
 import EmployeeBranchHook from "../employee/EmployeeBranchHook";
 import CarsBranchHook from "../typeCars/CarsBranchHook";
 import "../../../style/reset.css";
-import "./BranchCompany.css";
 import "../../../style/table.css";
 import "../../../style/inputAdd.css";
-
+import "./BranchCompany.css";
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 const apiCar = axios.create({ baseURL: `${url}/cars` });
 const apiEmpl = axios.create({ baseURL: `${url}/employees` });

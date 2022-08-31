@@ -128,29 +128,6 @@ const Department = () => {
     setEditPostsId(null);
   };
 
-  // const handleAddFormChange = (event) => {
-  //   event.preventDefault();
-  //   const fieldName = event.target.name;
-  //   const fieldValue = event.target.value;
-  //   const newFormData = { ...addFormData };
-  //   newFormData[fieldName] = fieldValue;
-  //   setAddFormData(newFormData);
-  // };
-
-  // const handleAddFormSubmit = (event) => {
-  //   event.preventDefault();
-  //   api
-  //     .post("/", addFormData)
-  //     .then((response) => {
-  //       fetchPosts();
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   event.target.reset();
-  // };
-
   const handleOnClickComp = (event, id) => {
     event.preventDefault();
     console.log("idsss", id);

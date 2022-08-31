@@ -2,11 +2,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-import { NewUserDepartment } from "../../../server/NewUserDepartment";
+import { SelectDepartmentLoginPage } from "../../../server/SelectDepartmentLoginPage";
 import imgLogo from "../../../jpeg/favicon.png";
 import { useDispatch } from "react-redux";
 import { newUser } from "../../../redux/newUserSlice";
 import { url } from "../../../url";
+import "./newCustomer.css";
+import "../../../style/login.css";
 
 const api = axios.create({ baseURL: `${url}/users` });
 
@@ -49,17 +51,13 @@ export const NewCustomer = () => {
   };
   return (
     <div className="body-login">
-      <div>
-        <img src={imgLogo} alt="logo" />
-        <p>New User Page</p>
+      <div className="div-nameAndImg">
+        <img className="logoImg" src={imgLogo} alt="logo" />
+        <p className="div-nameAndImg-p">New User Page</p>
       </div>
-      <form className="page-login " onSubmit={handelSave}>
-        <div className="wrrop-login wrrop-div">
-          <NewUserDepartment />
-          {/* <select name="depatment" id="department">
-            <NewUserDepartment />
-            <option value=""></option>
-          </select> */}
+      <form className="page-login wrrop-div" onSubmit={handelSave}>
+        <div className="wrrop-div ">
+          <SelectDepartmentLoginPage />
         </div>
         <div className="wrrop-login wrrop-div">
           <label htmlFor="nameCustomer">login</label>

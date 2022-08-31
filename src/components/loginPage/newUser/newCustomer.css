@@ -1,0 +1,11 @@
+.div-nameAndImg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.div-nameAndImg-p{
+    margin-left: 10px;
+}
+.logoImg{
+    width: 60px;
+}

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 import { url } from "../url";
-
+import "./selectDepartmentLoginPage.css";
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 
-export const NewUserDepartment = () => {
+export const SelectDepartmentLoginPage = () => {
   const [departments, setDepartments] = useState();
   const [dataOption, setDataOption] = useState([]);
   //   const [dataOptionTest, setDataOptionTest] = useState([]);
@@ -41,13 +41,15 @@ export const NewUserDepartment = () => {
   };
 
   return (
-    <>
-      <label htmlFor="department">department</label>
-      <select id="department" value={departments?.id} onChange={handelChange}>
-        {handleComBox()}
-      </select>
-      <label className="city">{departments?.city}</label>
-      <label className="address">{departments?.address}</label>
-    </>
+    <div className="wrrop-div">
+      <label htmlFor="Offices">Offices</label>
+      <div className="wrrop-select-department ">
+        <select id="department" value={departments?.id} onChange={handelChange}>
+          {handleComBox()}
+        </select>
+        <label className="city">{departments?.city}</label>
+        <label className="address">{departments?.address}</label>
+      </div>
+    </div>
   );
 };

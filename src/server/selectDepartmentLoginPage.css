@@ -1,0 +1,9 @@
+.wrrop-select-department {
+  display: flex;
+  flex-direction: column;
+  width: 63%;
+  align-items: left;
+}
+.city,.address{
+    margin-top: 10px;
+}

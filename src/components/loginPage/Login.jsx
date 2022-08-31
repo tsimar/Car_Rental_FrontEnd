@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { url } from "../../url";
 import "../../style/login.css";
@@ -12,11 +12,28 @@ const api = axios.create({ baseURL: `${url}/users` });
 const Login = () => {
   const dispatch = useDispatch();
   const dispNewUser = useDispatch();
-
+  const [post, setPost] = useState([]);
   const [userLogin, setUserLogin] = useState({
     login: "",
     password: "",
   });
+
+  const fetchPosts = async () => {
+    try {
+      const res = await api.get(
+        `/login/${userLogin.login}/${userLogin.password}`
+      );
+
+      if (res.data.userName === userLogin.login) {
+        dispatch(newLogin({ title: false }));
+        setPost(res.data);
+      } else {
+        console.log("sdfggsdfgsdfgsdg");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const newUserPage = (e) => {
     e.preventDefault();
@@ -26,7 +43,9 @@ const Login = () => {
 
   const submitLogin = (e) => {
     e.preventDefault();
-    dispatch(newLogin({ title: false }));
+
+    fetchPosts();
+    // console.log(...post);
   };
 
   const handleChange = (e) => {
