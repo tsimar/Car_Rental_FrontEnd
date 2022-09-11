@@ -16,6 +16,7 @@ export const NewCustomer = () => {
   const dispatch = useDispatch();
 
   const [customer, setCustomer] = useState({
+
     nameCustomer: "",
     lastNameCustomer: "",
     address: "",

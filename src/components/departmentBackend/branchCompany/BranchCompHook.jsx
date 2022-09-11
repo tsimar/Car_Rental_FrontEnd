@@ -9,7 +9,7 @@ import React, {
 } from "react";
 import { url } from "../../../url";
 import axios from "axios";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
 import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowD";
 import EditableRowD from "./EditableRowD";

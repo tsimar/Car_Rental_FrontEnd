@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "../../Button";
 import { Link } from "react-router-dom";
-import { MenuItemsUser } from "./MenuItemsUser";
+import { MenuItemsForUser } from "../Navbar/MenuItemForEdit";
 import "./NavbarUser.css";
 
 import { useDispatch } from "react-redux";
@@ -31,7 +31,7 @@ export const NavbarUser = () => {
         <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>
       </div>
       <ul className={clicked ? "nav-menu active" : "nav-menu"}>
-        {MenuItemsUser.map((item, index) => {
+        {MenuItemsForUser.map((item, index) => {
           return (
             <li key={index}>
               <Link to={{ pathname: item.Link }}>{item.title}</Link>
