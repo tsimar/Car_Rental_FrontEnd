@@ -5,7 +5,7 @@ import { url } from "../url";
 import "./selectDepartmentLoginPage.css";
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 
-export const SelectDepartmentLoginPage = (handleSelectDepartment) => {
+export const SelectDepartmentLoginPage = () => {
   const [departments, setDepartments] = useState();
   const [dataOption, setDataOption] = useState([]);
   //   const [dataOptionTest, setDataOptionTest] = useState([]);
@@ -47,9 +47,9 @@ export const SelectDepartmentLoginPage = (handleSelectDepartment) => {
         <select id="department" value={departments?.id} onChange={handelChange}>
           {handleComBox()}
         </select>
-
         <label className="city">{departments?.city}</label>
         <label className="address">{departments?.address}</label>
+        <label>{departments?.id}</label>
       </div>
     </div>
   );

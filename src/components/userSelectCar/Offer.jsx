@@ -1,16 +1,19 @@
 import React from "react";
-import axios from "axios";
-import { url } from "../../url";
+import Cars from "./typeCar/Cars";
+// import axios from "axios";
+// import { url } from "../../url";
 import { SelectDepartmentLoginPage } from "../../server/SelectDepartmentLoginPage";
-const api = axios.create({ baseURL: `${url}/branchCompany` });
+// const api = axios.create({ baseURL: `${url}/branchCompany` });
 
 const Offer = () => {
-  const handleSelectDepartment = (departId) => {};
+  const handleSelectDepartment = (e, departId) => {
+    e.preventDefault();
+    console.log(departId);
+  };
   return (
     <div>
-      <SelectDepartmentLoginPage
-        handleSelectDepartment={handleSelectDepartment}
-      />
+      <SelectDepartmentLoginPage />
+      <Cars />
     </div>
   );
 };
