@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { url } from "../../../url";
 
@@ -6,24 +6,31 @@ const apiCar = axios.create({ baseURL: `${url}/cars` });
 
 const Cars = () => {
   const [carsPost, setCarsPost] = useState([]);
-
+  console.log(apiCar);
   const fetchDATA = async () => {
-    setCarsPost([]);
-    console.log("I am here");
-    const getCars = apiCar.get();
-
-    axios.all([getCars]).then(
-      axios.spread((...allData) => {
-        // setLoadingCar(true);
-        const getCarsAll = allData[0];
-        // const allDataComp = allData[1]
-        console.log("getCarsAll" + getCarsAll);
-        setCarsPost(getCarsAll.data);
-        // setLoadingCar(false);
-      })
-    );
+    const getCars = await apiCar.get("/");
+    console.log(getCars.data);
+    setCarsPost(getCars.data);
   };
-  return <div>{fetchDATA}</div>;
+
+  useEffect(() => {
+    fetchDATA();
+  }, []);
+  const handleAllCars = (data) => {
+    console.log(data);
+
+    return data.map((item, index) => {
+      return (
+        <div key={index}>
+          <span>{item.id}</span>
+          <span>{item.carBrand}</span>
+          <span>{item.model}</span>
+          <span>{item.carType}</span>
+        </div>
+      );
+    });
+  };
+  return <div>{handleAllCars(carsPost)}</div>;
 };
 
 export default Cars;
