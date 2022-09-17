@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { url } from "../../../url";
-
+import car from "../../../jpeg/favicon.png";
 const apiCar = axios.create({ baseURL: `${url}/cars` });
 
 const Cars = () => {
@@ -22,6 +22,9 @@ const Cars = () => {
     return data.map((item, index) => {
       return (
         <div key={index}>
+          <div>
+            <img src={car} alt="" />
+          </div>
           <span>{item.id}</span>
           <span>{item.carBrand}</span>
           <span>{item.model}</span>
