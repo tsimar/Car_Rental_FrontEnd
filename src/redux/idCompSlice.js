@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  idComp: 0,
+  title: 0,
 };
 
 export const idCompSlice = createSlice({
@@ -9,7 +9,7 @@ export const idCompSlice = createSlice({
   initialState,
   reducers: {
     newIdComp: (state, action) => {
-      state.idComp = action.payload;
+      state.title = action.payload;
     },
   },
 });

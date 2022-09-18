@@ -43,7 +43,6 @@ const Customer = ({ returnCar }) => {
     const res = await apiUser.get(`/${idCompany.title}`);
     setUserPosts(res.data);
     setLoading(false);
-    console.log(res.data);
   };
 
   useEffect(() => {

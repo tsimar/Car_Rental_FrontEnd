@@ -15,21 +15,22 @@ const InfoCustomer = ({ addUserId }) => {
   const [PageSize] = useState(5);
   const [loadingCustomer, setLoadingCustomer] = useState(false);
 
-  const fetchDataCustomer = async () => {
-    const getCustomer = await apiCustomer.get(`/${addUserId}`);
 
-    axios.all([getCustomer]).then(
-      axios.spread((...allData) => {
-        setLoadingCustomer(true);
-        const getCustomerAll = allData[0];
-        console.log("getCustomerAll", getCustomerAll);
-        setPostsCustomer(getCustomerAll.data);
-        setLoadingCustomer(false);
-      })
-    );
-  };
   useEffect(() => {
     if (addUserId > 0) {
+      async function fetchDataCustomer() {
+        const getCustomer = await apiCustomer.get(`/${addUserId}`);
+
+        axios.all([getCustomer]).then(
+          axios.spread((...allData) => {
+            setLoadingCustomer(true);
+            const getCustomerAll = allData[0];
+            console.log("getCustomerAll", getCustomerAll);
+            setPostsCustomer(getCustomerAll.data);
+            setLoadingCustomer(false);
+          })
+        );
+      }
       fetchDataCustomer();
     }
   }, [addUserId]);
