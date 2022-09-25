@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const apiReturn = axios.create({ baseURL: `${url}/return` });
 
 const ReturnCar = ({ addUserId }) => {
-  const idCompany = useSelector((state) => state.idComp.idComp);
+  const idCompany = useSelector((state) => state.idComp.title);
   console.log("idComany", idCompany.title);
 
   const [postsReturn, setPostsReturn] = useState([]);
@@ -33,7 +33,7 @@ const ReturnCar = ({ addUserId }) => {
     );
   };
   useEffect(() => {
-    if (idCompany.title > 0 && addUserId > 0) {
+    if (idCompany.title !== undefined && addUserId > 0) {
       fetchDataReturn();
     }
   }, [idCompany.title]);
