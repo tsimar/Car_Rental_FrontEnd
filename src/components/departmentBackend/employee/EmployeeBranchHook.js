@@ -7,7 +7,7 @@ import "../../../style/table.css";
 import "./Empl.css";
 import axios from "axios";
 
-import BranchCompHook from "../branchCompany/BranchCompHook";
+// import BranchCompHook from "../branchCompany/BranchCompHook";
 const apiEmpl = axios.create({ baseURL: `${url}/employees` });
 
 const EmployeeBranchHook = ({ addCompanyId }) => {

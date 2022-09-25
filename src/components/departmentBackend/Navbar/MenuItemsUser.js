@@ -9,11 +9,6 @@ export const MenuItemsUser = [
     Link: "Customer",
     cName: "nav-links",
   },
-  // {
-  //     title: "Flota",
-  //     Link: "CarsHug",
-  //     cName: "nav-links"
-  // },
   {
     title: "Wozwrat",
     Link: "Return",
@@ -29,9 +24,4 @@ export const MenuItemsUser = [
     Link: "CashReceipts",
     cName: "nav-links",
   },
-  // {
-  //   title: "Logowanie",
-  //   Link: "login",
-  //   cName: "nav-links",
-  // },
 ];

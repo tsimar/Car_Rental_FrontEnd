@@ -14,34 +14,36 @@ import { NewCustomer } from "./components/loginPage/newUser/NewCustomer";
 import ChoiceCar from "./components/userSelectCar/ChoiceCar";
 
 function App() {
-  // const loginIn = useSelector((state) => state.login.login);
-  // const newLogin = useSelector((state) => state.newUser.newUser);
-
-  // if (loginIn.title) {
-  //   return <Login />;
-  // } else if (newLogin.title) {
-  //   return <NewCustomer />;
-  // }
-
-  return (
-    <ChoiceCar />
-    // <Router>
-    //   <div className="app">
-    //     <NavbarUser />
-    //   </div>
-    //   <Switch>
-    //     <Route path="/" exact />
-    //     <Route path="/Department">
-    //       <BranchCompHook />
-    //     </Route>
-    //     <Route path="/Reservation" component={Reservation} />
-    //     <Route path="/Customer" component={Department} />
-    //     <Route path="/Return" component={Department} />
-    //     <Route path="/Rental" component={Department} />
-    //   </Switch>
-    //   <SingUser />
-    // </Router>
-  );
+  const loginIn = useSelector((state) => state.login.login);
+  const newLogin = useSelector((state) => state.newUser.newUser);
+  let p = 2;
+  if (loginIn.title) {
+    return <Login />;
+  } else if (newLogin.title) {
+    return <NewCustomer />;
+  }
+  if (p === 1) {
+    return <ChoiceCar />;
+  } else {
+    return (
+      <Router>
+        <div className="app">
+          <NavbarUser />
+        </div>
+        <Switch>
+          <Route path="/" exact />
+          <Route path="/Department">
+            <BranchCompHook />
+          </Route>
+          <Route path="/Reservation" component={Reservation} />
+          <Route path="/Customer" component={Department} />
+          <Route path="/Return" component={Department} />
+          <Route path="/Rental" component={Department} />
+        </Switch>
+        <SingUser />
+      </Router>
+    );
+  }
 }
 
 export default App;

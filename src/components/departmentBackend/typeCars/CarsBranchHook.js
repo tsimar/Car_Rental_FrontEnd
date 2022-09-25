@@ -5,12 +5,12 @@ import EditableRowCar from "./EditableRowCar";
 import Pagination from "../Page/Pagination";
 import axios from "axios";
 import "./Cars.css";
-import BranchCompHook from "../branchCompany/BranchCompHook";
+// import BranchCompHook from "../branchCompany/BranchCompHook";
 const apiCar = axios.create({ baseURL: `${url}/cars` });
 
 const CarsBranchHook = ({ addCompanyId }) => {
   const [postsCar, setPostsCar] = useState([]);
-  const idCompany = 0;
+  // const idCompany = 0;
   // setPostsCar(postsCar2);
 
   const [currentPageCar, setCurrentPageCar] = useState(1);
@@ -83,7 +83,7 @@ const CarsBranchHook = ({ addCompanyId }) => {
 
   const handleAddFormCarSubmit = (event) => {
     event.preventDefault();
-    console.log("add cars new", addFormDataCar);
+  
     const newCar = {
       carBrand: addFormDataCar.carBrand,
       model: addFormDataCar.model,
@@ -94,8 +94,7 @@ const CarsBranchHook = ({ addCompanyId }) => {
       carStatus: addFormDataCar.carStatus,
       carRentalDepartID: addCompanyId,
     };
-    const newCars = [...postsCar, newCar];
-    console.log("newCar", newCar);
+
 
     setAddFormDataCar(newCar);
     apiCar
@@ -134,19 +133,21 @@ const CarsBranchHook = ({ addCompanyId }) => {
       .catch((error) => {
         console.log(error);
       });
-    const newFormData = { ...postsCar };
+    // const newFormData = { ...postsCar };
 
     postsCar.map((item) => {
       if (item.id === editPostsCarId) {
-        item.carBrand = editFormDataCar.carBrand;
-        item.model = editFormDataCar.model;
-        item.carType = editFormDataCar.carType;
-        item.productionDate = editFormDataCar.productionDate;
-        item.color = editFormDataCar.color;
-        item.carMileage = editFormDataCar.carMileage;
-        item.statusRental = editFormDataCar.statusRental;
-        item.carStatus = editFormDataCar.carStatus;
-        item.carRentalDepartID = editFormDataCar.carRentalDepartID;
+        return (
+          (item.carBrand = editFormDataCar.carBrand),
+          (item.model = editFormDataCar.model),
+          (item.carType = editFormDataCar.carType),
+          (item.productionDate = editFormDataCar.productionDate),
+          (item.color = editFormDataCar.color),
+          (item.carMileage = editFormDataCar.carMileage),
+          (item.statusRental = editFormDataCar.statusRental),
+          (item.carStatus = editFormDataCar.carStatus),
+          (item.carRentalDepartID = editFormDataCar.carRentalDepartID)
+        );
       }
     });
     setEditPostsCarId(null);

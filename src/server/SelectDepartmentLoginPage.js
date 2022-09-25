@@ -55,7 +55,13 @@ export const SelectDepartmentLoginPage = () => {
     <div className="wrrop-div">
       <label htmlFor="Offices">Offices</label>
       <div className="wrrop-select-department ">
-        <select id="department" value={departments?.id} onChange={handelChange}>
+        <select
+          className="input-department"
+          id="department"
+          typeof="text"
+          value={departments?.id}
+          onChange={handelChange}
+        >
           {handleComBox()}
         </select>
         <label className="city">{departments?.city}</label>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react"; //useRef,
 import { url } from "../../../url";
 import axios from "axios";
 
@@ -41,18 +41,18 @@ const Department = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
-  const [compId, setCompId] = useState(0);
+  // const [compId, setCompId] = useState(0);
   const [editPostsId, setEditPostsId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const [addFormData, setAddFormData] = useState({
-    logo: "",
-    nameRental: "",
-    city: "",
-    address: "",
-  });
-  const logoRef = useRef(null);
-  const returnCar = 1;
+  // const [addFormData, setAddFormData] = useState({
+  //   logo: "",
+  //   nameRental: "",
+  //   city: "",
+  //   address: "",
+  // });
+  // const logoRef = useRef(null);
+  // const returnCar = 1;
   const [editFormData, setEditFormData] = useState({
     logo: "",
     nameRental: "",
@@ -90,7 +90,7 @@ const Department = () => {
       .catch((error) => {
         console.log(error);
       });
-    const newFormData = { ...posts };
+    // const newFormData = { ...posts };
 
     posts.map((item) =>
       item.id === editPostsId

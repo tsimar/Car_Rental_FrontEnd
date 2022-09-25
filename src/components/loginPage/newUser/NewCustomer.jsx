@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { SelectDepartmentLoginPage } from "../../../server/SelectDepartmentLoginPage";
 import imgLogo from "../../../jpeg/favicon.png";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { newUser } from "../../../redux/newUserSlice";
 import { url } from "../../../url";
 import "./newCustomer.css";
@@ -14,21 +15,29 @@ const api = axios.create({ baseURL: `${url}/users` });
 
 export const NewCustomer = () => {
   const dispatch = useDispatch();
-
+  const idCompany = useSelector((state) => state.idComp.title);
+  let depId = 0;
+  if (idCompany.title !== undefined) {
+    depId = idCompany.title;
+  } else {
+    depId = 0;
+  }
   const [customer, setCustomer] = useState({
-
     nameCustomer: "",
     lastNameCustomer: "",
     address: "",
     email: "",
     userName: "",
     userPassword: "",
+    departmentId: "",
   });
 
   const handelSave = (e) => {
     e.preventDefault();
     dispatch(newUser({ title: false }));
+
     console.log(customer);
+    customer.departmentId = depId;
     api
       .post("/", customer)
       .then((response) => {
@@ -61,7 +70,7 @@ export const NewCustomer = () => {
           <SelectDepartmentLoginPage />
         </div>
         <div className="wrrop-login wrrop-div">
-          <label htmlFor="nameCustomer">login</label>
+          <label htmlFor="nameCustomer">name</label>
           <input
             type="text"
             name="nameCustomer"
@@ -71,7 +80,7 @@ export const NewCustomer = () => {
           />
         </div>
         <div className="wrrop-login wrrop-div">
-          <label htmlFor="lastNameCustomer">login</label>
+          <label htmlFor="lastNameCustomer">last name</label>
           <input
             type="text"
             name="lastNameCustomer"
@@ -81,7 +90,7 @@ export const NewCustomer = () => {
           />
         </div>
         <div className="wrrop-login wrrop-div">
-          <label htmlFor="email">login</label>
+          <label htmlFor="email">e-mail</label>
           <input
             type="text"
             name="email"
@@ -91,7 +100,7 @@ export const NewCustomer = () => {
           />
         </div>
         <div className="wrrop-login wrrop-div">
-          <label htmlFor="address">login</label>
+          <label htmlFor="address">address</label>
           <input
             type="text"
             name="address"

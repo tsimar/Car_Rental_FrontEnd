@@ -1,13 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";/
 
 const SingUser = () => {
-  const userRef = useRef();
+  // const userRef = useRef();
   const errRef = useRef();
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  // const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     // userRef.current.focus();

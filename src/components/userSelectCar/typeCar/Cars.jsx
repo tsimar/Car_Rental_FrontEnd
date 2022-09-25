@@ -38,7 +38,7 @@ const Cars = () => {
     } else {
       return data.map((item, index) => {
         return (
-          <div key={index}>
+          <div className="wrrop-car-div" key={index}>
             <div>
               <img src={car} alt="" />
             </div>

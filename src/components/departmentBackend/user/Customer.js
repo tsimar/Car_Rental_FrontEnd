@@ -18,10 +18,18 @@ import "./User.css";
 const apiUser = axios.create({ baseURL: `${url}/users` });
 
 const Customer = ({ returnCar }) => {
-  const idCompany = useSelector((state) => state.idComp.idComp);
+  const stateIdCompany = useSelector((state) => state.idComp.title);
+  let idCompany = 0;
+  if (typeof stateIdCompany === "number") {
+    idCompany = 0;
+  } else {
+    idCompany = stateIdCompany.title;
+  }
+  console.log(typeof idCompany);
 
   const [userPosts, setUserPosts] = useState([]);
   const [addFormData, setAddFormData] = useState({
+    idComp: "",
     userName: "",
     userPassword: "",
   });
@@ -39,19 +47,23 @@ const Customer = ({ returnCar }) => {
   // const logoRef = useRef(null);
 
   const fetchPosts = async () => {
-    setLoading(true);
-    const res = await apiUser.get(`/${idCompany.title}`);
-    setUserPosts(res.data);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const res = await apiUser.get(`/${idCompany}`);
+      console.log(res.data);
+      setUserPosts(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    if (typeof idCompany.title !== "undefined" && idCompany.title !== 0) {
-      setUserId(0);
-      fetchPosts();
-    }
-  }, []);
-  //  }, [idCompany]);
+    // if (typeof idCompany !== undefined && idCompany !== 0) {
+    setUserId(0);
+    fetchPosts();
+    // }
+  }, [idCompany]);
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -65,6 +77,7 @@ const Customer = ({ returnCar }) => {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
     const newUser = {
+      departmentId: idCompany,
       userName: addFormData.userName,
       userPassword: addFormData.userPassword,
     };
