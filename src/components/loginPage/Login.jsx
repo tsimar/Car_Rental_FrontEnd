@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useReducer, useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { url } from "../../url";
 import "../../style/login.css";
@@ -6,34 +6,53 @@ import "../../style/login.css";
 import { useDispatch } from "react-redux";
 import { newLogin } from "../../redux/loginSlice";
 import { newUser } from "../../redux/newUserSlice";
+import { userOrDeveloper } from "../../redux/userUse";
 import imgLogo from "../../jpeg/favicon.png";
+
 const api = axios.create({ baseURL: `${url}/users` });
 
 const Login = () => {
   const dispatch = useDispatch();
   const dispNewUser = useDispatch();
-  const [post, setPost] = useState([]);
-  const [userLogin, setUserLogin] = useState({
-    login: "",
-    password: "",
-  });
+  const disUserUse = useDispatch();
+  const [inputErrorClass, setInputErrorClass] = useState(false);
+  const [inputValues, setInputValues] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    { login: "", password: "" }
+  );
+
+  const { onClickOutside } = { ...inputValues };
+  const ref = useRef(null);
 
   const fetchPosts = async () => {
     try {
       const res = await api.get(
-        `/login/${userLogin.login}/${userLogin.password}`
+        `/login/${inputValues.login}/${inputValues.password}`
       );
 
-      if (res.data.userName === userLogin.login) {
+      if (res.data.userName === inputValues.login) {
         dispatch(newLogin({ title: false }));
-        setPost(res.data);
+        disUserUse(userOrDeveloper({ title: false }));
       } else {
-        console.log("sdfggsdfgsdfgsdg");
+        setInputErrorClass(true);
       }
     } catch (err) {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        onClickOutside && onClickOutside();
+        dispatch(newLogin({ title: false }));
+      }
+    };
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [onClickOutside]);
 
   const newUserPage = (e) => {
     e.preventDefault();
@@ -43,22 +62,18 @@ const Login = () => {
 
   const submitLogin = (e) => {
     e.preventDefault();
-
     fetchPosts();
-    // console.log(...post);
   };
 
   const handleChange = (e) => {
     e.preventDefault();
-    const fieldName = e.target.name;
-    const fieldValue = e.target.value;
-    const newLogin = { ...userLogin };
-    newLogin[fieldName] = fieldValue;
-    setUserLogin(newLogin);
+    const { name, value } = e.target;
+    setInputValues({ [name]: value });
+    setInputErrorClass(false);
   };
 
   return (
-    <div className="body-login">
+    <div className="body-login" ref={ref}>
       <div className="wrrop-img">
         <img className="logoImg" src={imgLogo} alt="logo" />
         <p>Login Page</p>
@@ -67,16 +82,19 @@ const Login = () => {
         <div className="wrrop-login wrrop-div">
           <label htmlFor="login">login</label>
           <input
+            className={inputErrorClass ? "inputError" : "inputInit"}
             type="text"
             name="login"
             id="login"
+            // value={post.userName}
             placeholder="login"
-            onChange={handleChange}
+            onChange={(e) => handleChange(e)}
           />
         </div>
         <div className="wrrop-password wrrop-div">
           <label htmlFor="password">password</label>
           <input
+            className={inputErrorClass ? "inputError" : "inputInit"}
             type="password"
             name="password"
             id="password"

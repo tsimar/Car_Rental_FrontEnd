@@ -16,13 +16,14 @@ import ChoiceCar from "./components/userSelectCar/ChoiceCar";
 function App() {
   const loginIn = useSelector((state) => state.login.login);
   const newLogin = useSelector((state) => state.newUser.newUser);
-  let p = 2;
+  const userUse = useSelector((state) => state.userUse.userUse);
+
   if (loginIn.title) {
     return <Login />;
   } else if (newLogin.title) {
     return <NewCustomer />;
   }
-  if (p === 1) {
+  if (userUse) {
     return <ChoiceCar />;
   } else {
     return (
