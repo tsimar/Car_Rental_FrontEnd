@@ -1,0 +1,9 @@
+.wrrop-car-div{
+    display: flex;
+
+}
+.wrrop_div-item--car{
+    display:flex;
+    align-content: space-between;
+    
+}

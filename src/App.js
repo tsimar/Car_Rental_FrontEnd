@@ -16,7 +16,7 @@ import ChoiceCar from "./components/userSelectCar/ChoiceCar";
 function App() {
   const loginIn = useSelector((state) => state.login.login);
   const newLogin = useSelector((state) => state.newUser.newUser);
-  const userUse = useSelector((state) => state.userUse.userUse);
+  const userUse = useSelector((state) => state.userUse.title);
 
   if (loginIn.title) {
     return <Login />;

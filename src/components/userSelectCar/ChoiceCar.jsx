@@ -1,13 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavbarForEdit from "../departmentBackend/Navbar/NavbarForEdit";
-import Offer from "./Offer";
+import Offer from "./offer/Offer";
 import Statute from "./Statute";
 import Contact from "./Contact";
+import "./choiceCar.css";
 
 const ChoiceCar = () => {
   return (
-    <Router>
+    <Router className="wrrop-router-user">
       <div className="app">
         <NavbarForEdit />
       </div>

@@ -3,6 +3,8 @@ import axios from "axios";
 import { url } from "../../../url";
 import { useSelector } from "react-redux";
 import car from "../../../jpeg/favicon.png";
+import "./cars.css";
+
 const apiCar = axios.create({ baseURL: `${url}/cars` });
 
 const Cars = () => {
@@ -42,11 +44,13 @@ const Cars = () => {
             <div>
               <img src={car} alt="" />
             </div>
-            <span>{item.id}</span>
-            <span>{item.carBrand}</span>
-            <span>{item.model}</span>
-            <span>{item.carType}</span>
-            <span>{depId}</span>
+            <div className="wrrop_div-item--car">
+              <span>{item.id}</span>
+              <span>{item.carBrand}</span>
+              <span>{item.model}</span>
+              <span>{item.carType}</span>
+              <span>{depId}</span>
+            </div>
           </div>
         );
       });
