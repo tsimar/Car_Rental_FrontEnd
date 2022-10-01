@@ -25,7 +25,7 @@ const Customer = ({ returnCar }) => {
   } else {
     idCompany = stateIdCompany.title;
   }
-  console.log(typeof idCompany);
+  // console.log(typeof idCompany);
 
   const [userPosts, setUserPosts] = useState([]);
   const [addFormData, setAddFormData] = useState({

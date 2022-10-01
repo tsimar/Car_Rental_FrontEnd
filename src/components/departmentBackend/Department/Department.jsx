@@ -45,14 +45,7 @@ const Department = () => {
   const [editPostsId, setEditPostsId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // const [addFormData, setAddFormData] = useState({
-  //   logo: "",
-  //   nameRental: "",
-  //   city: "",
-  //   address: "",
-  // });
-  // const logoRef = useRef(null);
-  // const returnCar = 1;
+
   const [editFormData, setEditFormData] = useState({
     logo: "",
     nameRental: "",
@@ -86,20 +79,20 @@ const Department = () => {
       .put(`/`, editedContact)
       .then((response) => {
         console.log(response);
+        fetchPosts();
       })
       .catch((error) => {
         console.log(error);
       });
-    // const newFormData = { ...posts };
 
-    posts.map((item) =>
-      item.id === editPostsId
-        ? ((item.logo = editedContact.logo),
-          (item.nameRental = editedContact.nameRental),
-          (item.city = editedContact.city),
-          (item.address = editedContact.address))
-        : ""
-    );
+    // posts.map((item) =>
+    //   item.id === editPostsId
+    //     ? ((item.logo = editedContact.logo),
+    //       (item.nameRental = editedContact.nameRental),
+    //       (item.city = editedContact.city),
+    //       (item.address = editedContact.address))
+    //     : ""
+    // );
     setEditPostsId(null);
   };
 
@@ -179,7 +172,7 @@ const Department = () => {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  console.log(loading);
   return (
     // <GlobalContextProvider>
     <div className="container_depRet">

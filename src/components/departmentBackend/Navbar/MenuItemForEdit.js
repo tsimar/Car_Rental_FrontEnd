@@ -15,19 +15,4 @@ export const MenuItemsForUser = [
     cName: "nav-links",
   },
 
-  // {
-  //   title: "Sprzedarz",
-  //   Link: "Rental",
-  //   cName: "nav-links",
-  // },
-  // {
-  //   title: "Przychody finansów",
-  //   Link: "CashReceipts",
-  //   cName: "nav-links",
-  // },
-  // {
-  //   title: "Logowanie",
-  //   Link: "login",
-  //   cName: "nav-links",
-  // },
 ];

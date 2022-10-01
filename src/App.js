@@ -23,7 +23,7 @@ function App() {
   } else if (newLogin.title) {
     return <NewCustomer />;
   }
-  if (userUse) {
+  if (false) {
     return <ChoiceCar />;
   } else {
     return (

@@ -5,10 +5,20 @@ import EditableRowCar from "./EditableRowCar";
 import Pagination from "../Page/Pagination";
 import axios from "axios";
 import "./Cars.css";
+import { useSelector } from "react-redux";
+
 // import BranchCompHook from "../branchCompany/BranchCompHook";
 const apiCar = axios.create({ baseURL: `${url}/cars` });
 
-const CarsBranchHook = ({ addCompanyId }) => {
+const CarsBranchHook = () => {
+  const stateIdCompany = useSelector((state) => state.idComp.title);
+  let idCompany = 0;
+  if (typeof stateIdCompany === "number") {
+    idCompany = 0;
+  } else {
+    idCompany = stateIdCompany.title;
+  }
+
   const [postsCar, setPostsCar] = useState([]);
   // const idCompany = 0;
   // setPostsCar(postsCar2);
@@ -45,12 +55,12 @@ const CarsBranchHook = ({ addCompanyId }) => {
   // const [unitPrice, setUnitPrice] = useState(null);
 
   const fetchDATA = async () => {
-    const playerPic = `${url}/cars/${addCompanyId}`;
+    const playerPic = `${url}/cars/${idCompany}`;
 
     console.log("conpId", playerPic);
     setPostsCar([]);
 
-    const getCars = apiCar.get(`/${addCompanyId}`);
+    const getCars = apiCar.get(`/${idCompany}`);
 
     axios.all([getCars]).then(
       axios.spread((...allData) => {
@@ -64,10 +74,10 @@ const CarsBranchHook = ({ addCompanyId }) => {
     );
   };
   useEffect(() => {
-    if (addCompanyId !== "n") {
-      fetchDATA();
-    }
-  }, [addCompanyId]);
+    // if (addCompanyId !== "n") {
+    fetchDATA();
+    // }
+  }, [idCompany]);
 
   const handleAddFormCarChange = (event) => {
     event.preventDefault();
@@ -83,7 +93,7 @@ const CarsBranchHook = ({ addCompanyId }) => {
 
   const handleAddFormCarSubmit = (event) => {
     event.preventDefault();
-  
+
     const newCar = {
       carBrand: addFormDataCar.carBrand,
       model: addFormDataCar.model,
@@ -92,9 +102,8 @@ const CarsBranchHook = ({ addCompanyId }) => {
       carMileage: addFormDataCar.carMileage,
       statusRental: addFormDataCar.statusRental,
       carStatus: addFormDataCar.carStatus,
-      carRentalDepartID: addCompanyId,
+      carRentalDepartID: idCompany,
     };
-
 
     setAddFormDataCar(newCar);
     apiCar
@@ -128,6 +137,7 @@ const CarsBranchHook = ({ addCompanyId }) => {
     apiCar
       .put(`/`, editedContact)
       .then((response) => {
+        fetchDATA();
         console.log(response);
       })
       .catch((error) => {
@@ -135,21 +145,19 @@ const CarsBranchHook = ({ addCompanyId }) => {
       });
     // const newFormData = { ...postsCar };
 
-    postsCar.map((item) => {
-      if (item.id === editPostsCarId) {
-        return (
-          (item.carBrand = editFormDataCar.carBrand),
-          (item.model = editFormDataCar.model),
-          (item.carType = editFormDataCar.carType),
-          (item.productionDate = editFormDataCar.productionDate),
-          (item.color = editFormDataCar.color),
-          (item.carMileage = editFormDataCar.carMileage),
-          (item.statusRental = editFormDataCar.statusRental),
-          (item.carStatus = editFormDataCar.carStatus),
-          (item.carRentalDepartID = editFormDataCar.carRentalDepartID)
-        );
-      }
-    });
+    // postsCar.map((item) =>
+    //   item.id === editPostsCarId
+    //     ? ((item.carBrand = editFormDataCar.carBrand),
+    //       (item.model = editFormDataCar.model),
+    //       (item.carType = editFormDataCar.carType),
+    //       (item.productionDate = editFormDataCar.productionDate),
+    //       (item.color = editFormDataCar.color),
+    //       (item.carMileage = editFormDataCar.carMileage),
+    //       (item.statusRental = editFormDataCar.statusRental),
+    //       (item.carStatus = editFormDataCar.carStatus),
+    //       (item.carRentalDepartID = editFormDataCar.carRentalDepartID))
+    //     : ""
+    // );
     setEditPostsCarId(null);
   };
 
@@ -266,7 +274,7 @@ const CarsBranchHook = ({ addCompanyId }) => {
         </table>
       </form>
       <section className="container--add">
-        <h2 className="container_add--h1">Add a new Cars {addCompanyId}</h2>
+        <h2 className="container_add--h1">Add a new Cars {idCompany}</h2>
         <form className="container_add--form" onSubmit={handleAddFormCarSubmit}>
           <input
             className="container_add--input"

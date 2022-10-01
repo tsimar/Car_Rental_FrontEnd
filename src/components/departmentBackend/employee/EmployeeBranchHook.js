@@ -6,14 +6,27 @@ import Pagination from "../Page/Pagination";
 import "../../../style/table.css";
 import "./Empl.css";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
-// import BranchCompHook from "../branchCompany/BranchCompHook";
 const apiEmpl = axios.create({ baseURL: `${url}/employees` });
 
-const EmployeeBranchHook = ({ addCompanyId }) => {
+const EmployeeBranchHook = () => {
+  const stateIdCompany = useSelector((state) => state.idComp.title);
+
+  let idCompany = 0;
+  if (typeof stateIdCompany === "number") {
+    idCompany = 0;
+  } else {
+    idCompany = stateIdCompany.title;
+  }
+
   const [currentPageEmpl, setCurrentPageEmpl] = useState(1);
   const [postsEmpl, setPostsEmpl] = useState([]);
   const [PageSize] = useState(5);
+  const nameEmpl = useRef(null);
+  const [editPostsEmplId, setEditPostsEmplId] = useState(null);
+  const [loadingEmpl, setLoadingEmpl] = useState(false);
+
   const [addFormDataEmpl, setAddFormDataEmpl] = useState({
     name: "",
     lastName: "",
@@ -27,12 +40,9 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
     position: "",
     carRentalDepartID: "",
   });
-  const nameEmpl = useRef(null);
-  const [editPostsEmplId, setEditPostsEmplId] = useState(null);
-  const [loadingEmpl, setLoadingEmpl] = useState(false);
 
   const fetchDATAEmpl = async () => {
-    const getEmpl = apiEmpl.get(`/${addCompanyId}`);
+    const getEmpl = apiEmpl.get(`/${idCompany}`);
     axios.all([getEmpl]).then(
       axios.spread((...allData) => {
         setLoadingEmpl(true);
@@ -46,36 +56,26 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
   };
 
   useEffect(() => {
-    if (addCompanyId !== "n") {
-      fetchDATAEmpl();
-    }
-  }, [addCompanyId]);
+    fetchDATAEmpl();
+  }, [idCompany]);
 
   const handleAddFormEmplChange = (event) => {
     event.preventDefault();
-
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
-
     const newFormData = { ...addFormDataEmpl };
     newFormData[fieldName] = fieldValue;
-
     setAddFormDataEmpl(newFormData);
   };
 
   const handleAddFormEmplSubmit = (event) => {
     event.preventDefault();
-
     const newEmpl = {
-      // id: nanoid(),
       name: addFormDataEmpl.name,
       lastName: addFormDataEmpl.lastName,
       position: addFormDataEmpl.position,
-      carRentalDepartID: addCompanyId,
+      carRentalDepartID: idCompany,
     };
-
-    const newEmpls = [...postsEmpl, newEmpl];
-    console.log("newEmpl-74", newEmpl);
     setAddFormDataEmpl(newEmpl);
     apiEmpl
       .post("/", newEmpl)
@@ -86,7 +86,6 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
       .catch((error) => {
         console.log(error);
       });
-
     setAddFormDataEmpl("");
   };
 
@@ -104,20 +103,11 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
       .put(`/`, editedEmpl)
       .then((response) => {
         console.log(response);
+        fetchDATAEmpl();
       })
       .catch((error) => {
         console.log(error);
       });
-    // const newFormData = { ...postsEmpl };
-
-    postsEmpl.map((item) => {
-      if (item.id === editPostsEmplId) {
-        item.name = editFormDataEmpl.name;
-        item.lastName = editFormDataEmpl.lastName;
-        item.position = editFormDataEmpl.position;
-        item.carRentalDepartID = editFormDataEmpl.carRentalDepartID;
-      }
-    });
     setEditPostsEmplId(null);
   };
 
@@ -164,7 +154,7 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
 
   const handleAddEmpl = (data) => {
     console.log("empl-342", data);
-
+    console.log(loadingEmpl);
     return data.map((item) => {
       return (
         <Fragment key={item.id}>
@@ -230,7 +220,7 @@ const EmployeeBranchHook = ({ addCompanyId }) => {
         </form>
       </div>
       <section className="container--add">
-        <h2 className="container_add--h1">Add a new employee {addCompanyId}</h2>
+        <h2 className="container_add--h1">Add a new employee {idCompany}</h2>
         <form
           className="container_add--form"
           onSubmit={handleAddFormEmplSubmit}

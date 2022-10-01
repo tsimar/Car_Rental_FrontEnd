@@ -10,13 +10,27 @@ import "../../../style/reset.css";
 import "../../../style/table.css";
 import "../../../style/inputAdd.css";
 import "./BranchCompany.css";
-const api = axios.create({ baseURL: `${url}/branchCompany` });
-const apiCar = axios.create({ baseURL: `${url}/cars` });
-const apiEmpl = axios.create({ baseURL: `${url}/employees` });
 
-let addCompanyId = "n";
+import { useDispatch } from "react-redux";
+import { newIdComp } from "../../../redux/idCompSlice";
+// import { useSelector } from "react-redux";
+const api = axios.create({ baseURL: `${url}/branchCompany` });
+// const apiCar = axios.create({ baseURL: `${url}/cars` });
+// const apiEmpl = axios.create({ baseURL: `${url}/employees` });
+
+// let addCompanyId = "n";
 
 const BranchCompHook = () => {
+  const dispatch = useDispatch();
+
+  // const stateIdCompany = useSelector((state) => state.idComp.title);
+  // let idCompany = 0;
+  // if (typeof stateIdCompany === "number") {
+  //   idCompany = 0;
+  // } else {
+  //   idCompany = stateIdCompany.title;
+  // }
+
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
@@ -39,42 +53,44 @@ const BranchCompHook = () => {
   });
   // CONST FROM CAR
 
-  const [postsCar, setPostsCar] = useState([]);
+  // const [postsCar, setPostsCar] = useState([]);
 
-  const fetchDATA = async () => {
-    const playerPic = `${url}/cars/${addCompanyId}`;
-    setPostsCar([]);
-    console.log("conpId", playerPic);
+  // const fetchDATA = async () => {
+  //   const playerPic = `${url}/cars/${idCompany}`;
+  //   setPostsCar([]);
+  //   console.log("conpId", playerPic);
 
-    const getCars = apiCar.get(`/${addCompanyId}`);
+  //   const getCars = apiCar.get(`/${idCompany}`);
 
-    axios.all([getCars]).then(
-      axios.spread((...allData) => {
-        // setLoadingCar(true);
-        const getCarsAll = allData[0];
-        // const allDataComp = allData[1]
-        console.log("getCarsAll" + getCarsAll);
-        setPostsCar(getCarsAll.data);
-        // setLoadingCar(false);
-      })
-    );
-  };
+  //   axios.all([getCars]).then(
+  //     axios.spread((...allData) => {
+  //       // setLoadingCar(true);
+  //       const getCarsAll = allData[0];
+  //       // const allDataComp = allData[1]
+  //       console.log("getCarsAll" + getCarsAll);
+  //       setPostsCar(getCarsAll.data);
+  //       // setLoadingCar(false);
+  //     })
+  //   );
+  // };
+
   // CONST FROM Employee
 
-  const [postsEmpl, setPostsEmpl] = useState([]);
-  const fetchDATAEmpl = async () => {
-    const getEmpl = apiEmpl.get(`/${addCompanyId}`);
-    axios.all([getEmpl]).then(
-      axios.spread((...allData) => {
-        // setLoadingEmpl(true);
-        const getEmplAll = allData[0];
-        // const allDataComp = allData[1]
-        console.log("getEmplAll" + getEmplAll.data);
-        setPostsEmpl(getEmplAll.data);
-        // setLoadingEmpl(false);
-      })
-    );
-  };
+  // const [postsEmpl, setPostsEmpl] = useState([]);
+
+  // const fetchDATAEmpl = async () => {
+  //   const getEmpl = apiEmpl.get(`/${addCompanyId}`);
+  //   axios.all([getEmpl]).then(
+  //     axios.spread((...allData) => {
+  //       // setLoadingEmpl(true);
+  //       const getEmplAll = allData[0];
+  //       // const allDataComp = allData[1]
+  //       console.log("getEmplAll" + getEmplAll.data);
+  //       setPostsEmpl(getEmplAll.data);
+  //       // setLoadingEmpl(false);
+  //     })
+  //   );
+  // };
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -106,16 +122,9 @@ const BranchCompHook = () => {
       .catch((error) => {
         console.log(error);
       });
-    const newFormData = { ...posts };
 
-    posts.map((item) => {
-      if (item.id === editPostsId) {
-        item.logo = editedContact.logo;
-        item.nameRental = editedContact.nameRental;
-        item.city = editedContact.city;
-        item.address = editedContact.address;
-      }
-    });
+    fetchPosts();
+
     setEditPostsId(null);
   };
 
@@ -175,9 +184,8 @@ const BranchCompHook = () => {
 
   const handleVisibleCarsClick = (event, id) => {
     event.preventDefault();
-    addCompanyId = id;
-    fetchDATA();
-    fetchDATAEmpl();
+    dispatch(newIdComp({ title: id }));
+    console.log(loading);
   };
 
   const renderIncomingData = (data) => {
@@ -209,7 +217,6 @@ const BranchCompHook = () => {
     newContacts.splice(index, 1);
     setPosts(newContacts);
     api.delete(`/${departId}`);
-    addCompanyId = "d";
   };
 
   // Get current posts
@@ -311,11 +318,11 @@ const BranchCompHook = () => {
           </div>
         </section>
         <section className="section-empl">
-          <EmployeeBranchHook addCompanyId={addCompanyId} />
+          <EmployeeBranchHook />
         </section>
       </div>
       <section className="section-car">
-        <CarsBranchHook addCompanyId={addCompanyId} />
+        <CarsBranchHook />
       </section>
     </div>
   );
