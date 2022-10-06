@@ -13,6 +13,8 @@ import "./BranchCompany.css";
 
 import { useDispatch } from "react-redux";
 import { newIdComp } from "../../../redux/idCompSlice";
+import AddCompany from "./AddCompany";
+import TheadTableCompany from "./TheadTableCompany";
 // import { useSelector } from "react-redux";
 const api = axios.create({ baseURL: `${url}/branchCompany` });
 // const apiCar = axios.create({ baseURL: `${url}/cars` });
@@ -51,46 +53,6 @@ const BranchCompHook = () => {
     city: "",
     address: "",
   });
-  // CONST FROM CAR
-
-  // const [postsCar, setPostsCar] = useState([]);
-
-  // const fetchDATA = async () => {
-  //   const playerPic = `${url}/cars/${idCompany}`;
-  //   setPostsCar([]);
-  //   console.log("conpId", playerPic);
-
-  //   const getCars = apiCar.get(`/${idCompany}`);
-
-  //   axios.all([getCars]).then(
-  //     axios.spread((...allData) => {
-  //       // setLoadingCar(true);
-  //       const getCarsAll = allData[0];
-  //       // const allDataComp = allData[1]
-  //       console.log("getCarsAll" + getCarsAll);
-  //       setPostsCar(getCarsAll.data);
-  //       // setLoadingCar(false);
-  //     })
-  //   );
-  // };
-
-  // CONST FROM Employee
-
-  // const [postsEmpl, setPostsEmpl] = useState([]);
-
-  // const fetchDATAEmpl = async () => {
-  //   const getEmpl = apiEmpl.get(`/${addCompanyId}`);
-  //   axios.all([getEmpl]).then(
-  //     axios.spread((...allData) => {
-  //       // setLoadingEmpl(true);
-  //       const getEmplAll = allData[0];
-  //       // const allDataComp = allData[1]
-  //       console.log("getEmplAll" + getEmplAll.data);
-  //       setPostsEmpl(getEmplAll.data);
-  //       // setLoadingEmpl(false);
-  //     })
-  //   );
-  // };
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -117,13 +79,12 @@ const BranchCompHook = () => {
     api
       .put(`/`, editedContact)
       .then((response) => {
+        fetchPosts();
         console.log(response);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    fetchPosts();
 
     setEditPostsId(null);
   };
@@ -242,15 +203,9 @@ const BranchCompHook = () => {
               <form onSubmit={handleEditFormSubmit}>
                 <table className="tab">
                   <thead className="tab--thead">
-                    <tr className="tab--tr">
-                      <th className="tab__thead--th">ID:</th>
-                      <th className="tab__thead--th">Logo:</th>
-                      <th className="tab__thead--th">department:</th>
-                      <th className="tab__thead--th">city:</th>
-                      <th className="tab__thead--th">address:</th>
-                      <th className="tab__thead--th">Actions</th>
-                    </tr>
+                    <TheadTableCompany />
                   </thead>
+
                   <tfoot className="tab--tfoot">
                     <tr>
                       <td colSpan="6" className="tab__tfoot--td">
@@ -275,44 +230,7 @@ const BranchCompHook = () => {
               onSubmit={handleAddFormSubmit}
               className={"container_add--form"}
             >
-              <div>
-                <input
-                  className="container_add--input"
-                  ref={logoRef}
-                  type="text"
-                  name="logo"
-                  placeholder="logo department"
-                  required="required"
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <div>
-                <input
-                  className="container_add--input"
-                  type="text"
-                  name="nameRental"
-                  placeholder="name department ..."
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <div>
-                <input
-                  className="container_add--input"
-                  type="text"
-                  name="city"
-                  placeholder="city  ..."
-                  onChange={handleAddFormChange}
-                />
-              </div>
-              <div>
-                <input
-                  className="container_add--input"
-                  type="text"
-                  name="address"
-                  placeholder="address  ..."
-                  onChange={handleAddFormChange}
-                />
-              </div>
+              <AddCompany handleAddFormChange={handleAddFormChange} />
               <button type="submit">add</button>
             </form>
           </div>

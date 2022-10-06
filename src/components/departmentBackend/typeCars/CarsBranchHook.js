@@ -143,21 +143,7 @@ const CarsBranchHook = () => {
       .catch((error) => {
         console.log(error);
       });
-    // const newFormData = { ...postsCar };
 
-    // postsCar.map((item) =>
-    //   item.id === editPostsCarId
-    //     ? ((item.carBrand = editFormDataCar.carBrand),
-    //       (item.model = editFormDataCar.model),
-    //       (item.carType = editFormDataCar.carType),
-    //       (item.productionDate = editFormDataCar.productionDate),
-    //       (item.color = editFormDataCar.color),
-    //       (item.carMileage = editFormDataCar.carMileage),
-    //       (item.statusRental = editFormDataCar.statusRental),
-    //       (item.carStatus = editFormDataCar.carStatus),
-    //       (item.carRentalDepartID = editFormDataCar.carRentalDepartID))
-    //     : ""
-    // );
     setEditPostsCarId(null);
   };
 

@@ -47,7 +47,6 @@ const EmployeeBranchHook = () => {
       axios.spread((...allData) => {
         setLoadingEmpl(true);
         const getEmplAll = allData[0];
-        // const allDataComp = allData[1]
         console.log("getEmplAll" + getEmplAll.data);
         setPostsEmpl(getEmplAll.data);
         setLoadingEmpl(false);

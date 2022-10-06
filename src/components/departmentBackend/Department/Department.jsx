@@ -7,6 +7,8 @@ import Pagination from "../Page/Pagination";
 import ReadOnlyRowD from "./ReadOnlyRowDS";
 import EditableRowD from "./EditableRowD";
 import Customer from "../user/Customer";
+import TheadTableCompany from "../branchCompany/TheadTableCompany";
+
 import "../../../style/reset.css";
 import "./Department.css";
 import "../../../style/table.css";
@@ -41,10 +43,8 @@ const Department = () => {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
-  // const [compId, setCompId] = useState(0);
   const [editPostsId, setEditPostsId] = useState(null);
   const [loading, setLoading] = useState(false);
-
 
   const [editFormData, setEditFormData] = useState({
     logo: "",
@@ -67,6 +67,7 @@ const Department = () => {
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
+
     const editedContact = {
       id: editPostsId,
       logo: editFormData.logo,
@@ -84,15 +85,6 @@ const Department = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    // posts.map((item) =>
-    //   item.id === editPostsId
-    //     ? ((item.logo = editedContact.logo),
-    //       (item.nameRental = editedContact.nameRental),
-    //       (item.city = editedContact.city),
-    //       (item.address = editedContact.address))
-    //     : ""
-    // );
     setEditPostsId(null);
   };
 
@@ -183,14 +175,7 @@ const Department = () => {
             <form onSubmit={handleEditFormSubmit}>
               <table className="tab">
                 <thead className="tab--thead">
-                  <tr className="tab--tr">
-                    <th className="tab__thead--th">ID:</th>
-                    <th className="tab__thead--th">Logo:</th>
-                    <th className="tab__thead--th">department:</th>
-                    <th className="tab__thead--th">city:</th>
-                    <th className="tab__thead--th">address:</th>
-                    <th className="tab__thead--th">Actions</th>
-                  </tr>
+                  <TheadTableCompany />
                 </thead>
                 <tfoot className="tab--tfoot">
                   <tr>
