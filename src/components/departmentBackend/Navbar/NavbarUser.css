@@ -60,7 +60,9 @@
 .menu-icon {
   display: none;
 }
-
+.div--canvas{
+  margin-left: 20px;
+}
 @media screen and (max-width: 960px) {
 
   .nav-menu {

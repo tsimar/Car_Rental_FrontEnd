@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { MenuItemsUser } from "./MenuItemsUser";
 import "./NavbarUser.css";
 
+import CanvasLogo from "../../canvas/CanvasLogo";
+
 import { useDispatch } from "react-redux";
 import { newLogin } from "../../../redux/loginSlice";
 
@@ -26,6 +28,8 @@ export const NavbarUser = () => {
           Home
         </Link>
         <i className="fab fa-react"></i>
+
+        <CanvasLogo />
       </h1>
       <div className="menu-icon" onClick={handleClick}>
         <i className={clicked ? "fas fa-times" : "fas fa-bars"}></i>
