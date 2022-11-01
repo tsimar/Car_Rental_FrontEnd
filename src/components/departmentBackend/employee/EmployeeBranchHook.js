@@ -7,6 +7,7 @@ import "../../../style/table.css";
 import "./Empl.css";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import AddEmployee from "./AddEmployee";
 
 const apiEmpl = axios.create({ baseURL: `${url}/employees` });
 
@@ -224,28 +225,8 @@ const EmployeeBranchHook = () => {
           className="container_add--form"
           onSubmit={handleAddFormEmplSubmit}
         >
-          <input
-            className="container_add--input"
-            ref={nameEmpl}
-            type="text"
-            name="name"
-            placeholder="name ..."
-            onChange={handleAddFormEmplChange}
-          />
-          <input
-            className="container_add--input"
-            type="text"
-            name="lastName"
-            placeholder="last name ..."
-            onChange={handleAddFormEmplChange}
-          />
-          <input
-            className="container_add--input"
-            type="text"
-            name="position"
-            placeholder="position  ..."
-            onChange={handleAddFormEmplChange}
-          />
+          <AddEmployee handleAddFormEmplChange={handleAddFormEmplChange} />
+
           <button type="submit">add</button>
         </form>
       </section>

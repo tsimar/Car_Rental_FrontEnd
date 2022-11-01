@@ -14,6 +14,7 @@ import "../../../style/reset.css";
 import "../../../style/table.css";
 import "../../../style/inputAdd.css";
 import "./User.css";
+import AddUser from "./AddUser";
 
 const apiUser = axios.create({ baseURL: `${url}/users` });
 
@@ -32,16 +33,18 @@ const Customer = ({ returnCar }) => {
     idComp: "",
     userName: "",
     userPassword: "",
+    rola: "",
   });
   const [editFormData, setEditFormData] = useState({
     editId: "",
     userName: "",
     userPassword: "",
+    rola: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [PageSize] = useState(5);
   const [loading, setLoading] = useState(false);
-  console.log(loading);
+
   const [editContactId, setEditContactId] = useState(null);
   const [userId, setUserId] = useState(0);
   // const logoRef = useRef(null);
@@ -209,8 +212,21 @@ const Customer = ({ returnCar }) => {
       case "Rental": {
         return <RentalCar addUserId={userId} />;
       }
-      default:
-        return <RentalCar addUserId={userId} />;
+    }
+  };
+  const addUser = () => {
+    if (returnCar == "Customer") {
+      return (
+        <>
+          {/* <h2 className="container_add--h1">Add a new users</h2>
+          <form onSubmit={handleAddFormSubmit} className="container_add--form"> */}
+          <AddUser handleAddFormChange={handleAddFormChange} />
+          {/* </form>
+          <button type="submit">add</button> */}
+        </>
+      );
+    } else {
+      return null;
     }
   };
   return (
@@ -245,29 +261,7 @@ const Customer = ({ returnCar }) => {
           </table>
         </form>
       </div>
-      <section className="container--add">
-        <h2 className="container_add--h1">Add a new users</h2>
-        <form onSubmit={handleAddFormSubmit} className="container_add--form">
-          <input
-            className="tab--input"
-            type="text"
-            name="userName"
-            placeholder="login or email"
-            required="required"
-            onChange={handleAddFormChange}
-          />
-
-          <input
-            className="tab--input"
-            type="text"
-            name="userPassword"
-            required="required"
-            placeholder="Enter a password ..."
-            onChange={handleAddFormChange}
-          />
-          <button type="submit">add</button>
-        </form>
-      </section>
+      <section className="container--add">{addUser}</section>
       <section className="section-car">
         {selectReturnOrRentalOrCustomer(userId)}
       </section>

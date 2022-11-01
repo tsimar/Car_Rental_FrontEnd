@@ -6,6 +6,7 @@ import Pagination from "../Page/Pagination";
 import axios from "axios";
 import "./Cars.css";
 import { useSelector } from "react-redux";
+import AddCar from "./AddCar";
 
 // import BranchCompHook from "../branchCompany/BranchCompHook";
 const apiCar = axios.create({ baseURL: `${url}/cars` });
@@ -97,6 +98,7 @@ const CarsBranchHook = () => {
     const newCar = {
       carBrand: addFormDataCar.carBrand,
       model: addFormDataCar.model,
+      carType: addFormDataCar.carType,
       productionDate: addFormDataCar.productionDate,
       color: addFormDataCar.color,
       carMileage: addFormDataCar.carMileage,
@@ -262,15 +264,7 @@ const CarsBranchHook = () => {
       <section className="container--add">
         <h2 className="container_add--h1">Add a new Cars {idCompany}</h2>
         <form className="container_add--form" onSubmit={handleAddFormCarSubmit}>
-          <input
-            className="container_add--input"
-            ref={carBrand}
-            type="text"
-            name="carBrand"
-            placeholder="Production"
-            onChange={handleAddFormCarChange}
-          />
-
+          <AddCar handleAddFormCarChange={handleAddFormCarChange} />
           <button type="submit">add</button>
         </form>
       </section>

@@ -6,7 +6,6 @@ const AddCompany = ({ handleAddFormChange }) => {
       <div>
         <input
           className="container_add--input"
-          //   ref={logoRef}
           type="text"
           name="logo"
           placeholder="logo department"
