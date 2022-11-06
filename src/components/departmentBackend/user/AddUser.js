@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddUser = ({ handleAddFormChange, handleAddFormSubmit }) => {
+const AddUser = ({ handleAddFormChange }) => {
   return (
     <div>
       <input
@@ -32,3 +32,4 @@ const AddUser = ({ handleAddFormChange, handleAddFormSubmit }) => {
 };
 
 export default AddUser;
+ 

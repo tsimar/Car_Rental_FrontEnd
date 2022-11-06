@@ -214,20 +214,23 @@ const Customer = ({ returnCar }) => {
       }
     }
   };
-  const addUser = () => {
-    if (returnCar == "Customer") {
-      return (
-        <>
-          {/* <h2 className="container_add--h1">Add a new users</h2>
-          <form onSubmit={handleAddFormSubmit} className="container_add--form"> */}
-          <AddUser handleAddFormChange={handleAddFormChange} />
-          {/* </form>
-          <button type="submit">add</button> */}
-        </>
-      );
-    } else {
-      return null;
-    }
+  const addUser = (select) => {
+    return (
+      <Fragment>
+        {select === "Customer" ? (
+          <>
+            <h2 className="container_add--h1">Add a new DEPARTMENT</h2>
+            <form
+              onSubmit={handleAddFormSubmit}
+              className={"container_add--form"}
+            >
+              <AddUser handleAddFormChange={handleAddFormChange} />
+              <button type="submit">add</button>
+            </form>
+          </>
+        ) : null}
+      </Fragment>
+    );
   };
   return (
     <div className="tabl-comp">
@@ -261,7 +264,7 @@ const Customer = ({ returnCar }) => {
           </table>
         </form>
       </div>
-      <section className="container--add">{addUser}</section>
+      <section className="container--add">{addUser(returnCar)}</section>
       <section className="section-car">
         {selectReturnOrRentalOrCustomer(userId)}
       </section>

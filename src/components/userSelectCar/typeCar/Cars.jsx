@@ -33,7 +33,7 @@ const Cars = () => {
         <div>
           <p>
             sorry, there are no cars at the moment, try in a different
-            department{" "}
+            department
           </p>
         </div>
       );
@@ -42,7 +42,7 @@ const Cars = () => {
         return (
           <div className="wrrop-car-div" key={index}>
             <div>
-              <img src={car} alt="" />
+              <img className="img" src={car} alt="" />
             </div>
             <div className="wrrop_div-item--car">
               <span>{item.id}</span>

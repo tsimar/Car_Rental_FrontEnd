@@ -1,9 +1,29 @@
 .wrrop-car-div{
     display: flex;
-
+margin-bottom: 10px;
 }
 .wrrop_div-item--car{
     display:flex;
+   flex-direction: column;
     align-content: space-between;
-    
+    margin-left: 10px;
+   row-gap: 15px;
+
+}
+.wrrop_div-item--car span{
+    /* border: solid 2px black; */
+    height: 20px;
+    width: 60px;
+    box-shadow: -2px -3px 3px 2px rgba(66, 68, 90, 0.5);
+    border-bottom: solid 2px rgba(66, 68, 90, 0.8);
+    border-right: solid 2px rgba(66, 68, 90, 0.5);
+    background-color: white;
+}
+.img{
+      width: 200px;
+    height: 200px;
+}
+.img:active{
+    width: 400px;
+    height: 400px;
 }
